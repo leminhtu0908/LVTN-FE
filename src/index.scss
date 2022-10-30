@@ -1,0 +1,127 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  line-height: 1.5;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+li {
+  list-style: none;
+}
+input,
+button,
+textarea,
+select {
+  outline: none;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .dot-loading div {
+    animation: stagger 0.5s infinite linear alternate;
+  }
+  .dot-loading > div:first-child {
+    animation-delay: 0.12s;
+  }
+  .dot-loading div:nth-child(2) {
+    animation-delay: 0.24s;
+  }
+  .dot-loading div:nth-child(3) {
+    animation-delay: 0.36s;
+  }
+  .dot-loading div:nth-child(4) {
+    animation-delay: 0.48s;
+  }
+  .dot-loading div:nth-child(5) {
+    animation-delay: 0.6s;
+  }
+  @keyframes stagger {
+    0% {
+      transform: translateY(0);
+    }
+    50%,
+    100% {
+      transform: translateY(40px);
+    }
+  }
+  .side-bar {
+    border-right: 1px solid #ccc;
+  }
+  .menu-item {
+    &.active > div > div {
+      @apply bg-slate-400;
+    }
+    &:hover {
+      @apply bg-slate-200;
+    }
+  }
+  .hidden-input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+  .nav-item:hover {
+    color: rgb(0, 183, 145);
+  }
+  .nav-item a > .menu-text:hover {
+    color: rgb(0, 183, 145);
+  }
+  .nav-item.active a {
+    color: #fff;
+    background-color: #00b791;
+  }
+  .nav-item.active a > .menu-text:hover {
+    color: #fff;
+  }
+  .nav-item.active .menu-text {
+    color: #fff;
+  }
+  .nav-item.active .menu-icon > svg > path {
+    fill: #fff;
+  }
+  .overflow-scrollbar::-webkit-scrollbar {
+    display: none;
+    overscroll-behavior-y: smooth;
+  }
+  .authenticate {
+    background-image: url(../public//img//tmdt.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+  }
+}
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}

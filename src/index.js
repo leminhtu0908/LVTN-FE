@@ -1,14 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.scss";
+import App from "./app/pages/App";
+import reportWebVitals from "./reportWebVitals";
+import store, { persistor } from "./redux/store";
+import * as _redux from "./redux";
+import axios from "axios";
+_redux.setupAxios(axios, store);
+const { PUBLIC_URL } = process.env;
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <React.Fragment>
+    <App store={store} persistor={persistor} basename={PUBLIC_URL} />
+  </React.Fragment>
 );
 
 // If you want to start measuring performance in your app, pass a function
