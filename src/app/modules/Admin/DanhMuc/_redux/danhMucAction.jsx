@@ -48,8 +48,8 @@ export const updateCatetory = (values) => (dispatch) => {
   return requestFromServer
     .updateCatetory(values)
     .then((response) => {
-      const { data } = response.data;
-      dispatch(actions.categoryUpdate(data));
+      const { category } = response.data;
+      dispatch(actions.categoryUpdate(category));
     })
     .catch((error) => {
       error.clientMessage = "Can't update user";

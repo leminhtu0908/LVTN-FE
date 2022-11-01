@@ -22,7 +22,7 @@ const BrandCreateDialog = (props) => {
     control,
     handleSubmit,
     setValue,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
@@ -56,7 +56,11 @@ const BrandCreateDialog = (props) => {
         onClose={handleCloseDialog}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Thêm nhà sản xuất"}</DialogTitle>
+        {props.isEdit ? (
+          <DialogTitle>{"Cập nhật nhà sản xuất"}</DialogTitle>
+        ) : (
+          <DialogTitle>{"Thêm nhà sản xuất"}</DialogTitle>
+        )}
         <div className="p-4">
           <form onSubmit={handleSubmit(handleSumitCategory)}>
             <InputAdmin
@@ -65,6 +69,8 @@ const BrandCreateDialog = (props) => {
               control={control}
               name="name"
             />
+            {errors && <p className="text-red-600">{errors.name?.message}</p>}
+
             <div className="flex items-end gap-x-3 mt-5">
               <Button
                 className="bg-red-600"

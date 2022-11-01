@@ -18,11 +18,12 @@ const DanhMucListPage = () => {
     (state) => ({ currentState: state.categorys }),
     shallowEqual
   );
-  const { data, danhmuc, danhmucId, listLoading } = currentState;
+  const { data, danhmuc, danhmucId, danhmucForEdit, listLoading } =
+    currentState;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.fetchCategories({ param: {} }));
-  }, [dispatch, danhmuc, danhmucId]);
+    dispatch(actions.fetchCategories({ params: {} }));
+  }, [dispatch, danhmuc, danhmucForEdit, danhmucId]);
   const headRows = [
     { id: "stt", label: "STT" },
     { id: "name", label: "Tên danh mục" },

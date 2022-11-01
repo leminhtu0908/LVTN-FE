@@ -7,7 +7,7 @@ const ActionButton = (props) => {
   };
   return (
     <div>
-      <Tooltip title="Thêm danh mục">
+      <Tooltip title={props.title}>
         <IconButton onClick={openCreateDialog}>
           <GoDiffAdded className="text-[#00b791]"></GoDiffAdded>
         </IconButton>

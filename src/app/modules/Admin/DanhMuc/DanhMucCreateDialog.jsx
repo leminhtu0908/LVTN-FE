@@ -30,7 +30,7 @@ const DanhMucCreateDialog = (props) => {
     control,
     handleSubmit,
     setValue,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
@@ -65,7 +65,12 @@ const DanhMucCreateDialog = (props) => {
         onClose={handleCloseDialog}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Thêm danh mục"}</DialogTitle>
+        {props.isEdit ? (
+          <DialogTitle>{"Cập nhật danh mục"}</DialogTitle>
+        ) : (
+          <DialogTitle>{"Thêm danh mục"}</DialogTitle>
+        )}
+
         <div className="p-4">
           <form onSubmit={handleSubmit(handleSumitCategory)}>
             <InputAdmin
@@ -74,6 +79,8 @@ const DanhMucCreateDialog = (props) => {
               control={control}
               name="name"
             />
+            {errors && <p className="text-red-600">{errors.name?.message}</p>}
+
             <div className="flex items-end gap-x-3 mt-5">
               <Button
                 className="bg-red-600"

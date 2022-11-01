@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialCategoryState = {
+const initialProductState = {
   listLoading: false,
   actionsLoading: false,
   data: null,
@@ -15,7 +15,7 @@ export const callTypes = {
 };
 export const brandsSlice = createSlice({
   name: "brands",
-  initialState: initialCategoryState,
+  initialState: initialProductState,
   reducers: {
     catchError: (state, action) => {
       state.error = `${action.type}: ${action.payload.error}`;
@@ -52,7 +52,7 @@ export const brandsSlice = createSlice({
     },
     brandUpdate: (state, action) => {
       state.error = null;
-      state.brand = action.payload;
+      state.brandForEdit = action.payload;
       state.actionsLoading = false;
     },
   },

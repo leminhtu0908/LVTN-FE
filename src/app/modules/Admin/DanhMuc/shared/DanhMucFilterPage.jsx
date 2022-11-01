@@ -31,7 +31,10 @@ const DanhMucFilterPage = (props) => {
         </InputSearch>
       </div>
       <div className="">
-        <ActionButton actionCreateDialog={openCreateDialog} />
+        <ActionButton
+          actionCreateDialog={openCreateDialog}
+          title="Thêm danh mục"
+        />
       </div>
     </div>
   );

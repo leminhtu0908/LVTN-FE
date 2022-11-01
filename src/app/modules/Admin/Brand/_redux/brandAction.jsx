@@ -48,8 +48,8 @@ export const updateBrand = (values) => (dispatch) => {
   return requestFromServer
     .updateBrand(values)
     .then((response) => {
-      const { data } = response.data;
-      dispatch(actions.brandUpdate(data));
+      const { brand } = response.data;
+      dispatch(actions.brandUpdate(brand));
     })
     .catch((error) => {
       error.clientMessage = "Can't update user";

@@ -41,7 +41,7 @@ const Sidebar = () => {
             key={index}
           >
             <span className="menu-icon text-slate-400">{link.icon}</span>
-            <span className="menu-text">{link.title}</span>
+            <span className="menu-text text-sm">{link.title}</span>
           </CustomLink>
         );
       })}

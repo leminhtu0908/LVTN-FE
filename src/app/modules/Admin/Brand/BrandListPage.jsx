@@ -18,11 +18,11 @@ const BrandListPage = () => {
     (state) => ({ currentState: state.brands }),
     shallowEqual
   );
-  const { data, brand, brandId, listLoading } = currentState;
+  const { data, brand, brandId, brandForEdit, listLoading } = currentState;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.fetchBrands({ param: {} }));
-  }, [dispatch, brand, brandId]);
+  }, [dispatch, brand, brandId, brandForEdit]);
   const headRows = [
     { id: "stt", label: "STT" },
     { id: "name", label: "Tên hãng sản xuất" },

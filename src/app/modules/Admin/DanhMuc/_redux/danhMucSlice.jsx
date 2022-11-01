@@ -52,8 +52,8 @@ export const categorySlice = createSlice({
     },
     categoryUpdate: (state, action) => {
       state.error = null;
-      state.danhmuc = action.payload;
       state.actionsLoading = false;
+      state.danhmucForEdit = action.payload;
     },
   },
 });

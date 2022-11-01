@@ -12,6 +12,12 @@ import HomePage from "./Homepage/HomePage";
 import AdminPage from "../modules/Admin/AdminPage";
 import DanhMucListPage from "../modules/Admin/DanhMuc/DanhMucListPage";
 import BrandListPage from "../modules/Admin/Brand/BrandListPage";
+import TypeProductListPage from "../modules/Admin/TypeProduct/TypeProductListPage";
+import UserListPage from "../modules/Admin/User/UserListPage";
+import MemoryListPage from "../modules/Admin/Memory/MemoryListPage";
+import ColorListPage from "../modules/Admin/Color/ColorListPage";
+import BannerListPage from "../modules/Admin/Banner/BannerListPage";
+import NewsListPage from "../modules/Admin/News/NewsListPage";
 
 const Router = () => {
   const { currentState, rootsState } = useSelector(
@@ -88,6 +94,15 @@ const Router = () => {
         ></Route>
         <Route path="/admin/category" element={<DanhMucListPage />}></Route>
         <Route path="/admin/brand" element={<BrandListPage />}></Route>
+        <Route
+          path="/admin/type-product"
+          element={<TypeProductListPage />}
+        ></Route>
+        <Route path="/admin/user" element={<UserListPage />}></Route>
+        <Route path="/admin/memory" element={<MemoryListPage />}></Route>
+        <Route path="/admin/color" element={<ColorListPage />}></Route>
+        <Route path="/admin/banner" element={<BannerListPage />}></Route>
+        <Route path="/admin/news" element={<NewsListPage />}></Route>
         {/*  */}
         {/* Content */}
         {/*  */}

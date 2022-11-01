@@ -30,7 +30,10 @@ const BrandFilterPage = (props) => {
         </InputSearch>
       </div>
       <div className="">
-        <ActionButton actionCreateDialog={openCreateDialog} />
+        <ActionButton
+          actionCreateDialog={openCreateDialog}
+          title="Thêm nhà sản xuất"
+        />
       </div>
     </div>
   );
