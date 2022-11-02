@@ -167,12 +167,19 @@ const WrapperTable = (props) => {
                   )}
                   {props.component === "Product" && (
                     <TableCell align="left">
-                      <IconButton onClick={(e) => handleEdit(row)}>
-                        <FiEdit className="text-blue-500"></FiEdit>
-                      </IconButton>
-                      <IconButton onClick={(e) => handeDelete(row._id)}>
-                        <BsTrash className="text-red-500"></BsTrash>
-                      </IconButton>
+                      <>
+                        <Tooltip title="Xem chi tiết sản phẩm">
+                          <IconButton onClick={(e) => handleOpenContent(row)}>
+                            <VisibilityIcon className="text-green-300"></VisibilityIcon>
+                          </IconButton>
+                        </Tooltip>
+                        <IconButton onClick={(e) => handleEdit(row)}>
+                          <FiEdit className="text-blue-500"></FiEdit>
+                        </IconButton>
+                        <IconButton onClick={(e) => handeDelete(row._id)}>
+                          <BsTrash className="text-red-500"></BsTrash>
+                        </IconButton>
+                      </>
                     </TableCell>
                   )}
                 </TableRow>
@@ -200,6 +207,13 @@ const WrapperTable = (props) => {
         <ContentDialog
           open={openContent}
           content={contentNews}
+          handleCloseContent={handleCloseContent}
+        />
+      )}
+      {props.component === "Product" && (
+        <ContentDialog
+          open={openContent}
+          // content={contentNews}
           handleCloseContent={handleCloseContent}
         />
       )}
