@@ -45,25 +45,6 @@ const MemoryListPage = () => {
   function handleDelete(memoryId) {
     setOpenDelete(true);
     setSelectMemoryId(memoryId);
-    // const cloneId = {
-    //   id: cateId,
-    // };
-    // Swal.fire({
-    //   title: "Are you sure?",
-    //   text: "You won't be able to revert this!",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonText: "Yes, delete it!",
-    //   confirmButtonColor: "#54B435",
-    //   cancelButtonText: "No, cancel!",
-    //   cancelButtonColor: "#CF0A0A",
-    //   reverseButtons: true,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     dispatch(actions.deleteCategory(cloneId));
-    //     Swal.fire("Deleted!", "Your file has been deleted.", "success");
-    //   }
-    // });
   }
 
   function handleEdit(item) {

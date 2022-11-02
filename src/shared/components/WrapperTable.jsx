@@ -7,7 +7,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FiEdit } from "react-icons/fi";
-import { Button, Chip, IconButton, Tooltip } from "@mui/material";
+import {
+  Button,
+  Chip,
+  IconButton,
+  TablePagination,
+  Tooltip,
+} from "@mui/material";
 import { BsTrash } from "react-icons/bs";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentDialog from "../Dialog/ContentDialog";
@@ -30,6 +36,13 @@ const WrapperTable = (props) => {
   const handeDeleteImageBanner = (id, imagePublicId) => {
     props.onDeleteRow(id, imagePublicId);
   };
+  function handleChangePage(event, newPage) {
+    props.onChangePage(newPage);
+  }
+
+  function handleChangeRowsPerPage(event) {
+    props.onChangeRowsPerPage(+event.target.value);
+  }
   return (
     <>
       <TableContainer component={Paper}>
@@ -80,7 +93,10 @@ const WrapperTable = (props) => {
                           />
                         </TableCell>
                       );
-                    } else if (item.label === "imageNew") {
+                    } else if (
+                      item.label === "imageNew" ||
+                      item.label === "image"
+                    ) {
                       return (
                         <TableCell key={idx}>
                           <img
@@ -149,17 +165,44 @@ const WrapperTable = (props) => {
                       </IconButton>
                     </TableCell>
                   )}
+                  {props.component === "Product" && (
+                    <TableCell align="left">
+                      <IconButton onClick={(e) => handleEdit(row)}>
+                        <FiEdit className="text-blue-500"></FiEdit>
+                      </IconButton>
+                      <IconButton onClick={(e) => handeDelete(row._id)}>
+                        <BsTrash className="text-red-500"></BsTrash>
+                      </IconButton>
+                    </TableCell>
+                  )}
                 </TableRow>
               );
             })}
           </TableBody>
         </Table>
+        {/* <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={props.total | 0}
+          rowsPerPage={props.rowsPerPage}
+          page={props.page}
+          backIconButtonProps={{
+            "aria-label": "Trang trước",
+          }}
+          nextIconButtonProps={{
+            "aria-label": "Trang tiếp theo",
+          }}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        /> */}
       </TableContainer>
-      <ContentDialog
-        open={openContent}
-        content={contentNews}
-        handleCloseContent={handleCloseContent}
-      />
+      {props.component === "News" && (
+        <ContentDialog
+          open={openContent}
+          content={contentNews}
+          handleCloseContent={handleCloseContent}
+        />
+      )}
     </>
   );
 };

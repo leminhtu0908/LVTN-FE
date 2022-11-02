@@ -9,11 +9,17 @@ import { string } from "prop-types";
 import ConfirmDialog from "../../../../shared/Dialog/ConfirmDialog";
 import { Fade, LinearProgress } from "@mui/material";
 const DanhMucListPage = () => {
+  const defaultFilter = {
+    name: "",
+  };
+  const [filter, setFilter] = React.useState(defaultFilter);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectCateId, setSelectCateId] = React.useState(undefined);
   const [selectCate, setSelectCate] = React.useState(undefined);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const { currentState } = useSelector(
     (state) => ({ currentState: state.categorys }),
     shallowEqual
@@ -22,8 +28,12 @@ const DanhMucListPage = () => {
     currentState;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.fetchCategories({ params: {} }));
-  }, [dispatch, danhmuc, danhmucForEdit, danhmucId]);
+    dispatch(
+      actions.fetchCategories({
+        params: { ...filter, current_page: page, per_page: rowsPerPage },
+      })
+    );
+  }, [dispatch, danhmuc, danhmucForEdit, danhmucId, filter, page, rowsPerPage]);
   const headRows = [
     { id: "stt", label: "STT" },
     { id: "name", label: "Tên danh mục" },
@@ -79,10 +89,22 @@ const DanhMucListPage = () => {
     }
     setOpenDelete(false);
   }
+  function handleSearch(filter) {
+    setFilter(filter);
+  }
+  function handleChangePage(value) {
+    setPage(value);
+  }
+  function handleChangeRowsPerPage(value) {
+    setRowsPerPage(value);
+  }
   return (
     <Layout>
       <div className="bg-white p-4 mb-5 rounded-lg">
-        <DanhMucFilterPage openCreate={openCreateDialog}></DanhMucFilterPage>
+        <DanhMucFilterPage
+          openCreate={openCreateDialog}
+          onSearch={handleSearch}
+        ></DanhMucFilterPage>
       </div>
       <div className="">
         <Fade
@@ -101,6 +123,10 @@ const DanhMucListPage = () => {
           data={data}
           onDeleteRow={handleDelete}
           onEditRow={handleEdit}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </div>
       <DanhMucCreateDialog

@@ -18,6 +18,7 @@ import MemoryListPage from "../modules/Admin/Memory/MemoryListPage";
 import ColorListPage from "../modules/Admin/Color/ColorListPage";
 import BannerListPage from "../modules/Admin/Banner/BannerListPage";
 import NewsListPage from "../modules/Admin/News/NewsListPage";
+import ProductListPage from "../modules/Admin/Product/ProductListPage";
 
 const Router = () => {
   const { currentState, rootsState } = useSelector(
@@ -103,6 +104,7 @@ const Router = () => {
         <Route path="/admin/color" element={<ColorListPage />}></Route>
         <Route path="/admin/banner" element={<BannerListPage />}></Route>
         <Route path="/admin/news" element={<NewsListPage />}></Route>
+        <Route path="/admin/products" element={<ProductListPage />}></Route>
         {/*  */}
         {/* Content */}
         {/*  */}
