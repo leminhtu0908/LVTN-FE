@@ -170,7 +170,7 @@ const NewsCreateDialog = (props) => {
         ) : (
           <DialogTitle>{"Thêm bài viết"}</DialogTitle>
         )}
-        <div className="p-4">
+        <div className="p-4 w-full">
           <form onSubmit={handleSubmit(handleSumitNews)}>
             <div className="flex gap-x-5">
               <Field>

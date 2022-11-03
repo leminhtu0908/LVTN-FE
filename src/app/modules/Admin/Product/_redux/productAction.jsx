@@ -17,3 +17,17 @@ export const fetchProducts = (queryParams) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+
+export const createProduct = (formData) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .createProduct(formData)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.productCreate(data));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};

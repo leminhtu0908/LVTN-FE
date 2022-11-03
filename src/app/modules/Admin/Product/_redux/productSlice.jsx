@@ -45,5 +45,10 @@ export const productSlice = createSlice({
       state.error = null;
       state.data = action.payload;
     },
+    productCreate: (state, action) => {
+      state.listLoading = false;
+      state.error = null;
+      state.product = action.payload;
+    },
   },
 });
