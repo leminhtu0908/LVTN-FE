@@ -22,7 +22,7 @@ const InputAdmin = ({
         type={type}
         {...props}
         {...field}
-        className={`p-4 bg-primary border border-gray-100 rounded-lg  outline-none focus:border-blue-500 transition-all dark:text-black `}
+        className={`p-4 bg-primary border border-slate-500 rounded-lg  outline-none focus:border-blue-500 transition-all dark:text-black `}
       />
     </div>
   );

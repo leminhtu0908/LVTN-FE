@@ -31,3 +31,15 @@ export const createProduct = (formData) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const deleteProduct = (id) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .deleteProduct(id)
+    .then((response) => {
+      dispatch(actions.productDeleted({ id }));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't delete point";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};

@@ -159,6 +159,7 @@ const NewsCreateDialog = (props) => {
   return (
     <>
       <Dialog
+        maxWidth="xl"
         open={props.open}
         TransitionComponent={Transition}
         keepMounted
@@ -188,7 +189,7 @@ const NewsCreateDialog = (props) => {
                 )}
               </Field>
             </div>
-            <div className="flex gap-x-5 justify-between">
+            <div className="flex gap-x-5">
               <Field>
                 <Label>Loại bài viết</Label>
                 <div className="custom-selector">
@@ -260,15 +261,15 @@ const NewsCreateDialog = (props) => {
                 </div>
               </Field>
             </div>
-            <div className="flex items-end gap-x-3 mt-5">
+            <div className="flex items-center justify-end gap-x-3 mt-5">
               <Button
-                className="bg-red-600"
+                className="bg-red-600 mx-0"
                 onClick={handleCloseDialog}
                 type="button"
               >
                 Hủy
               </Button>
-              <Button type="submit">
+              <Button type="submit" className="mx-0">
                 {props.isEdit ? "Cập nhật" : "Thêm"}
               </Button>
             </div>

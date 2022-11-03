@@ -176,7 +176,11 @@ const WrapperTable = (props) => {
                         <IconButton onClick={(e) => handleEdit(row)}>
                           <FiEdit className="text-blue-500"></FiEdit>
                         </IconButton>
-                        <IconButton onClick={(e) => handeDelete(row._id)}>
+                        <IconButton
+                          onClick={(e) =>
+                            handeDeleteImageBanner(row._id, row.imagePublicId)
+                          }
+                        >
                           <BsTrash className="text-red-500"></BsTrash>
                         </IconButton>
                       </>

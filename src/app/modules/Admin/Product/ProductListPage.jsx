@@ -51,9 +51,15 @@ const ProductListPage = () => {
       setOpen(status);
     }
   }
-  function handleDelete(memoryId) {
+  function handleDelete(productId, imagePublicId) {
+    const cloneId = {
+      id: productId,
+      imageToDeletePublicId: imagePublicId,
+    };
+    console.log(cloneId);
+
     setOpenDelete(true);
-    setSelectProductId(memoryId);
+    setSelectProductId(cloneId);
   }
 
   function handleEdit(item) {
@@ -62,12 +68,12 @@ const ProductListPage = () => {
     setOpen(true);
   }
 
-  //   function closeDeleteDialog(status) {
-  //     if (status) {
-  //       dispatch(actions.deleteMemory(setSelectProductId));
-  //     }
-  //     setOpenDelete(false);
-  //   }
+  function closeDeleteDialog(status) {
+    if (status) {
+      dispatch(actions.deleteProduct(selectProductId));
+    }
+    setOpenDelete(false);
+  }
   return (
     <Layout>
       <div className="bg-white p-4 mb-5 rounded-lg">
@@ -100,7 +106,7 @@ const ProductListPage = () => {
       />
       <ConfirmDialog
         openDialog={openDelete}
-        // closeDialog={closeDeleteDialog}
+        closeDialog={closeDeleteDialog}
         description={"Bạn có chắc chắn xóa sản phẩm này"}
       ></ConfirmDialog>
     </Layout>

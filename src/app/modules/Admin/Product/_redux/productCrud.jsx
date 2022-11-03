@@ -14,6 +14,6 @@ export function createProduct(formData) {
 // export function updateNews(formData) {
 //   return axios.put(`${PRODUCT_URL}/update`, formData);
 // }
-// export function deleteNews(id) {
-//   return axios.post(`${PRODUCT_URL}/delete`, id);
-// }
+export function deleteProduct(id) {
+  return axios.post(`${PRODUCT_URL}/delete`, id);
+}
