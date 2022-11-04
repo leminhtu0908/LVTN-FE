@@ -119,8 +119,17 @@ const ProductCreateDialog = (props) => {
   });
   useEffect(() => {
     if (props.isEdit) {
-      console.log(props.data);
       reset(props.data);
+      console.log(props.data.category.name);
+      const filterMemory = props.data.memorys?.map((item) => item.name);
+      const filterColor = props.data.colors?.map((item) => item.name);
+      setFormValue({
+        category_id: props.data.category._id,
+        brand_id: props.data.brand._id,
+        typeProduct_id: props.data.typeProduct._id,
+        memory: filterMemory,
+        color: filterColor,
+      });
       setContent(props.data.content);
       setThumb(props.data.image);
     } else if (!props.isEdit) {
@@ -133,9 +142,9 @@ const ProductCreateDialog = (props) => {
       });
       setThumb("");
       setContent("");
-      reset(defaultValues);
+      setFormValue(defaultValues);
     }
-  }, [defaultValues, props.data, props.isEdit, reset]);
+  }, [props.data, props.isEdit, reset]);
 
   useEffect(() => {
     dispatch(categoryAction.fetchCategories({ params: { ...filter } }));
@@ -224,6 +233,7 @@ const ProductCreateDialog = (props) => {
     }
     props.closeCreateDialog(false);
   };
+  console.log(formValue.memory);
   return (
     <>
       <Dialog
@@ -392,10 +402,9 @@ const ProductCreateDialog = (props) => {
                   getOptionLabel={(option) => option.name}
                   defaultValue={
                     formValue?.memory?.length > 0
-                      ? formValue?.memory?.map((item) => item.name?.split(","))
+                      ? formValue?.memory?.map((item) => item.split(","))
                       : []
                   }
-                  // filterSelectedOptions
                   onChange={(event, newInputValue) => {
                     setFormValue({
                       ...formValue,
@@ -408,7 +417,7 @@ const ProductCreateDialog = (props) => {
                       variant="outlined"
                       label=""
                       style={{ minWidth: "235px" }}
-                      placeholder="Bộ nhớ"
+                      placeholder={"Bộ nhớ"}
                     />
                   )}
                 />
@@ -423,10 +432,9 @@ const ProductCreateDialog = (props) => {
                   getOptionLabel={(option) => option.name}
                   defaultValue={
                     formValue?.color?.length > 0
-                      ? formValue?.color?.map((item) => item.name?.split(","))
+                      ? formValue?.color?.map((item) => item.split(","))
                       : []
                   }
-                  // filterSelectedOptions
                   onChange={(event, newInputValue) => {
                     setFormValue({
                       ...formValue,

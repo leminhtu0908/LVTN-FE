@@ -43,3 +43,16 @@ export const deleteProduct = (id) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.action }));
     });
 };
+export const updateProduct = (formData) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .updateProduct(formData)
+    .then((response) => {
+      const { product } = response.data;
+      dispatch(actions.productUpdate(product));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't update user";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};

@@ -11,9 +11,9 @@ export function getProducts(queryParams) {
 export function createProduct(formData) {
   return axios.post(`${PRODUCT_URL}/create`, formData);
 }
-// export function updateNews(formData) {
-//   return axios.put(`${PRODUCT_URL}/update`, formData);
-// }
+export function updateProduct(formData) {
+  return axios.put(`${PRODUCT_URL}/update`, formData);
+}
 export function deleteProduct(id) {
   return axios.post(`${PRODUCT_URL}/delete`, id);
 }

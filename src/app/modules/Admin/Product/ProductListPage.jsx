@@ -30,6 +30,7 @@ const ProductListPage = () => {
     { id: "name", label: "Tên sản phẩm" },
     { id: "price", label: "Giá sản phẩm" },
     { id: "display", label: "Màn hình" },
+    { id: "soluong_sanpham", label: "Số lượng sản phẩm" },
     { id: "image", label: "Ảnh" },
     { id: "status", label: "Trạng thái" },
     { id: "action", label: "Hành động" },
@@ -39,6 +40,7 @@ const ProductListPage = () => {
     { label: "name", type: string },
     { label: "price", type: string },
     { label: "display", type: string },
+    { label: "soluong_sanpham", type: string },
     { label: "image", type: string },
     { label: "status", type: string },
   ];
@@ -54,7 +56,7 @@ const ProductListPage = () => {
   function handleDelete(productId, imagePublicId) {
     const cloneId = {
       id: productId,
-      imageToDeletePublicId: imagePublicId,
+      imagePublicId: imagePublicId,
     };
     console.log(cloneId);
 

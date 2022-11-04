@@ -55,5 +55,10 @@ export const productSlice = createSlice({
       state.productId = action.payload.id;
       state.actionsLoading = false;
     },
+    productUpdate: (state, action) => {
+      state.error = null;
+      state.productForEdit = action.payload;
+      state.actionsLoading = false;
+    },
   },
 });
