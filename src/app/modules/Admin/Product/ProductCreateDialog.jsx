@@ -120,7 +120,6 @@ const ProductCreateDialog = (props) => {
   useEffect(() => {
     if (props.isEdit) {
       reset(props.data);
-      console.log(props.data.category.name);
       const filterMemory = props.data.memorys?.map((item) => item.name);
       const filterColor = props.data.colors?.map((item) => item.name);
       setFormValue({
@@ -222,8 +221,11 @@ const ProductCreateDialog = (props) => {
         ...cloneValue,
         id: props.data._id,
       };
-      console.log(cloneValueUpdate);
-      // dispatch(actions.updateMemory(cloneValueUpdate));
+      const formData = new FormData();
+      const imageFile = document.getElementById("imageProduct");
+      formData.append("image", imageFile.files[0]);
+      formData.append("data", JSON.stringify(cloneValueUpdate));
+      dispatch(actions.updateProduct(formData));
     } else {
       const formData = new FormData();
       const imageFile = document.getElementById("imageProduct");
@@ -233,7 +235,6 @@ const ProductCreateDialog = (props) => {
     }
     props.closeCreateDialog(false);
   };
-  console.log(formValue.memory);
   return (
     <>
       <Dialog

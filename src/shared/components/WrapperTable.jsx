@@ -17,9 +17,11 @@ import {
 import { BsTrash } from "react-icons/bs";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentDialog from "../Dialog/ContentDialog";
+import DetailProductDialog from "../Dialog/DetailProductDialog";
 const WrapperTable = (props) => {
   const [openContent, setOpenContent] = useState(false);
   const [contentNews, setContentNews] = useState("");
+  const [data, setData] = useState(undefined);
   const handeDelete = (id) => {
     props.onDeleteRow(id);
   };
@@ -28,7 +30,12 @@ const WrapperTable = (props) => {
   }
   const handleOpenContent = (value) => {
     setOpenContent(true);
-    setContentNews(value);
+    if (props.component === "News") {
+      setContentNews(value);
+    }
+    if (props.component === "Product") {
+      setData(value);
+    }
   };
   const handleCloseContent = () => {
     setOpenContent(false);
@@ -215,9 +222,9 @@ const WrapperTable = (props) => {
         />
       )}
       {props.component === "Product" && (
-        <ContentDialog
+        <DetailProductDialog
           open={openContent}
-          // content={contentNews}
+          data={data}
           handleCloseContent={handleCloseContent}
         />
       )}
