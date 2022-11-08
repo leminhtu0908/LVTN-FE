@@ -73,11 +73,16 @@ h6 {
     border-right: 1px solid #ccc;
   }
   .menu-item {
-    &.active > div > div {
-      @apply bg-slate-400;
+    &.active {
+      border-radius: 10px;
+      color: #f1fbf7;
+      background-color: #1dc071;
+    }
+    &.active:hover {
+      color: #fff;
     }
     &:hover {
-      @apply bg-slate-200;
+      color: #1dc071;
     }
   }
   .hidden-input {
@@ -90,6 +95,22 @@ h6 {
     position: absolute;
     width: 1px;
     white-space: nowrap;
+  }
+  .heading {
+    color: #4cd964;
+    font-size: 28px;
+    position: relative;
+    margin-bottom: 30px;
+    &:before {
+      content: "";
+      width: 50px;
+      height: 4px;
+      background-color: #4cd964;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(0, -150%);
+    }
   }
   .nav-item:hover {
     color: rgb(0, 183, 145);

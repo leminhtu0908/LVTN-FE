@@ -1,42 +1,17 @@
-import React, { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import * as danhmucAction from "../../modules/Admin/DanhMuc/_redux/danhMucAction";
-import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
+import React from "react";
+import { useDispatch } from "react-redux";
+import Heading from "../../../components/header/Heading";
 
-// function makeTitle(slug) {
-//   var words = slug.split("-");
-
-//   for (var i = 0; i < words.length; i++) {
-//     var word = words[i];
-//     words[i] = word.charAt(0).toUpperCase() + word.slice(1);
-//   }
-
-//   return words.join(" ");
-// }
-const ContentPage = () => {
-  const { slug } = useParams();
-  const dispatch = useDispatch();
-  const { currentState } = useSelector(
-    (state) => ({ currentState: state.categorys }),
-    shallowEqual
-  );
-  const { productData } = currentState;
-  useEffect(() => {
-    dispatch(
-      danhmucAction.fetchOneCategoryCustomer({ params: { name: slug } })
-    );
-  }, [dispatch, slug]);
+const ProductPage = (props) => {
   return (
-    <LayoutCustomer>
-      <div className="flex">
-        <div className="basis-[20%] p-4 bg-green-500">
-          <div className=""></div>
-        </div>
-        <div className="basis-[80%]">
-          <div className="px-4 py-8 mb-5 bg-blue-500"></div>
-          <div className="p-4 grid sm:grid-cols-3 lg:grid-cols-4 gap-2">
-            {productData?.products?.map((product) => (
+    <div className="py-4 my-5">
+      <div className="mt-2 px-4">
+        <Heading>Điện thoại</Heading>
+      </div>
+      <div className="h-full bg-gradient-to-r from-l-blue to-r-blue relative">
+        <div className="h-full">
+          <div className="px-6 py-4 grid sm:grid-cols-4 lg:grid-cols-5 gap-5">
+            {props.data?.map((product) => (
               <div
                 key={product.product_id}
                 className="flex flex-col h-full w-full max-w-[250px] bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
@@ -129,8 +104,8 @@ const ContentPage = () => {
           </div>
         </div>
       </div>
-    </LayoutCustomer>
+    </div>
   );
 };
 
-export default ContentPage;
+export default ProductPage;

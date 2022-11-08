@@ -16,6 +16,7 @@ import * as danhMucAction from "../../app/modules/Admin/DanhMuc/_redux/danhMucAc
 import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
 import slugify from "slugify";
 import { AvatarDefault } from "../../utils/avatarDefault";
+import { ImNewspaper } from "react-icons/im";
 
 const HeaderCustomer = () => {
   const { currentState, categoryState } = useSelector(
@@ -63,7 +64,7 @@ const HeaderCustomer = () => {
                     <NavLink
                       to={`/danhmuc/${slugify(item?.name, { lower: true })}`}
                       key={index}
-                      className="p-4"
+                      className="p-4 menu-item"
                     >
                       {item?.name}
                     </NavLink>
@@ -73,6 +74,11 @@ const HeaderCustomer = () => {
             <Tooltip title="Giỏ hàng">
               <IconButton onClick={() => alert("Thêm vào giỏ hàng")}>
                 <AiOutlineShoppingCart className="text-green-500" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Tin tức">
+              <IconButton onClick={() => alert("Đi tới trang tin tức")}>
+                <ImNewspaper className="text-green-500" />
               </IconButton>
             </Tooltip>
             {currentState?.authToken?.token ? (
