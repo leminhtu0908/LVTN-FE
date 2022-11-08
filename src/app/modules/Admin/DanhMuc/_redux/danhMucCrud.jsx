@@ -5,11 +5,14 @@ export const CATE_URL = `${process.env.REACT_APP_API_URL}/api/category`;
 //   return axios.get(`${CATE_URL}/all`);
 // }
 
-// export function getAllCatetory(queryParams) {
-//   return axios.get(`${CATE_URL}/all`, queryParams);
-// }
+export function getAllCatetories(queryParams) {
+  return axios.get(`${CATE_URL}/all`, queryParams);
+}
 export function getAllCatetory(queryParams) {
   return axios.get(`${CATE_URL}/search`, queryParams);
+}
+export function getOneCatetory(queryParams) {
+  return axios.get(`${CATE_URL}/findOne`, queryParams);
 }
 export function createCatetory(values) {
   return axios.post(`${CATE_URL}/create`, values);

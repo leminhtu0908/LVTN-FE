@@ -1,39 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
-import SignInPage from "../modules/Auth/pages/SignInPage";
-import SignUpPage from "../modules/Auth/pages/SignUpPage";
-import ForgotPasswordPage from "../modules/Auth/pages/ForgotPasswordPage";
-import ResetPasswordPage from "../modules/Auth/pages/ResetPasswordPage";
-import NotFoundPage from "./NotFound/NotFoundPage";
-import { IntlProvider } from "react-intl";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import Loading from "./Root/Loading";
-import HomePage from "./Homepage/HomePage";
 import AdminPage from "../modules/Admin/AdminPage";
-import DanhMucListPage from "../modules/Admin/DanhMuc/DanhMucListPage";
-import BrandListPage from "../modules/Admin/Brand/BrandListPage";
-import TypeProductListPage from "../modules/Admin/TypeProduct/TypeProductListPage";
-import UserListPage from "../modules/Admin/User/UserListPage";
-import MemoryListPage from "../modules/Admin/Memory/MemoryListPage";
-import ColorListPage from "../modules/Admin/Color/ColorListPage";
 import BannerListPage from "../modules/Admin/Banner/BannerListPage";
+import BrandListPage from "../modules/Admin/Brand/BrandListPage";
+import ColorListPage from "../modules/Admin/Color/ColorListPage";
+import DanhMucListPage from "../modules/Admin/DanhMuc/DanhMucListPage";
+import MemoryListPage from "../modules/Admin/Memory/MemoryListPage";
 import NewsListPage from "../modules/Admin/News/NewsListPage";
 import ProductListPage from "../modules/Admin/Product/ProductListPage";
-import * as danhMucAction from "../modules/Admin/DanhMuc/_redux/danhMucAction";
-import slugify from "slugify";
+import TypeProductListPage from "../modules/Admin/TypeProduct/TypeProductListPage";
+import UserListPage from "../modules/Admin/User/UserListPage";
+import ForgotPasswordPage from "../modules/Auth/pages/ForgotPasswordPage";
+import ResetPasswordPage from "../modules/Auth/pages/ResetPasswordPage";
+import SignInPage from "../modules/Auth/pages/SignInPage";
+import SignUpPage from "../modules/Auth/pages/SignUpPage";
 import ContentPage from "./ContentPage/ContentPage";
+import HomePage from "./Homepage/HomePage";
+import NotFoundPage from "./NotFound/NotFoundPage";
 const Router = () => {
-  const { currentState, categoryState } = useSelector(
-    (state) => ({ currentState: state.auth, categoryState: state.categorys }),
+  const { currentState } = useSelector(
+    (state) => ({ currentState: state.auth }),
     shallowEqual
   );
-  const dispatch = useDispatch();
   const { authToken } = currentState;
-  const { data } = categoryState;
-  const filter = { name: "" };
-  useEffect(() => {
-    dispatch(danhMucAction.fetchCategories({ params: { ...filter } }));
-  }, []);
   return (
     <>
       <Routes>
@@ -115,14 +105,8 @@ const Router = () => {
         <Route path="/admin/products" element={<ProductListPage />}></Route>
         {/*  */}
         {/* User */}
-        {data?.length > 0 &&
-          data?.map((item, index) => (
-            <Route
-              key={index}
-              path={`/${slugify(item?.name, { lower: true })}`}
-              element={<ContentPage />}
-            ></Route>
-          ))}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/danhmuc/:slug" element={<ContentPage />} />
         {/*  */}
 
         <Route path="*" element={<NotFoundPage />}></Route>

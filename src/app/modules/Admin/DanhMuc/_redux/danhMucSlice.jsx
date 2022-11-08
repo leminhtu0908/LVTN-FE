@@ -4,6 +4,7 @@ const initialCategoryState = {
   listLoading: false,
   actionsLoading: false,
   data: null,
+  productData: null,
   danhmucForEdit: undefined,
   danhmuc: undefined,
   danhmucId: undefined,
@@ -35,6 +36,17 @@ export const categorySlice = createSlice({
       }
     },
     categoryList: (state, action) => {
+      const { data } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.data = data;
+    },
+    oneCategoryList: (state, action) => {
+      state.listLoading = false;
+      state.error = null;
+      state.productData = action.payload;
+    },
+    categoryListCustomer: (state, action) => {
       const { data } = action.payload;
       state.listLoading = false;
       state.error = null;
