@@ -2,8 +2,13 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Heading from "../../../components/header/Heading";
-
+import * as cartAction from "../../pages/Cart/_redux/cartAction";
 const ProductPage = (props) => {
+  const dispatch = useDispatch();
+  const handleAddToCart = (product) => {
+    dispatch(cartAction.addToCart(product));
+    console.log(product);
+  };
   return (
     <div className="py-4 my-5">
       <div className="mt-2 px-4">
@@ -96,12 +101,12 @@ const ProductPage = (props) => {
                       5.0
                     </span>
                   </div>
-                  <a
-                    href="# "
+                  <button
+                    onClick={() => handleAddToCart(product)}
                     className="text-white mt-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Thêm vào giỏ hàng
-                  </a>
+                  </button>
                 </div>
               </div>
             ))}

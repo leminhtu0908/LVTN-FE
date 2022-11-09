@@ -12,6 +12,7 @@ import { colorSlice } from "../app/modules/Admin/Color/_redux/colorSlice";
 import { bannerSlice } from "../app/modules/Admin/Banner/_redux/bannerSlice";
 import { newsSlice } from "../app/modules/Admin/News/_redux/newsSlice";
 import { productSlice } from "../app/modules/Admin/Product/_redux/productSlice";
+import { cartSlice } from "../app/pages/Cart/_redux/cartSlice";
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   roots: rootsSlice.reducer,
@@ -24,6 +25,7 @@ export const rootReducer = combineReducers({
   banners: bannerSlice.reducer,
   news: newsSlice.reducer,
   products: productSlice.reducer,
+  cart: cartSlice.reducer,
 });
 
 export function* rootSaga() {

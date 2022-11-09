@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Button from "../../../components/button/Button";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
 import * as productAction from "../../modules/Admin/Product/_redux/productAction";
 const ProductDetail = () => {
@@ -69,7 +70,7 @@ const ProductDetail = () => {
                 </span>
               ))}
             </div>
-            <div className="">
+            <div className="my-5">
               <p className="pt-4 pb-2">Số lượng sản phẩm :</p>
               <div className="flex gap-x-1 items-center h-[35px]">
                 <button
@@ -89,6 +90,66 @@ const ProductDetail = () => {
                 >
                   +
                 </button>
+              </div>
+            </div>
+            <div className="my-5 mt-10">
+              <Button type="submit">Mua ngay</Button>
+            </div>
+            <div className="mt-10">
+              <h1 className="text-xl font-semibold mb-5">
+                {`Cấu hình chi tiết ${dataDetail?.name}`}
+              </h1>
+              <div className="">
+                <ul>
+                  <li className="p-4 bg-slate-300 flex items-center gap-x-5">
+                    <p>Màn hình : </p>
+                    <div className="">{dataDetail?.display}</div>
+                  </li>
+                  <li className="p-4 bg-white flex items-center gap-x-5">
+                    <p>Hệ điều hành : </p>
+                    <div className="">{dataDetail?.heDieuHanh}</div>
+                  </li>
+                  <li className="p-4 bg-slate-300 flex items-center gap-x-5">
+                    <p>Camera trước: </p>
+                    <div className="">{dataDetail?.camera_truoc}</div>
+                  </li>
+                  <li className="p-4 bg-white flex items-center gap-x-5">
+                    <p>Camera sau : </p>
+                    <div className="">{dataDetail?.camera_sau}</div>
+                  </li>
+                  <li className="p-4 bg-slate-300 flex items-center gap-x-5">
+                    <p>Chip : </p>
+                    <div className="">{dataDetail?.chip}</div>
+                  </li>
+                  <li className="p-4 bg-white flex items-center gap-x-5">
+                    <p>Ram : </p>
+                    <div className="">{dataDetail?.ram}</div>
+                  </li>
+                  <li className="p-4 bg-slate-300 flex items-center gap-x-5">
+                    <p>SIM : </p>
+                    <div className="">{dataDetail?.sim}</div>
+                  </li>
+                  <li className="p-4 bg-white flex items-center gap-x-5">
+                    <p>Pin , Sạc : </p>
+                    <div className="">{dataDetail?.pin_sac}</div>
+                  </li>
+                  <li className="p-4 bg-slate-300 flex items-center gap-x-5">
+                    <p>Thiết kế : </p>
+                    <div className="">{dataDetail?.thietke}</div>
+                  </li>
+                  <li className="p-4 bg-white flex items-center gap-x-5">
+                    <p>Chất liệu : </p>
+                    <div className="">{dataDetail?.chatlieu}</div>
+                  </li>
+                  <li className="p-4 bg-slate-300 flex items-center gap-x-5">
+                    <p>Kích thước , khối lượng : </p>
+                    <div className="">{dataDetail?.kichthuoc_khoiluong}</div>
+                  </li>
+                  <li className="p-4 bg-white flex items-center gap-x-5">
+                    <p>Thời điểm ra mắt : </p>
+                    <div className="">{dataDetail?.thoidiemramat}</div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
