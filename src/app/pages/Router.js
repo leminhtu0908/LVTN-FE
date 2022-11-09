@@ -18,6 +18,7 @@ import SignUpPage from "../modules/Auth/pages/SignUpPage";
 import ContentPage from "./ContentPage/ContentPage";
 import HomePage from "./Homepage/HomePage";
 import NotFoundPage from "./NotFound/NotFoundPage";
+import ProductDetail from "./Products/ProductDetail";
 const Router = () => {
   const { currentState } = useSelector(
     (state) => ({ currentState: state.auth }),
@@ -107,6 +108,7 @@ const Router = () => {
         {/* User */}
         <Route path="/" element={<HomePage />} />
         <Route path="/danhmuc/:slug" element={<ContentPage />} />
+        <Route path="/sanpham/:id" element={<ProductDetail />} />
         {/*  */}
 
         <Route path="*" element={<NotFoundPage />}></Route>

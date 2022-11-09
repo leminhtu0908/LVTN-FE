@@ -9,6 +9,7 @@ const initialProductState = {
   totalPages: null,
   number: null,
   data: null,
+  detail: null,
   productForEdit: undefined,
   product: undefined,
   productId: undefined,
@@ -44,6 +45,11 @@ export const productSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.data = action.payload;
+    },
+    productDetail: (state, action) => {
+      state.listLoading = false;
+      state.error = null;
+      state.detail = action.payload;
     },
     productCreate: (state, action) => {
       state.listLoading = false;

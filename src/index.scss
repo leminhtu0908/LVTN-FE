@@ -116,7 +116,7 @@ h6 {
     color: rgb(0, 183, 145);
   }
   .nav-item a > .menu-text:hover {
-    color: rgb(0, 183, 145);
+    color: #00b791;
   }
   .nav-item.active a {
     color: #fff;
@@ -241,4 +241,24 @@ h6 {
 .css-6hp17o-MuiList-root-MuiMenu-list {
   padding-bottom: 0 !important;
   padding-top: 0 !important;
+}
+
+/* Custom tabs */
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  color: #fff !important;
+}
+.css-1aquho2-MuiTabs-indicator {
+  background-color: #00b791 !important;
+}
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  background-color: #00b791 !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  margin-bottom: 10px !important;
+}
+.css-heg063-MuiTabs-flexContainer {
+  gap: 0 10px !important;
+}
+.css-19kzrtu {
+  padding: 24px 0 !important;
 }

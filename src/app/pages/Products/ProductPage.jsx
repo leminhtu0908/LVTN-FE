@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import Heading from "../../../components/header/Heading";
 
 const ProductPage = (props) => {
@@ -16,17 +17,20 @@ const ProductPage = (props) => {
                 key={product.product_id}
                 className="flex flex-col h-full w-full max-w-[250px] bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
               >
-                <a href="# ">
+                <Link to={`/sanpham/${product.product_id}`}>
                   <img
                     className="p-4 h-[250px] object-cover rounded-t-lg"
                     src={product.image}
                     alt="productimage"
                   />
-                </a>
+                </Link>
                 <div className="px-5 pb-5 flex flex-col flex-1">
-                  <a href="# " className="hover:text-blue-500">
+                  <Link
+                    to={`/sanpham/${product.product_id}`}
+                    className="hover:text-blue-500"
+                  >
                     <h5 className="text-xl font-semibold">{product.name}</h5>
-                  </a>
+                  </Link>
                   <div className="my-4">
                     <span>{product.display}</span>
                   </div>

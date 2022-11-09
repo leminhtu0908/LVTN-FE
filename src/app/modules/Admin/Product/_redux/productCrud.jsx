@@ -8,6 +8,12 @@ export const PRODUCT_URL = `${process.env.REACT_APP_API_URL}/api/product`;
 export function getProducts(queryParams) {
   return axios.get(`${PRODUCT_URL}`, queryParams);
 }
+export function getProductByName(queryParams) {
+  return axios.get(`${PRODUCT_URL}/byname`, queryParams);
+}
+export function getDetailProduct(queryParams) {
+  return axios.get(`${PRODUCT_URL}/detail`, queryParams);
+}
 export function createProduct(formData) {
   return axios.post(`${PRODUCT_URL}/create`, formData);
 }

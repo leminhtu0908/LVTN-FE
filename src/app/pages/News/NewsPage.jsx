@@ -1,6 +1,8 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import React from "react";
 import Heading from "../../../components/header/Heading";
+import NewsIntroduce from "./NewsIntroduce";
+import NewsMoi from "./NewsMoi";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -49,13 +51,13 @@ const NewsPage = () => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          Item One
+          <NewsIntroduce />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <NewsMoi />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          Bài viết cũ
         </TabPanel>
       </Box>
     </div>

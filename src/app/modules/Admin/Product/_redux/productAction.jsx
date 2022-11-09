@@ -17,6 +17,32 @@ export const fetchProducts = (queryParams) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const fetchProductByName = (queryParams) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getProductByName(queryParams)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.productList(data?.products));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
+export const fetchDetailProduct = (queryParams) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getDetailProduct(queryParams)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.productDetail(data?.products));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
 
 export const createProduct = (formData) => (dispatch) => {
   dispatch(actions.startCall({ callType: callTypes.list }));
