@@ -15,7 +15,9 @@ import ForgotPasswordPage from "../modules/Auth/pages/ForgotPasswordPage";
 import ResetPasswordPage from "../modules/Auth/pages/ResetPasswordPage";
 import SignInPage from "../modules/Auth/pages/SignInPage";
 import SignUpPage from "../modules/Auth/pages/SignUpPage";
+import CartListPage from "./Cart/CartListPage";
 import ContentPage from "./ContentPage/ContentPage";
+import ProfilePage from "./Customer/ProfilePage";
 import HomePage from "./Homepage/HomePage";
 import NotFoundPage from "./NotFound/NotFoundPage";
 import ProductDetail from "./Products/ProductDetail";
@@ -109,6 +111,8 @@ const Router = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/danhmuc/:slug" element={<ContentPage />} />
         <Route path="/sanpham/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<CartListPage />} />
+        <Route path="/user/profile" element={<ProfilePage />} />
         {/*  */}
 
         <Route path="*" element={<NotFoundPage />}></Route>

@@ -7,7 +7,6 @@ const ProductPage = (props) => {
   const dispatch = useDispatch();
   const handleAddToCart = (product) => {
     dispatch(cartAction.addToCart(product));
-    console.log(product);
   };
   return (
     <div className="py-4 my-5">

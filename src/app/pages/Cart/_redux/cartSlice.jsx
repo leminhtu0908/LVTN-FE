@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const initialCartState = {
   listLoading: false,
@@ -42,10 +43,54 @@ export const cartSlice = createSlice({
       );
       if (itemIndex >= 0) {
         state.cart[itemIndex].cartQuantity += 1;
+        toast.info(`Increased ${state.cart[itemIndex].name} cart quantity`, {
+          position: "bottom-left",
+        });
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cart.push(tempProduct);
+        toast.success(`${action.payload.name} added to cart`, {
+          position: "bottom-left",
+        });
       }
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
+    },
+    deleteToCart: (state, action) => {
+      const nextCartItems = state.cart.filter(
+        (item) => item.product_id !== action.payload.product_id
+      );
+      state.cart = nextCartItems;
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
+      toast.error(`${action.payload.name} remove to cart`, {
+        position: "bottom-left",
+      });
+    },
+    decreaseCart: (state, action) => {
+      const itemIndex = state.cart.findIndex(
+        (item) => item.product_id === action.payload.product_id
+      );
+      if (state.cart[itemIndex].cartQuantity > 1) {
+        state.cart[itemIndex].cartQuantity -= 1;
+        toast.info(`Decreased ${state.cart[itemIndex].name} cart quantity`, {
+          position: "bottom-left",
+        });
+      } else if (state.cart[itemIndex].cartQuantity === 1) {
+        const nextCartItems = state.cart.filter(
+          (item) => item.product_id !== action.payload.product_id
+        );
+        state.cart = nextCartItems;
+        localStorage.setItem("cartItems", JSON.stringify(state.cart));
+        toast.error(`${action.payload.name} remove to cart`, {
+          position: "bottom-left",
+        });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
+    },
+    clearCart: (state, action) => {
+      state.cart = [];
+      toast.error(`Cart cleared`, {
+        position: "bottom-left",
+      });
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
   },

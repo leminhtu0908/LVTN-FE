@@ -1,6 +1,7 @@
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import {
   Avatar,
+  Badge,
   Divider,
   IconButton,
   ListItemIcon,
@@ -19,12 +20,17 @@ import { AvatarDefault } from "../../utils/avatarDefault";
 import { ImNewspaper } from "react-icons/im";
 
 const HeaderCustomer = () => {
-  const { currentState, categoryState } = useSelector(
-    (state) => ({ currentState: state.auth, categoryState: state.categorys }),
+  const { currentState, categoryState, cartState } = useSelector(
+    (state) => ({
+      currentState: state.auth,
+      categoryState: state.categorys,
+      cartState: state.cart,
+    }),
     shallowEqual
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { cart } = cartState;
   const { data, productData } = categoryState;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -35,7 +41,9 @@ const HeaderCustomer = () => {
     setAnchorEl(null);
   };
   const handleLogout = () => {
+    localStorage.clear();
     dispatch(actions.logout());
+    window.location.reload();
     navigate("/");
   };
   useEffect(() => {
@@ -72,8 +80,10 @@ const HeaderCustomer = () => {
               </ul>
             </div>
             <Tooltip title="Giỏ hàng">
-              <IconButton onClick={() => alert("Thêm vào giỏ hàng")}>
-                <AiOutlineShoppingCart className="text-green-500" />
+              <IconButton onClick={() => navigate("/cart")}>
+                <Badge badgeContent={cart?.length} color="primary">
+                  <AiOutlineShoppingCart className="text-green-500" />
+                </Badge>
               </IconButton>
             </Tooltip>
             <Tooltip title="Tin tức">
@@ -125,7 +135,7 @@ const HeaderCustomer = () => {
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
-                  <MenuItem>
+                  <MenuItem onClick={() => navigate("/user/profile")}>
                     <Avatar /> Profile
                   </MenuItem>
                   <MenuItem>
