@@ -1,6 +1,6 @@
 export const Gender = {
   MALE: "Nam",
-  FEMALE: "Nu",
+  FEMALE: "Nữ",
 };
 export const Visible = {
   FRIENDS: "Friends",

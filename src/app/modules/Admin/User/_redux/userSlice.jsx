@@ -5,7 +5,7 @@ const initialUserState = {
   actionsLoading: false,
   data: null,
   userForEdit: undefined,
-  user: undefined,
+  userImage: undefined,
   userId: undefined,
   lastError: null,
 };
@@ -40,10 +40,10 @@ export const userSlice = createSlice({
       state.error = null;
       state.data = data;
     },
-    // userCreate: (state, action) => {
-    //   state.actionsLoading = false;
-    //   state.error = null;
-    //   state.typeproduct = action.payload;
-    // },
+    userUpload: (state, action) => {
+      state.actionsLoading = false;
+      state.error = null;
+      state.userImage = action.payload;
+    },
   },
 });

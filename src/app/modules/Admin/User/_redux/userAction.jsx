@@ -56,3 +56,16 @@ export const fetchUser = (queryParams) => (dispatch) => {
 //       dispatch(actions.catchError({ error, callType: callTypes.action }));
 //     });
 // };
+export const uploadImageUser = (formData) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .uploadImageUser(formData)
+    .then((response) => {
+      const { data } = response.data;
+      dispatch(actions.userUpload(data.user));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't update user";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};

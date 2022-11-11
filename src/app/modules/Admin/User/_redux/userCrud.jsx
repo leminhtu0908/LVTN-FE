@@ -10,6 +10,9 @@ export function getAllUser(queryParams) {
 // export function updateTypeProduct(values) {
 //   return axios.put(`${TYPEPRODUCT_URL}/update`, values);
 // }
+export function uploadImageUser(formData) {
+  return axios.post(`${USER_URL}/upload-photo`, formData);
+}
 // export function deleteTypeProduct(id) {
 //   return axios.delete(`${TYPEPRODUCT_URL}/delete/${id}`);
 // }

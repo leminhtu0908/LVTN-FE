@@ -95,7 +95,11 @@ const HeaderCustomer = () => {
               <div className="flex items-center gap-x-2">
                 <span>{currentState?.authToken?.user?.fullName}</span>
                 <img
-                  src={AvatarDefault.avatarMale}
+                  src={
+                    currentState?.user?.image === ""
+                      ? AvatarDefault.avatarMale
+                      : currentState?.user?.image
+                  }
                   alt=""
                   className="w-[42px] h-[42px] object-cover rounded-full cursor-pointer"
                   onClick={handleClick}
