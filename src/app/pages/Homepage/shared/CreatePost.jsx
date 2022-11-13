@@ -87,9 +87,7 @@ const CreatePost = () => {
         setLoading(false);
         window.location.reload();
       })
-      .catch(function (response) {
-        console.log(response);
-      });
+      .catch(function (response) {});
   };
   return (
     <>

@@ -15,7 +15,7 @@ const ProductPage = (props) => {
       </div>
       <div className="h-full bg-gradient-to-r from-l-blue to-r-blue relative">
         <div className="h-full">
-          <div className="px-6 py-4 grid sm:grid-cols-4 lg:grid-cols-5 gap-5">
+          <div className="px-6 py-4 grid md:grid-cols-4 lg:grid-cols-5 gap-5">
             {props.data?.map((product) => (
               <div
                 key={product.product_id}

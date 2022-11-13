@@ -44,7 +44,6 @@ const PostItem = ({ post }) => {
   };
   const token = localStorage.getItem("token");
   const handleLikePost = (id) => {
-    console.log("id", id);
     const data = {
       postId: id,
     };

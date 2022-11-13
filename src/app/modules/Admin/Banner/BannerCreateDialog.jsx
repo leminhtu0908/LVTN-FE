@@ -75,7 +75,6 @@ const BannerCreateDialog = (props) => {
       const formData = new FormData();
       const imageFile = document.getElementById("bannerImage");
       formData.append("image", imageFile.files[0]);
-      console.log(formData);
       dispatch(actions.createBanner(formData));
     }
     props.closeCreateDialog(false);

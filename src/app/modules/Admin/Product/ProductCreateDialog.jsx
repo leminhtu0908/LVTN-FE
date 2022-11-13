@@ -215,7 +215,6 @@ const ProductCreateDialog = (props) => {
       colors: colorConvert,
       content: content,
     };
-    console.log(cloneValue);
     if (props.isEdit) {
       const cloneValueUpdate = {
         ...cloneValue,

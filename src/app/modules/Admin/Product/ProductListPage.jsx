@@ -58,8 +58,6 @@ const ProductListPage = () => {
       id: productId,
       imagePublicId: imagePublicId,
     };
-    console.log(cloneId);
-
     setOpenDelete(true);
     setSelectProductId(cloneId);
   }

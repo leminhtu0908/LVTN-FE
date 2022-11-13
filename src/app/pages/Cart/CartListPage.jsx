@@ -17,7 +17,6 @@ const CartListPage = () => {
     color: "",
   };
   const { cart } = currentState;
-  console.log(cart);
   const dispatch = useDispatch();
   const handleDeleToCart = (item) => {
     dispatch(cartAction.deleteToCart(item));

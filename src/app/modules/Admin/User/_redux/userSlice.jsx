@@ -40,10 +40,21 @@ export const userSlice = createSlice({
       state.error = null;
       state.data = data;
     },
+
     userUpload: (state, action) => {
       state.actionsLoading = false;
       state.error = null;
       state.userImage = action.payload;
+    },
+    userByEmail: (state, action) => {
+      state.actionsLoading = false;
+      state.error = null;
+      state.data = action.payload;
+    },
+    userUpdate: (state, action) => {
+      state.actionsLoading = false;
+      state.error = null;
+      state.userForEdit = action.payload;
     },
   },
 });

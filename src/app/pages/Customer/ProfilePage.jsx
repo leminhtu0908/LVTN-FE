@@ -66,13 +66,33 @@ const ProfilePage = () => {
     setThumb(null);
   };
   const handleUpdateUser = (values) => {
-    console.log(values);
+    const {
+      _id,
+      fullName,
+      email,
+      nickName,
+      address,
+      gender,
+      phone,
+      dateofbirth,
+    } = values;
+    const cloneValueUpdateUser = {
+      _id,
+      fullName,
+      email,
+      nickName,
+      address,
+      gender,
+      phone,
+      dateofbirth,
+    };
+    console.log(cloneValueUpdateUser);
+    dispatch(userAciton.updateUser(cloneValueUpdateUser));
   };
   const handleUpLoadImageUser = () => {
     const formData = new FormData();
     const imageFile = document.getElementById("userImage");
     formData.append("image", imageFile.files[0]);
-    console.log(formData);
     dispatch(userAciton.uploadImageUser(formData));
   };
   return (

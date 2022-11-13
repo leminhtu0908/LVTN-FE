@@ -79,7 +79,6 @@ const BannerListPage = () => {
   }
 
   function closeDeleteDialog(status) {
-    console.log(selectBannerId);
     if (status) {
       dispatch(actions.deleteBanner(selectBannerId));
     }

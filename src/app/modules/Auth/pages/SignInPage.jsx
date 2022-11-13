@@ -53,9 +53,7 @@ const SignInPage = (props) => {
           disableLoading();
           props.login(token);
         })
-        .catch((error) => {
-          console.log(error);
-        })
+        .catch((error) => {})
         .finally(() => {
           disableLoading();
         });

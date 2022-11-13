@@ -1,7 +1,6 @@
 import React from "react";
 import { useController } from "react-hook-form";
 import { BsTrash } from "react-icons/bs";
-import { MdOutlineInsertPhoto } from "react-icons/md";
 const ImageUpload = ({
   control,
   name,
@@ -10,7 +9,6 @@ const ImageUpload = ({
   onChangeImage,
   ...rest
 }) => {
-  console.log(selectedFile);
   const { field } = useController({ control, name, defaultValue: "" });
   return (
     <label

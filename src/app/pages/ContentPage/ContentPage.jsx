@@ -1,9 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as danhmucAction from "../../modules/Admin/DanhMuc/_redux/danhMucAction";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
-
+import InputCustomer from "../../../components/input/InputCustomer";
+import { useForm } from "react-hook-form";
+import Button from "../../../components/button/Button";
+import { BsSearch } from "react-icons/bs";
+import { FiFilter } from "react-icons/fi";
+import { Autocomplete, TextField } from "@mui/material";
+import * as brandAction from "../../modules/Admin/Brand/_redux/brandAction";
+import * as memoryAction from "../../modules/Admin/Memory/_redux/memoryAction";
+import * as typeProductAction from "../../modules/Admin/TypeProduct/_redux/typeproductAction";
 // function makeTitle(slug) {
 //   var words = slug.split("-");
 
@@ -14,28 +22,245 @@ import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
 
 //   return words.join(" ");
 // }
+const prices = [
+  { label: "Dưới 5 triệu", year: 1994 },
+  { label: "Từ 5 - 10 triệu", year: 1972 },
+  { label: "Từ 10 - 20 triệu", year: 1974 },
+  { label: "Trên 20 triệu", year: 2008 },
+];
+const sorts = [{ label: "Từ thấp đến cao" }, { label: "Từ cao đến thấp" }];
 const ContentPage = () => {
+  const defaultValue = {
+    name: "",
+    brand: "",
+    display: "",
+    price: "",
+    pin_sac: "",
+    memorys: "",
+    typeProduct: "",
+    ram: "",
+  };
+  const [formValues, setFormValues] = useState(defaultValue);
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const { currentState } = useSelector(
-    (state) => ({ currentState: state.categorys }),
-    shallowEqual
-  );
+  const { currentState, brandState, memorysState, typeProductState } =
+    useSelector(
+      (state) => ({
+        currentState: state.categorys,
+        brandState: state.brands,
+        memorysState: state.memorys,
+        typeProductState: state.typeProducts,
+      }),
+      shallowEqual
+    );
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { isValid, errors },
+  } = useForm({
+    mode: "onChange",
+  });
   const { productData } = currentState;
+  const { data: dataBrand } = brandState;
+  const { data: dataMemorys } = memorysState;
+  const { data: dataTypeProduct } = typeProductState;
   useEffect(() => {
     dispatch(
       danhmucAction.fetchOneCategoryCustomer({ params: { name: slug } })
     );
   }, [dispatch, slug]);
+  useEffect(() => {
+    dispatch(brandAction.fetchBrands());
+    dispatch(memoryAction.fetchMemories());
+    dispatch(typeProductAction.fetchTypeProducts());
+  }, []);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
   return (
     <LayoutCustomer>
-      <div className="flex">
-        <div className="basis-[20%] p-4 bg-green-500">
-          <div className=""></div>
-        </div>
-        <div className="basis-[80%]">
-          <div className="px-4 py-8 mb-5 bg-blue-500"></div>
-          <div className="p-4 grid sm:grid-cols-3 lg:grid-cols-4 gap-2">
+      <div className={`${slug === "djien-thoai" && "flex"} `}>
+        {slug === "djien-thoai" && (
+          <div className="basis-[20%] p-4 bg-slate-200">
+            <h1 className="text-2xl mb-10 font-semibold">Bộ lọc</h1>
+            <div className="mb-5">
+              <Autocomplete
+                autoComplete
+                id="auto-combobox-brand"
+                options={dataBrand || []}
+                getOptionLabel={(option) => option?.name}
+                inputValue={formValues?.brand}
+                onInputChange={(event, newInputValue) => {
+                  setFormValues({
+                    ...formValues,
+                    brand: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    className="form-control"
+                    label="Hãng sản xuất"
+                    variant="outlined"
+                    name="brand"
+                  />
+                )}
+              />
+            </div>
+            <div className="mb-5">
+              <TextField
+                id="outlined-basic"
+                label="Màn hình"
+                variant="outlined"
+                name="display"
+                onChange={handleChange}
+                fullWidth
+              />
+            </div>
+            <div className="mb-5">
+              <Autocomplete
+                autoComplete
+                id="auto-combobox-brand"
+                options={dataMemorys || []}
+                getOptionLabel={(option) => option?.name}
+                inputValue={formValues?.memorys}
+                onInputChange={(event, newInputValue) => {
+                  setFormValues({
+                    ...formValues,
+                    memorys: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    className="form-control"
+                    label="Dung lượng lưu trữ"
+                    variant="outlined"
+                    name="memorys"
+                  />
+                )}
+              />
+            </div>
+            <div className="mb-5">
+              <Autocomplete
+                autoComplete
+                id="auto-combobox-brand"
+                options={prices || []}
+                getOptionLabel={(option) => option?.label}
+                inputValue={formValues?.price}
+                onInputChange={(event, newInputValue) => {
+                  setFormValues({
+                    ...formValues,
+                    price: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    className="form-control"
+                    label="Giá"
+                    variant="outlined"
+                    name="price"
+                  />
+                )}
+              />
+            </div>
+            <div className="mb-5">
+              <TextField
+                id="outlined-basic"
+                label="Pin & Sạc"
+                variant="outlined"
+                name="pin_sac"
+                onChange={handleChange}
+                fullWidth
+              />
+            </div>
+            <div className="mb-5">
+              <Autocomplete
+                autoComplete
+                id="auto-combobox-brand"
+                options={dataTypeProduct || []}
+                getOptionLabel={(option) => option?.name}
+                inputValue={formValues?.typeProduct}
+                onInputChange={(event, newInputValue) => {
+                  setFormValues({
+                    ...formValues,
+                    typeProduct: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    className="form-control"
+                    label="Loại sản phẩm"
+                    variant="outlined"
+                    name="typeProduct"
+                  />
+                )}
+              />
+            </div>
+            <div className="mb-5">
+              <TextField
+                id="outlined-basic"
+                label="Ram"
+                variant="outlined"
+                onChange={handleChange}
+                name="ram"
+                fullWidth
+              />
+            </div>
+            <div className="">
+              <Button
+                type="submit"
+                className="mx-0 w-full h-full px-4 py-4 text-[15px] flex items-center justify-center gap-x-2 bg-blue-500"
+              >
+                <FiFilter></FiFilter> Lọc
+              </Button>
+            </div>
+          </div>
+        )}
+        <div className={`${slug === "djien-thoai" && "basis-[80%]"} `}>
+          {slug === "djien-thoai" && (
+            <div className="py-4 mb-5 bg-slate-200">
+              <div className="flex">
+                <div className="flex basis-[70%]">
+                  <div className="basis-[70%]">
+                    <InputCustomer
+                      name="name"
+                      className="bg-white"
+                      control={control}
+                      placeholder="Nhập tên sản phẩm ..."
+                    />
+                  </div>
+                  <div className="">
+                    <Button
+                      type="submit"
+                      className="mx-0 w-full h-full px-4 py-4 text-[15px] flex items-center justify-center gap-x-2 bg-green-500 rounded-l-none"
+                    >
+                      <BsSearch></BsSearch> Tìm kiếm
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={sorts}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Sắp xếp" />
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="p-4 grid md:grid-cols-3 lg:grid-cols-4 gap-2">
             {productData?.products?.map((product) => (
               <div
                 key={product.product_id}

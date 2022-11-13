@@ -18,13 +18,14 @@ import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
 import slugify from "slugify";
 import { AvatarDefault } from "../../utils/avatarDefault";
 import { ImNewspaper } from "react-icons/im";
-
+import * as userAction from "../../app/modules/Admin/User/_redux/userAction";
 const HeaderCustomer = () => {
-  const { currentState, categoryState, cartState } = useSelector(
+  const { currentState, categoryState, cartState, userState } = useSelector(
     (state) => ({
       currentState: state.auth,
       categoryState: state.categorys,
       cartState: state.cart,
+      userState: state.users,
     }),
     shallowEqual
   );
@@ -32,6 +33,7 @@ const HeaderCustomer = () => {
   const dispatch = useDispatch();
   const { cart } = cartState;
   const { data, productData } = categoryState;
+  const { data: dataUser, userImage, userForEdit } = userState;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -49,6 +51,15 @@ const HeaderCustomer = () => {
   useEffect(() => {
     dispatch(danhMucAction.fetchCategoryCustomer());
   }, [dispatch, productData]);
+  useEffect(() => {
+    if (currentState?.user?.email) {
+      dispatch(
+        userAction.fetchUserByEmail({
+          params: { email: currentState?.user?.email },
+        })
+      );
+    }
+  }, [currentState?.user?.email, dispatch, userImage, userForEdit]);
 
   return (
     <div>
@@ -93,12 +104,12 @@ const HeaderCustomer = () => {
             </Tooltip>
             {currentState?.authToken?.token ? (
               <div className="flex items-center gap-x-2">
-                <span>{currentState?.authToken?.user?.fullName}</span>
+                <span>{dataUser?.fullName}</span>
                 <img
                   src={
-                    currentState?.user?.image === ""
+                    dataUser?.image === ""
                       ? AvatarDefault.avatarMale
-                      : currentState?.user?.image
+                      : dataUser?.image
                   }
                   alt=""
                   className="w-[42px] h-[42px] object-cover rounded-full cursor-pointer"
