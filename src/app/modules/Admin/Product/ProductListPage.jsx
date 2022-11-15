@@ -9,6 +9,10 @@ import { Fade, LinearProgress } from "@mui/material";
 import ProductCreateDialog from "./ProductCreateDialog";
 import ProductFilterPage from "./shared/ProductFilterPage";
 const ProductListPage = () => {
+  const defaultFilter = {
+    name: "",
+  };
+  const [filter, setFilter] = React.useState(defaultFilter);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -22,8 +26,8 @@ const ProductListPage = () => {
     currentState;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.fetchProducts({ param: {} }));
-  }, [dispatch, product, productId, productForEdit]);
+    dispatch(actions.fetchProductByName({ params: { ...filter } }));
+  }, [dispatch, product, productId, productForEdit, filter]);
   const headRows = [
     { id: "stt", label: "STT" },
     { id: "product_id", label: "Mã sản phẩm" },
@@ -74,10 +78,16 @@ const ProductListPage = () => {
     }
     setOpenDelete(false);
   }
+  function handleSearch(filter) {
+    setFilter(filter);
+  }
   return (
     <Layout>
       <div className="bg-white p-4 mb-5 rounded-lg">
-        <ProductFilterPage openCreate={openCreateDialog}></ProductFilterPage>
+        <ProductFilterPage
+          openCreate={openCreateDialog}
+          onSearch={handleSearch}
+        ></ProductFilterPage>
       </div>
       <div className="">
         <Fade

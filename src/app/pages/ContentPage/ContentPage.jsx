@@ -1,58 +1,60 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import * as danhmucAction from "../../modules/Admin/DanhMuc/_redux/danhMucAction";
-import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
-import InputCustomer from "../../../components/input/InputCustomer";
-import { useForm } from "react-hook-form";
-import Button from "../../../components/button/Button";
-import { BsSearch } from "react-icons/bs";
-import { FiFilter } from "react-icons/fi";
 import { Autocomplete, TextField } from "@mui/material";
-import * as brandAction from "../../modules/Admin/Brand/_redux/brandAction";
-import * as memoryAction from "../../modules/Admin/Memory/_redux/memoryAction";
-import * as typeProductAction from "../../modules/Admin/TypeProduct/_redux/typeproductAction";
-// function makeTitle(slug) {
-//   var words = slug.split("-");
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { BsSearch } from "react-icons/bs";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import Button from "../../../components/button/Button";
+import InputCustomer from "../../../components/input/InputCustomer";
+import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
+import * as cartAction from "../Cart/_redux/cartAction";
+import slugify from "slugify";
+import * as productAction from "../../modules/Admin/Product/_redux/productAction";
+import ContentFilterPage from "./ContentFilterPage";
+function makeTitle(slug) {
+  var words = slug.split("-");
 
-//   for (var i = 0; i < words.length; i++) {
-//     var word = words[i];
-//     words[i] = word.charAt(0).toUpperCase() + word.slice(1);
-//   }
+  for (var i = 0; i < words.length; i++) {
+    var word = words[i];
+    words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+  }
 
-//   return words.join(" ");
-// }
-const prices = [
-  { label: "Dưới 5 triệu", year: 1994 },
-  { label: "Từ 5 - 10 triệu", year: 1972 },
-  { label: "Từ 10 - 20 triệu", year: 1974 },
-  { label: "Trên 20 triệu", year: 2008 },
-];
+  return words.join(" ");
+}
+
 const sorts = [{ label: "Từ thấp đến cao" }, { label: "Từ cao đến thấp" }];
 const ContentPage = () => {
-  const defaultValue = {
+  const defaultFilter = {
     name: "",
-    brand: "",
     display: "",
-    price: "",
+    // brand: "",
+    // price: "",
     pin_sac: "",
-    memorys: "",
-    typeProduct: "",
+    // memorys: "",
+    // typeProduct: "",
     ram: "",
   };
-  const [formValues, setFormValues] = useState(defaultValue);
+  const [filter, setFilter] = useState(defaultFilter);
+  const [newData, setNewData] = useState([]);
+  const [showDetail, setShowDetail] = useState(false);
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const { currentState, brandState, memorysState, typeProductState } =
-    useSelector(
-      (state) => ({
-        currentState: state.categorys,
-        brandState: state.brands,
-        memorysState: state.memorys,
-        typeProductState: state.typeProducts,
-      }),
-      shallowEqual
-    );
+  const {
+    currentState,
+    brandState,
+    memorysState,
+    typeProductState,
+    productState,
+  } = useSelector(
+    (state) => ({
+      currentState: state.categorys,
+      brandState: state.brands,
+      memorysState: state.memorys,
+      typeProductState: state.typeProducts,
+      productState: state.products,
+    }),
+    shallowEqual
+  );
   const {
     control,
     handleSubmit,
@@ -61,174 +63,50 @@ const ContentPage = () => {
   } = useForm({
     mode: "onChange",
   });
-  const { productData } = currentState;
-  const { data: dataBrand } = brandState;
-  const { data: dataMemorys } = memorysState;
-  const { data: dataTypeProduct } = typeProductState;
+  const { data: dataProduct } = productState;
   useEffect(() => {
     dispatch(
-      danhmucAction.fetchOneCategoryCustomer({ params: { name: slug } })
+      // danhmucAction.fetchOneCategoryCustomer({ params: { name: slug } })
+      productAction.fetchProducts({ params: { ...filter } })
     );
-  }, [dispatch, slug]);
+  }, [dispatch, filter, slug]);
+
   useEffect(() => {
-    dispatch(brandAction.fetchBrands());
-    dispatch(memoryAction.fetchMemories());
-    dispatch(typeProductAction.fetchTypeProducts());
-  }, []);
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+    const p = dataProduct?.filter(
+      (item) => slugify(item.category?.name, { lower: true }) === slug
+    );
+    setNewData(p);
+  }, [dataProduct, slug]);
+  const handleSubmitSearch = (values) => {
+    const cloneValue = {
+      ...filter,
+      ...values,
+    };
+    setFilter(cloneValue);
+  };
+  const handleSubmitFilterLeft = (filter) => {
+    setFilter(filter);
+    setShowDetail(true);
+  };
+  const handleAddToCart = (product) => {
+    dispatch(cartAction.addToCart(product));
   };
   return (
     <LayoutCustomer>
       <div className={`${slug === "djien-thoai" && "flex"} `}>
         {slug === "djien-thoai" && (
-          <div className="basis-[20%] p-4 bg-slate-200">
-            <h1 className="text-2xl mb-10 font-semibold">Bộ lọc</h1>
-            <div className="mb-5">
-              <Autocomplete
-                autoComplete
-                id="auto-combobox-brand"
-                options={dataBrand || []}
-                getOptionLabel={(option) => option?.name}
-                inputValue={formValues?.brand}
-                onInputChange={(event, newInputValue) => {
-                  setFormValues({
-                    ...formValues,
-                    brand: newInputValue,
-                  });
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    className="form-control"
-                    label="Hãng sản xuất"
-                    variant="outlined"
-                    name="brand"
-                  />
-                )}
-              />
-            </div>
-            <div className="mb-5">
-              <TextField
-                id="outlined-basic"
-                label="Màn hình"
-                variant="outlined"
-                name="display"
-                onChange={handleChange}
-                fullWidth
-              />
-            </div>
-            <div className="mb-5">
-              <Autocomplete
-                autoComplete
-                id="auto-combobox-brand"
-                options={dataMemorys || []}
-                getOptionLabel={(option) => option?.name}
-                inputValue={formValues?.memorys}
-                onInputChange={(event, newInputValue) => {
-                  setFormValues({
-                    ...formValues,
-                    memorys: newInputValue,
-                  });
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    className="form-control"
-                    label="Dung lượng lưu trữ"
-                    variant="outlined"
-                    name="memorys"
-                  />
-                )}
-              />
-            </div>
-            <div className="mb-5">
-              <Autocomplete
-                autoComplete
-                id="auto-combobox-brand"
-                options={prices || []}
-                getOptionLabel={(option) => option?.label}
-                inputValue={formValues?.price}
-                onInputChange={(event, newInputValue) => {
-                  setFormValues({
-                    ...formValues,
-                    price: newInputValue,
-                  });
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    className="form-control"
-                    label="Giá"
-                    variant="outlined"
-                    name="price"
-                  />
-                )}
-              />
-            </div>
-            <div className="mb-5">
-              <TextField
-                id="outlined-basic"
-                label="Pin & Sạc"
-                variant="outlined"
-                name="pin_sac"
-                onChange={handleChange}
-                fullWidth
-              />
-            </div>
-            <div className="mb-5">
-              <Autocomplete
-                autoComplete
-                id="auto-combobox-brand"
-                options={dataTypeProduct || []}
-                getOptionLabel={(option) => option?.name}
-                inputValue={formValues?.typeProduct}
-                onInputChange={(event, newInputValue) => {
-                  setFormValues({
-                    ...formValues,
-                    typeProduct: newInputValue,
-                  });
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    className="form-control"
-                    label="Loại sản phẩm"
-                    variant="outlined"
-                    name="typeProduct"
-                  />
-                )}
-              />
-            </div>
-            <div className="mb-5">
-              <TextField
-                id="outlined-basic"
-                label="Ram"
-                variant="outlined"
-                onChange={handleChange}
-                name="ram"
-                fullWidth
-              />
-            </div>
-            <div className="">
-              <Button
-                type="submit"
-                className="mx-0 w-full h-full px-4 py-4 text-[15px] flex items-center justify-center gap-x-2 bg-blue-500"
-              >
-                <FiFilter></FiFilter> Lọc
-              </Button>
-            </div>
-          </div>
+          <ContentFilterPage
+            onSearch={handleSubmitFilterLeft}
+          ></ContentFilterPage>
         )}
         <div className={`${slug === "djien-thoai" && "basis-[80%]"} `}>
           {slug === "djien-thoai" && (
             <div className="py-4 mb-5 bg-slate-200">
               <div className="flex">
-                <div className="flex basis-[70%]">
+                <form
+                  onSubmit={handleSubmit(handleSubmitSearch)}
+                  className="flex basis-[70%]"
+                >
                   <div className="basis-[70%]">
                     <InputCustomer
                       name="name"
@@ -245,7 +123,7 @@ const ContentPage = () => {
                       <BsSearch></BsSearch> Tìm kiếm
                     </Button>
                   </div>
-                </div>
+                </form>
                 <div className="flex-1">
                   <Autocomplete
                     disablePortal
@@ -261,33 +139,36 @@ const ContentPage = () => {
             </div>
           )}
           <div className="p-4 grid md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {productData?.products?.map((product) => (
+            {newData?.map((product) => (
               <div
                 key={product.product_id}
                 className="flex flex-col h-full w-full max-w-[250px] bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
               >
-                <a href="# ">
+                <Link to={`/sanpham/${product.product_id}`}>
                   <img
                     className="p-4 h-[250px] object-cover rounded-t-lg"
                     src={product.image}
                     alt="productimage"
                   />
-                </a>
+                </Link>
                 <div className="px-5 pb-5 flex flex-col flex-1">
-                  <a href="# " className="hover:text-blue-500">
+                  <Link
+                    to={`/sanpham/${product.product_id}`}
+                    className="hover:text-blue-500"
+                  >
                     <h5 className="text-xl font-semibold">{product.name}</h5>
-                  </a>
-                  <div className="my-4">
+                  </Link>
+                  <div className="my-3">
                     <span>{product.display}</span>
                   </div>
 
-                  <span className="text-lg mb-4 font-bold text-gray-900 dark:text-white">
+                  <span className="text-lg mb-2 font-bold text-gray-900 dark:text-white">
                     {product.price.toLocaleString("vi", {
                       style: "currency",
                       currency: "VND",
                     })}
                   </span>
-                  <div className="flex items-center mt-2.5 mb-5">
+                  <div className="flex items-center mt-2.5 mb-2">
                     <svg
                       aria-hidden="true"
                       className="w-5 h-5 text-yellow-300"
@@ -342,12 +223,22 @@ const ContentPage = () => {
                       5.0
                     </span>
                   </div>
-                  <a
-                    href="# "
+                  {showDetail && (
+                    <>
+                      <div className="my-1">
+                        <span>Ram : {product?.ram}</span>
+                      </div>
+                      <div className="my-1">
+                        <span>Pin : {product?.pin_sac}</span>
+                      </div>
+                    </>
+                  )}
+                  <button
+                    onClick={() => handleAddToCart(product)}
                     className="text-white mt-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Thêm vào giỏ hàng
-                  </a>
+                  </button>
                 </div>
               </div>
             ))}

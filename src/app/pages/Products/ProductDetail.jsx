@@ -11,19 +11,19 @@ const ProductDetail = () => {
   );
   const { detail: dataDetail } = currentState;
   const { id } = useParams();
-  const [values, setValue] = useState(0);
+  const [values, setValue] = useState(1);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productAction.fetchDetailProduct({ params: { product_id: id } }));
   }, [dispatch, id]);
   const handleDecrement = () => {
-    if (values <= 0) return;
+    if (values <= 1) return;
     setValue(values - 1);
   };
   const handleIncrement = () => {
     if (values >= dataDetail?.soluong_sanpham) {
       alert("Số lượng sản phẩm vượt quá giới hạn");
-      setValue(0);
+      setValue(1);
     } else {
       setValue(values + 1);
     }
