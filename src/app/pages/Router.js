@@ -20,6 +20,7 @@ import ContentPage from "./ContentPage/ContentPage";
 import ProfilePage from "./Customer/ProfilePage";
 import HomePage from "./Homepage/HomePage";
 import NotFoundPage from "./NotFound/NotFoundPage";
+import PaymentListPage from "./Payments/PaymentListPage";
 import ProductDetail from "./Products/ProductDetail";
 const Router = () => {
   const { currentState } = useSelector(
@@ -112,6 +113,7 @@ const Router = () => {
         <Route path="/danhmuc/:slug" element={<ContentPage />} />
         <Route path="/sanpham/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartListPage />} />
+        <Route path="/payments" element={<PaymentListPage />} />
         <Route path="/user/profile" element={<ProfilePage />} />
         {/*  */}
 

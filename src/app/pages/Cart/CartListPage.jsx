@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Heading from "../../../components/header/Heading";
 import * as cartAction from "./_redux/cartAction";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
+import { useNavigate } from "react-router-dom";
 const CartListPage = () => {
-  const { currentState } = useSelector(
+  const { currentState, authToken } = useSelector(
     (state) => ({
+      authToken: state.auth,
       currentState: state.cart,
     }),
     shallowEqual
@@ -16,7 +18,9 @@ const CartListPage = () => {
     memory: "",
     color: "",
   };
-  const { cart } = currentState;
+  const { cart, cartTotalAmount } = currentState;
+  const { cartQuantity } = cart;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleDeleToCart = (item) => {
     dispatch(cartAction.deleteToCart(item));
@@ -30,6 +34,16 @@ const CartListPage = () => {
   const handleDeleAllCart = () => {
     dispatch(cartAction.clearCart());
   };
+  const handleCheckout = () => {
+    if (authToken?.authToken?.token) {
+      navigate("/payments");
+    } else {
+      navigate("/sign-in");
+    }
+  };
+  useEffect(() => {
+    dispatch(cartAction.getTotal());
+  }, [dispatch, cart, cartQuantity]);
   return (
     <LayoutCustomer>
       {cart?.length > 0 ? (
@@ -159,11 +173,28 @@ const CartListPage = () => {
                 ))}
               </ul>
             </div>
-            <div className="basis-[30%] p-4 bg-slate-100 shadow-lg rounded-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam nam
-              iste impedit eum obcaecati omnis. Adipisci rerum ex tempora enim
-              fugit, animi iure officiis natus, fugiat ad, vitae doloremque
-              repellendus!
+            <div className="basis-[30%] p-8 bg-slate-100 shadow-lg rounded-lg max-h-[200px]">
+              <div className="flex items-center mb-5 justify-between">
+                <h1>Tổng tiền tạm tính : </h1>
+                <span className="text-2xl font-semibold">
+                  {cartTotalAmount.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+              </div>
+              <button
+                onClick={() => handleCheckout()}
+                className="text-white mt-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full"
+              >
+                Tiến hành thanh toán
+              </button>
+              <button
+                onClick={() => navigate("/danhmuc/djien-thoai")}
+                className="text-white mt-5 w-full bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Chọn thêm sản phẩm khác
+              </button>
             </div>
           </div>
         </div>

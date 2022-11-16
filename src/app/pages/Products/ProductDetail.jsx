@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../components/button/Button";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
 import * as productAction from "../../modules/Admin/Product/_redux/productAction";
+import * as cartAction from "../../pages/Cart/_redux/cartAction";
 const ProductDetail = () => {
   const { currentState } = useSelector(
     (state) => ({ currentState: state.products }),
@@ -11,22 +12,14 @@ const ProductDetail = () => {
   );
   const { detail: dataDetail } = currentState;
   const { id } = useParams();
-  const [values, setValue] = useState(1);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productAction.fetchDetailProduct({ params: { product_id: id } }));
   }, [dispatch, id]);
-  const handleDecrement = () => {
-    if (values <= 1) return;
-    setValue(values - 1);
-  };
-  const handleIncrement = () => {
-    if (values >= dataDetail?.soluong_sanpham) {
-      alert("Số lượng sản phẩm vượt quá giới hạn");
-      setValue(1);
-    } else {
-      setValue(values + 1);
-    }
+  const handleAddToCart = (product) => {
+    dispatch(cartAction.addToCart(product));
+    navigate("/cart");
   };
   return (
     <LayoutCustomer>
@@ -71,29 +64,17 @@ const ProductDetail = () => {
               ))}
             </div>
             <div className="my-5">
-              <p className="pt-4 pb-2">Số lượng sản phẩm :</p>
-              <div className="flex gap-x-1 items-center h-[35px]">
-                <button
-                  onClick={handleDecrement}
-                  className="py-1 px-4 bg-green-500 text-white text-lg"
-                >
-                  -
-                </button>
-                <input
-                  type="text"
-                  value={values}
-                  className="w-[80px] h-full border border-green-500 py-1 px-2"
-                />
-                <button
-                  onClick={handleIncrement}
-                  className="py-1 px-4 bg-green-500 text-white text-lg"
-                >
-                  +
-                </button>
-              </div>
+              <span className="text-2xl text-red-500 font-medium">
+                {dataDetail?.price.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </span>
             </div>
             <div className="my-5 mt-10">
-              <Button type="submit">Mua ngay</Button>
+              <Button onClick={() => handleAddToCart(dataDetail)} type="submit">
+                Mua ngay
+              </Button>
             </div>
             <div className="mt-10">
               <h1 className="text-xl font-semibold mb-5">

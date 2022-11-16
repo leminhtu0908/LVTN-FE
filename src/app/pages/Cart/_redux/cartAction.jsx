@@ -13,3 +13,6 @@ export const decreaseCart = (data) => (dispatch) => {
 export const clearCart = (data) => (dispatch) => {
   dispatch(actions.clearCart(data));
 };
+export const getTotal = (data) => (dispatch) => {
+  dispatch(actions.getTotals(data));
+};
