@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -8,11 +8,27 @@ import Typography from "@mui/material/Typography";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
 import PaymentInfo from "./PaymentInfo";
 import Payment from "./Payment";
-const steps = ["Nhập thông tin đơn hàng", "Thanh toán", "Hoàn tất"];
+import { useForm } from "react-hook-form";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import * as tinhAction from "../Tinh/_redux/tinhAction";
+import * as cartAction from "../Cart/_redux/cartAction";
+const steps = ["Thông tin đặt hàng", "Thanh toán", "Hoàn tất"];
 const PaymentListPage = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-
+  const [information, setInformation] = React.useState(null);
+  const dispatch = useDispatch();
+  const { currentState, cartState, tinhState } = useSelector(
+    (state) => ({
+      currentState: state.auth,
+      cartState: state.cart,
+      tinhState: state.tinh,
+    }),
+    shallowEqual
+  );
+  const { user } = currentState;
+  const { cartTotalAmount, cart, cartQuantity } = cartState;
+  const { data: tinhData } = tinhState;
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -35,30 +51,60 @@ const PaymentListPage = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
+  const PaymentDisplay = () => {
+    if (activeStep === 0) {
+      return <PaymentInfo control={control} tinh={tinhData}></PaymentInfo>;
     }
+    if (activeStep === 1) {
+      return <Payment info={information} />;
+    }
+  };
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isValid, errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      tinh: "",
+      huyen: "",
+      sonha: "",
+    },
+  });
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
+  useEffect(() => {
+    reset({
+      name: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      tinh: "",
+      huyen: "",
+      sonha: "",
     });
-  };
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch("https://provinces.open-api.vn/api/?depth=2")
+        .then((response) => response.json())
+        .then((data) => dispatch(tinhAction.getAllTinh(data)));
+    };
+    fetchData();
+  }, []);
 
-  const handleReset = () => {
-    setActiveStep(0);
+  useEffect(() => {
+    dispatch(cartAction.getTotal());
+  }, [dispatch, cart, cartQuantity]);
+  const handleSubmitPaymentInfo = (values) => {
+    setInformation(values);
   };
-
   return (
     <LayoutCustomer>
-      <div className="p-4">
-        <Box sx={{ width: "100%", padding: "0 100px" }}>
+      <form onSubmit={handleSubmit(handleSubmitPaymentInfo)} className="p-4">
+        <Box sx={{ width: "100%", maxWidth: "700px", margin: "0 auto" }}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps = {};
@@ -85,38 +131,55 @@ const PaymentListPage = () => {
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
-                {/* <Button onClick={handleReset}>Reset</Button> */}
               </Box>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                {activeStep === 0 && <PaymentInfo></PaymentInfo>}
-                {activeStep === 1 && <Payment></Payment>}
-              </Typography>
+              <Typography sx={{ mt: 2, mb: 1 }}>{PaymentDisplay()}</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  pt: 2,
+                }}
+              >
+                <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                  Tổng tiền tạm tính:
+                </Typography>
+                <Typography
+                  sx={{ fontSize: "25px", fontWeight: "bold", color: "green" }}
+                >
+                  {cartTotalAmount.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </Typography>
+              </Box>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
                   color="inherit"
+                  sx={{ textTransform: "none", mr: 1 }}
                   disabled={activeStep === 0}
+                  variant="contained"
                   onClick={handleBack}
-                  sx={{ mr: 1 }}
                 >
                   Trở về
                 </Button>
                 <Box sx={{ flex: "1 1 auto" }} />
-                {/* {isStepOptional(activeStep) && (
-                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                    Skip
-                  </Button>
-                )} */}
-                <Button onClick={handleNext}>
+                <Button
+                  sx={{ textTransform: "none" }}
+                  variant="contained"
+                  type="submit"
+                  onClick={handleNext}
+                >
                   {activeStep === steps.length - 1 ? "Kêt thúc" : "Tiếp theo"}
                 </Button>
               </Box>
             </React.Fragment>
           )}
         </Box>
-      </div>
+      </form>
     </LayoutCustomer>
   );
 };
