@@ -14,6 +14,7 @@ import { newsSlice } from "../app/modules/Admin/News/_redux/newsSlice";
 import { productSlice } from "../app/modules/Admin/Product/_redux/productSlice";
 import { cartSlice } from "../app/pages/Cart/_redux/cartSlice";
 import { tinhSlice } from "../app/pages/Tinh/_redux/tinhSlice";
+import { orderSlice } from "../app/modules/Admin/Order/_redux/orderSlice";
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   roots: rootsSlice.reducer,
@@ -28,6 +29,7 @@ export const rootReducer = combineReducers({
   products: productSlice.reducer,
   cart: cartSlice.reducer,
   tinh: tinhSlice.reducer,
+  orders: orderSlice.reducer,
 });
 
 export function* rootSaga() {

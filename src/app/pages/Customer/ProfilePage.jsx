@@ -97,7 +97,7 @@ const ProfilePage = () => {
   };
   return (
     <LayoutCustomer>
-      <div className="min-h-[87vh] p-10 flex">
+      <div className="min-h-[87vh] p-10 flex pt-[108px]">
         <div className="p-4 max-w-[1200px] w-full mx-auto h-full shadow-lg">
           <h1 className="text-2xl font-semibold">Thông tin tài khoản</h1>
           <hr />

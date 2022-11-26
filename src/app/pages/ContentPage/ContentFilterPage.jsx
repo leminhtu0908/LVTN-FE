@@ -11,18 +11,18 @@ const ContentFilterPage = (props) => {
   const defaultValue = {
     name: "",
     display: "",
-    // brand: "",
     // price: "",
     pin_sac: "",
-    // memorys: "",
-    // typeProduct: "",
+    brand: "",
     ram: "",
+    dung_luong_luu_tru: "",
+    typeProduct: "",
   };
   const prices = [
-    { label: "Dưới 5 triệu", year: 1994 },
-    { label: "Từ 5 - 10 triệu", year: 1972 },
-    { label: "Từ 10 - 20 triệu", year: 1974 },
-    { label: "Trên 20 triệu", year: 2008 },
+    { label: "Dưới 5 triệu" },
+    { label: "Từ 5 - 10 triệu" },
+    { label: "Từ 10 - 20 triệu" },
+    { label: "Trên 20 triệu" },
   ];
   const [formValues, setFormValues] = useState(defaultValue);
   const { brandState, memorysState, typeProductState } = useSelector(
@@ -58,8 +58,8 @@ const ContentFilterPage = (props) => {
       onSubmit={(e) => handleSubmitFilterLeft(e)}
       className="basis-[20%] p-4 bg-slate-200"
     >
-      <h1 className="text-2xl mb-10 font-semibold">Bộ lọc</h1>
-      <div className="mb-5">
+      <h1 className="text-2xl mb-[45px] font-semibold">Bộ lọc</h1>
+      {/* <div className="mb-5">
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
@@ -82,7 +82,7 @@ const ContentFilterPage = (props) => {
             />
           )}
         />
-      </div>
+      </div> */}
       <div className="mb-5">
         <TextField
           id="outlined-basic"
@@ -103,21 +103,21 @@ const ContentFilterPage = (props) => {
           onInputChange={(event, newInputValue) => {
             setFormValues({
               ...formValues,
-              memorys: newInputValue,
+              dung_luong_luu_tru: newInputValue,
             });
           }}
           renderInput={(params) => (
             <TextField
               {...params}
               className="form-control"
-              label="Dung lượng lưu trữ"
+              label="Bộ nhớ"
               variant="outlined"
-              name="memorys"
+              name="dung_luong_luu_tru"
             />
           )}
         />
       </div>
-      <div className="mb-5">
+      {/* <div className="mb-5">
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
@@ -140,7 +140,7 @@ const ContentFilterPage = (props) => {
             />
           )}
         />
-      </div>
+      </div> */}
       <div className="mb-5">
         <TextField
           id="outlined-basic"
@@ -151,7 +151,7 @@ const ContentFilterPage = (props) => {
           fullWidth
         />
       </div>
-      <div className="mb-5">
+      {/* <div className="mb-5">
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
@@ -174,7 +174,7 @@ const ContentFilterPage = (props) => {
             />
           )}
         />
-      </div>
+      </div> */}
       <div className="mb-5">
         <TextField
           id="outlined-basic"

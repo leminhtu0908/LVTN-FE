@@ -1,5 +1,5 @@
 import axios from "axios";
-export const TINH_URL = `https://provinces.open-api.vn/api/?depth=2`;
+export const TINH_URL = `https://provinces.open-api.vn/api/?depth=3`;
 
 // READ
 export function getAllTinh() {

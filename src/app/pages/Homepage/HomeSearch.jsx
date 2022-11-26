@@ -14,9 +14,10 @@ const HomeSearch = (props) => {
   });
   const handleSubmitSearch = (values) => {
     props.onSearch(values);
+    props.onScroll();
   };
   return (
-    <div className="min-h-[520px]">
+    <div className="min-h-[520px] pt-[88px]">
       <img
         srcSet="/img/bg.png"
         alt=""

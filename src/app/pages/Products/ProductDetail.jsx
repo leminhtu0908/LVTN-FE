@@ -1,3 +1,4 @@
+import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,18 +13,43 @@ const ProductDetail = () => {
   );
   const { detail: dataDetail } = currentState;
   const { id } = useParams();
+  const defaultValues = {
+    memorys: "",
+    colors: "",
+  };
+  const [formValues, setFormValues] = useState(defaultValues);
+  const [colorData, setColorData] = useState([]);
+  const [memoryData, setMemoryData] = useState([]);
+  useEffect(() => {
+    setColorData(dataDetail?.colors?.map((item) => item.name));
+  }, [dataDetail?.colors]);
+  useEffect(() => {
+    setMemoryData(dataDetail?.memorys?.map((item) => item.name));
+  }, [dataDetail?.memorys]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productAction.fetchDetailProduct({ params: { product_id: id } }));
   }, [dispatch, id]);
-  const handleAddToCart = (product) => {
-    dispatch(cartAction.addToCart(product));
+  const handlePayment = (product) => {
+    const cloneValues = {
+      ...product,
+      ...formValues,
+    };
+    dispatch(cartAction.addToCart(cloneValues));
     navigate("/cart");
+  };
+  const handleAddToCart = (product) => {
+    const cloneValues = {
+      ...product,
+      ...formValues,
+    };
+    dispatch(cartAction.addToCart(cloneValues));
   };
   return (
     <LayoutCustomer>
-      <div className="p-4">
+      <div className="p-4 mx-auto w-full max-w-[1200px] pt-[88px]">
         <h1 className="py-4 text-2xl font-semibold">{dataDetail?.name}</h1>
         <hr />
         <div className="flex gap-x-5 mt-5">
@@ -44,24 +70,71 @@ const ProductDetail = () => {
           <div className="basis-[40%]">
             <div className="">{dataDetail?.display}</div>
             <div className="flex gap-x-2 my-5">
-              {dataDetail?.colors?.map((item) => (
-                <span
-                  key={item._id}
-                  className="p-4 bg-slate-200 cursor-pointer rounded-lg border border-blue-500"
-                >
-                  {item.name}
-                </span>
-              ))}
+              <Autocomplete
+                style={{ width: "100%" }}
+                id="select"
+                options={colorData || []}
+                getOptionLabel={(option) => option}
+                inputValue={formValues?.colors}
+                defaultValue={formValues?.colors || ""}
+                onInputChange={(event, newInputValue) => {
+                  setFormValues({
+                    ...formValues,
+                    colors: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Màu sắc"
+                    name="colors"
+                    style={{ maxWidth: "300px" }}
+                  />
+                )}
+              />
             </div>
             <div className="flex gap-x-2 my-5">
-              {dataDetail?.memorys?.map((item) => (
-                <span
-                  key={item._id}
-                  className="p-4 bg-slate-200 cursor-pointer rounded-lg border border-blue-500"
-                >
-                  {item.name}
-                </span>
-              ))}
+              {/* <Autocomplete
+                style={{ width: "100%" }}
+                id="select"
+                options={memoryData || []}
+                getOptionLabel={(option) => option}
+                inputValue={formValues?.memorys}
+                defaultValue={formValues?.memorys || ""}
+                onInputChange={(event, newInputValue) => {
+                  setFormValues({
+                    ...formValues,
+                    memorys: newInputValue,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Bộ nhớ"
+                    name="memorys"
+                    style={{ maxWidth: "300px" }}
+                  />
+                )}
+              /> */}
+              <div className="">
+                Bộ nhớ :{" "}
+                <mark className="p-2 text-white bg-green-500 rounded-md">
+                  {dataDetail?.memory}
+                </mark>{" "}
+              </div>
+            </div>
+            <div
+              className={`my-5 ${
+                dataDetail?.stocking === true
+                  ? "text-green-500 text-sm"
+                  : "text-red-500 text-sm"
+              } `}
+            >
+              <span>
+                {dataDetail?.stocking === true ? "Còn hàng" : "Tạm hết"}
+              </span>
             </div>
             <div className="my-5">
               <span className="text-2xl text-red-500 font-medium">
@@ -71,9 +144,20 @@ const ProductDetail = () => {
                 })}
               </span>
             </div>
-            <div className="my-5 mt-10">
-              <Button onClick={() => handleAddToCart(dataDetail)} type="submit">
+            <div className="my-5 mt-10 flex gap-x-5">
+              <Button
+                onClick={() => handlePayment(dataDetail)}
+                type="submit"
+                className="mx-0"
+              >
                 Mua ngay
+              </Button>
+              <Button
+                onClick={() => handleAddToCart(dataDetail)}
+                className="mx-0"
+                type="submit"
+              >
+                Thêm vào giỏ hàng
               </Button>
             </div>
             <div className="mt-10">

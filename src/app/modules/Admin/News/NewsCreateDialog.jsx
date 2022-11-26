@@ -23,13 +23,16 @@ import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageUploader from "quill-image-uploader";
 import axios from "axios";
+import slugify from "slugify";
 Quill.register("modules/imageUploader", ImageUploader);
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const typeNews = [
-  { name: "Introduce", title: "Giới thiệu" },
-  { name: "New", title: "Mới" },
+  { name: "san-pham-moi", title: "Sản phẩm mới" },
+  { name: "cong-nghe-moi", title: "Công nghệ mới" },
+  { name: "meo-hay", title: "Mẹo hay" },
+  { name: "danh-gia", title: "Đánh giá" },
 ];
 const NewsCreateDialog = (props) => {
   const handleCloseDialog = () => {
@@ -43,7 +46,7 @@ const NewsCreateDialog = (props) => {
   const schemaValidation = Yup.object().shape({
     title: Yup.string().required("Vui lòng nhập tên bài viết"),
     // content: Yup.string().required("Vui lòng nhập nội dụng"),
-    slug: Yup.string().required("Vui lòng nhập tên đường dẫn"),
+    // slug: Yup.string().required("Vui lòng nhập tên đường dẫn"),
     // typeNews: Yup.string().required("Vui lòng nhập tên loại bài viết"),
   });
   const {
@@ -86,11 +89,15 @@ const NewsCreateDialog = (props) => {
       const formData = new FormData();
       const imageFile = document.getElementById("bannerImage");
       formData.append("image", imageFile.files[0]);
-      const { imageNew, imagePublicId, slug, title } = values;
+      const { imageNew, imagePublicId, title } = values;
+      const converSlug =
+        values.slug === ""
+          ? slugify(values.title, { locale: "en", lower: true })
+          : values.slug;
       const newValues = {
         imageNew,
         imagePublicId,
-        slug,
+        slug: converSlug,
         title,
       };
       const cloneValueUpdate = {
@@ -105,8 +112,14 @@ const NewsCreateDialog = (props) => {
       const formData = new FormData();
       const imageFile = document.getElementById("bannerImage");
       formData.append("image", imageFile.files[0]);
+      const converSlug =
+        values.slug === ""
+          ? slugify(values.title, { locale: "en", lower: true })
+          : values.slug;
+
       const cloneValue = {
         ...values,
+        slug: converSlug,
         typeNew: typeNew,
         content: content,
       };
@@ -171,23 +184,23 @@ const NewsCreateDialog = (props) => {
         ) : (
           <DialogTitle>{"Thêm bài viết"}</DialogTitle>
         )}
-        <div className="p-4 w-full">
+        <div className="p-4 w-[1200px]">
           <form onSubmit={handleSubmit(handleSumitNews)}>
-            <div className="flex gap-x-5">
-              <Field>
+            <div className="flex gap-x-5 mb-5">
+              <div className="w-full">
                 <Label>Tiêu đề</Label>
                 <InputAdmin type="text" control={control} name="title" />
                 {errors && (
                   <p className="text-red-600">{errors.title?.message}</p>
                 )}
-              </Field>
-              <Field>
+              </div>
+              <div className="w-full">
                 <Label>Đường dẫn</Label>
                 <InputAdmin type="text" control={control} name="slug" />
-                {errors && (
+                {/* {errors && (
                   <p className="text-red-600">{errors.slug?.message}</p>
-                )}
-              </Field>
+                )} */}
+              </div>
             </div>
             <div className="flex gap-x-5">
               <Field>
@@ -211,7 +224,7 @@ const NewsCreateDialog = (props) => {
               <Field>
                 <Label>Ảnh</Label>
                 <label
-                  className={`cursor-pointer w-[230px] flex items-center gap-x-2 justify-center bg-gray-100 rounded-lg relative group overflow-hidden`}
+                  className={`cursor-pointer w-[530px] flex items-center gap-x-2 justify-center bg-gray-100 rounded-lg relative group overflow-hidden border border-dotted border-green-500`}
                 >
                   <input
                     type="file"
@@ -221,7 +234,7 @@ const NewsCreateDialog = (props) => {
                     onChange={handleChangeImage}
                   />
                   {!thumb ? (
-                    <div className="flex flex-col items-center text-center pointer-events-none">
+                    <div className="flex flex-col items-center text-center pointer-events-none py-4">
                       <img
                         srcSet="/img/img-upload.png"
                         alt="upload-img"

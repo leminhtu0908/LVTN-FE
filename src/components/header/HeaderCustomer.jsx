@@ -62,7 +62,7 @@ const HeaderCustomer = () => {
   }, [currentState?.user?.email, dispatch, userImage, userForEdit]);
 
   return (
-    <div>
+    <div className="fixed z-50 w-full bg-white">
       <div className="shadow-lg px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-x-10 w-[150px] h-[40px]">
@@ -98,7 +98,7 @@ const HeaderCustomer = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Tin tức">
-              <IconButton onClick={() => alert("Đi tới trang tin tức")}>
+              <IconButton onClick={() => navigate("/news-page")}>
                 <ImNewspaper className="text-green-500" />
               </IconButton>
             </Tooltip>
@@ -107,7 +107,7 @@ const HeaderCustomer = () => {
                 <span>{dataUser?.fullName}</span>
                 <img
                   src={
-                    dataUser?.image === ""
+                    !dataUser?.image
                       ? AvatarDefault.avatarMale
                       : dataUser?.image
                   }
@@ -151,10 +151,10 @@ const HeaderCustomer = () => {
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
                   <MenuItem onClick={() => navigate("/user/profile")}>
-                    <Avatar /> Profile
+                    <Avatar /> Cập nhật tài khoản
                   </MenuItem>
-                  <MenuItem>
-                    <Avatar /> My account
+                  <MenuItem onClick={() => navigate("/order/history")}>
+                    <Avatar /> Lịch sử đặt hàng
                   </MenuItem>
                   <Divider />
                   <MenuItem>

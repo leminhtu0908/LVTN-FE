@@ -2,31 +2,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Autocomplete,
   Dialog,
-  DialogActions,
-  DialogContent,
   DialogTitle,
   Slide,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Field } from "../../../../components/field";
-import Input from "../../../../components/input/Input";
-import * as Yup from "yup";
-import InputAdmin from "../../../../components/input/InputAdmin";
-import { Button } from "../../../../components/button";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as actions from "./_redux/productAction";
-import * as categoryAction from "../DanhMuc/_redux/danhMucAction";
-import * as brandAction from "../Brand/_redux/brandAction";
-import * as typeProductAction from "../TypeProduct/_redux/typeproductAction";
-import * as memoryAction from "../Memory/_redux/memoryAction";
-import * as colorAction from "../Color/_redux/colorAction";
-import Label from "../../../../components/label/Label";
-import { toast } from "react-toastify";
 import { BsTrash } from "react-icons/bs";
 import ReactQuill from "react-quill";
-import axios from "axios";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { Button } from "../../../../components/button";
+import { Field } from "../../../../components/field";
+import InputAdmin from "../../../../components/input/InputAdmin";
+import Label from "../../../../components/label/Label";
+import * as brandAction from "../Brand/_redux/brandAction";
+import * as colorAction from "../Color/_redux/colorAction";
+import * as categoryAction from "../DanhMuc/_redux/danhMucAction";
+import * as memoryAction from "../Memory/_redux/memoryAction";
+import * as typeProductAction from "../TypeProduct/_redux/typeproductAction";
+import * as actions from "./_redux/productAction";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -36,7 +33,7 @@ const ProductCreateDialog = (props) => {
     brand_id: "",
     typeProduct_id: "",
     memory: "",
-    color: "",
+    colors: "",
   };
   const defaultFilter = {
     name: "",
@@ -45,7 +42,9 @@ const ProductCreateDialog = (props) => {
   const [formValue, setFormValue] = useState(defaultValues);
   const [thumb, setThumb] = useState("");
   const [typeFile, setTypeFile] = useState("");
+  const fileRef = useRef(null);
   const [content, setContent] = useState("");
+  const [isDragEnter, setIsDragEnter] = useState(false);
   const handleCloseDialog = () => {
     props.closeCreateDialog(false);
   };
@@ -119,15 +118,15 @@ const ProductCreateDialog = (props) => {
   });
   useEffect(() => {
     if (props.isEdit) {
-      reset(props.data);
-      const filterMemory = props.data.memorys?.map((item) => item.name);
-      const filterColor = props.data.colors?.map((item) => item.name);
+      const { brand, category, colors, typeProduct, ...field } = props.data;
+      reset(field);
+      // const filterColor = props.data.colors?.map((item) => item._id);
       setFormValue({
-        category_id: props.data.category._id,
-        brand_id: props.data.brand._id,
-        typeProduct_id: props.data.typeProduct._id,
-        memory: filterMemory,
-        color: filterColor,
+        category_id: props.data.category._id || "",
+        brand_id: props.data.brand._id || "",
+        typeProduct_id: props.data.typeProduct._id || "",
+        memory: props.data.memory || "",
+        colors: colors,
       });
       setContent(props.data.content);
       setThumb(props.data.image);
@@ -144,7 +143,6 @@ const ProductCreateDialog = (props) => {
       setFormValue(defaultValues);
     }
   }, [props.data, props.isEdit, reset]);
-
   useEffect(() => {
     dispatch(categoryAction.fetchCategories({ params: { ...filter } }));
     dispatch(brandAction.fetchBrands({ params: { ...filter } }));
@@ -198,34 +196,60 @@ const ProductCreateDialog = (props) => {
       }
     }
   };
+  const onDragLeave = (e) => {
+    setIsDragEnter(false);
+  };
+
+  const onDragEnter = (e) => {
+    setIsDragEnter(true);
+  };
+
+  const onDrop = (e) => {
+    setIsDragEnter(false);
+    const newFile = URL?.createObjectURL(e.dataTransfer.files?.[0]);
+    setTypeFile("image");
+    setThumb(newFile);
+  };
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault(); // Disable open image in new tab
+    };
+    window.addEventListener("dragover", handler);
+    window.addEventListener("drop", handler);
+    return () => {
+      window.removeEventListener("dragover", handler);
+      window.removeEventListener("drop", handler);
+    };
+  }, []);
   const handleResetFileChoosen = () => {
     setThumb(null);
   };
   const handleSumitCategory = async (values) => {
-    const { category_id, brand_id, typeProduct_id, memory, color } = formValue;
-    const memoryConvert = Array.from(memory);
-    const colorConvert = Array.from(color);
     if (!isValid) return;
-    const cloneValue = {
-      ...values,
-      category_id,
-      brand_id,
-      typeProduct_id,
-      memorys: memoryConvert,
-      colors: colorConvert,
-      content: content,
-    };
     if (props.isEdit) {
+      const colors = formValue.colors?.map((item) => item);
       const cloneValueUpdate = {
-        ...cloneValue,
+        ...values,
+        ...formValue,
+        colors: colors,
+        content: content,
         id: props.data._id,
       };
       const formData = new FormData();
       const imageFile = document.getElementById("imageProduct");
       formData.append("image", imageFile.files[0]);
+      console.log(cloneValueUpdate);
       formData.append("data", JSON.stringify(cloneValueUpdate));
       dispatch(actions.updateProduct(formData));
     } else {
+      const { colors } = formValue;
+      const colorConvert = Array.from(colors);
+      const cloneValue = {
+        ...values,
+        ...formValue,
+        colors: colorConvert,
+        content: content,
+      };
       const formData = new FormData();
       const imageFile = document.getElementById("imageProduct");
       formData.append("image", imageFile.files[0]);
@@ -251,91 +275,129 @@ const ProductCreateDialog = (props) => {
         )}
         <div className="p-4">
           <form onSubmit={handleSubmit(handleSumitCategory)}>
-            <div className="flex gap-x-5">
-              <Field>
-                <Label>Mã sản phẩm</Label>
-                <InputAdmin type="text" control={control} name="product_id" />
-                {errors && (
-                  <p className="text-red-600">{errors.product_id?.message}</p>
-                )}
-              </Field>
-              <Field>
-                <Label>Tên sản phẩm</Label>
-                <InputAdmin type="text" control={control} name="name" />
-                {errors && (
-                  <p className="text-red-600">{errors.name?.message}</p>
-                )}
-              </Field>
-              <Field>
-                <Label>Giá</Label>
-                <InputAdmin type="text" control={control} name="price" />
-                {errors && (
-                  <p className="text-red-600">{errors.price?.message}</p>
-                )}
-              </Field>
-            </div>
-            <div className="flex gap-x-5">
-              <Field>
-                <Label>Màn hình</Label>
-                <InputAdmin type="text" control={control} name="display" />
-                {errors && (
-                  <p className="text-red-600">{errors.display?.message}</p>
-                )}
-              </Field>
-              <Field>
-                <Label>Số lượng sản phẩm</Label>
-                <InputAdmin
-                  type="text"
-                  control={control}
-                  name="soluong_sanpham"
-                />
-                {errors && (
-                  <p className="text-red-600">
-                    {errors.soluong_sanpham?.message}
-                  </p>
-                )}
-              </Field>
-              <Field>
-                <Label>Ảnh</Label>
-                <label
-                  className={`cursor-pointer w-[230px] flex items-center gap-x-2 justify-center bg-gray-100 rounded-lg relative group overflow-hidden`}
-                >
-                  <input
-                    type="file"
-                    name="image"
-                    id="imageProduct"
-                    className="hidden-input"
-                    onChange={handleChangeImage}
-                  />
-                  {!thumb ? (
-                    <div className="flex flex-col items-center text-center pointer-events-none">
-                      <img
-                        srcSet="/img/img-upload.png"
-                        alt="upload-img"
-                        className="max-w-[80px] mb-5"
-                      />
-                      <p className="font-semibold">Choose photo</p>
-                    </div>
-                  ) : (
-                    <React.Fragment>
-                      <img
-                        src={thumb}
-                        className="w-full h-full object-cover"
-                        alt=""
-                      />
-                      <button
-                        className="absolute w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer z-10  opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
-                        onClick={handleResetFileChoosen}
-                        type="button"
-                      >
-                        <BsTrash className="text-red-500 text-4xl"></BsTrash>
-                      </button>
-                    </React.Fragment>
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Mã sản phẩm : </Label>
+                </div>
+                <div className="flex-1">
+                  <InputAdmin type="text" control={control} name="product_id" />
+                  {errors && (
+                    <p className="text-red-600">{errors.product_id?.message}</p>
                   )}
-                </label>
-              </Field>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-x-5 justify-between">
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Tên sản phẩm :</Label>
+                </div>
+                <div className="flex-1">
+                  <InputAdmin type="text" control={control} name="name" />
+                  {errors && (
+                    <p className="text-red-600">{errors.name?.message}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Giá :</Label>
+                </div>
+                <div className="flex-1">
+                  <InputAdmin type="text" control={control} name="price" />
+                  {errors && (
+                    <p className="text-red-600">{errors.price?.message}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Màn hình : </Label>
+                </div>
+                <div className="flex-1">
+                  <InputAdmin type="text" control={control} name="display" />
+                  {errors && (
+                    <p className="text-red-600">{errors.display?.message}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Số lượng sản phẩm : </Label>
+                </div>
+                <div className="flex-1">
+                  <InputAdmin
+                    type="text"
+                    control={control}
+                    name="soluong_sanpham"
+                  />
+                  {errors && (
+                    <p className="text-red-600">
+                      {errors.soluong_sanpham?.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Ảnh</Label>
+                </div>
+                <div className="flex-1">
+                  <label
+                    onDrop={onDrop}
+                    onDragEnter={onDragEnter}
+                    onDragLeave={onDragLeave}
+                    className={`border-dashed border border-green-500 cursor-pointer w-full flex items-center gap-x-2 justify-center bg-gray-100 rounded-lg relative group overflow-hidden`}
+                  >
+                    <input
+                      ref={fileRef}
+                      type="file"
+                      name="image"
+                      id="imageProduct"
+                      className="hidden-input"
+                      onChange={handleChangeImage}
+                    />
+                    {!thumb ? (
+                      <div className="flex flex-col items-center text-center pointer-events-none py-5">
+                        <img
+                          srcSet="/img/img-upload.png"
+                          alt="upload-img"
+                          className="w-full h-[50px] mb-5"
+                        />
+                        <p className="font-semibold">
+                          {isDragEnter ? "Thả ảnh vào đây" : "Chọn ảnh"}
+                        </p>
+                      </div>
+                    ) : (
+                      <React.Fragment>
+                        <img
+                          src={thumb}
+                          className="w-full h-full object-cover"
+                          alt=""
+                        />
+                        <button
+                          className="absolute w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer z-10  opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
+                          onClick={handleResetFileChoosen}
+                          type="button"
+                        >
+                          <BsTrash className="text-red-500 text-4xl"></BsTrash>
+                        </button>
+                      </React.Fragment>
+                    )}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-x-5">
               <Field>
                 <Label>Danh mục</Label>
                 <div className="custom-selector">
@@ -394,8 +456,24 @@ const ProductCreateDialog = (props) => {
             <div className="flex gap-x-5">
               <Field>
                 <Label>Bộ nhớ</Label>
+                <div className="custom-selector">
+                  <select
+                    onChange={handleSelectDropdown}
+                    name="memory"
+                    value={formValue.memory}
+                    className="custom-select w-[236px] p-4 bg-primary border border-gray-100 rounded-lg  outline-none focus:border-blue-500 transition-all dark:text-black "
+                  >
+                    {props.isEdit ? null : <option value={null}></option>}
+                    {memoryData?.map((item, index) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Field>
+              {/* <Field>
                 <Autocomplete
-                  multiple
                   style={{ width: "100%" }}
                   id="select"
                   options={memoryData || []}
@@ -421,7 +499,7 @@ const ProductCreateDialog = (props) => {
                     />
                   )}
                 />
-              </Field>
+              </Field> */}
               <Field>
                 <Label>Màu sắc</Label>
                 <Autocomplete
@@ -430,15 +508,13 @@ const ProductCreateDialog = (props) => {
                   id="select"
                   options={colorData || []}
                   getOptionLabel={(option) => option.name}
-                  defaultValue={
-                    formValue?.color?.length > 0
-                      ? formValue?.color?.map((item) => item.split(","))
-                      : []
-                  }
+                  // defaultValues={props?.data?.colors?.map((item) =>
+                  //   item.name?.split(",")
+                  // )}
                   onChange={(event, newInputValue) => {
                     setFormValue({
                       ...formValue,
-                      color: newInputValue.map((item) => item._id),
+                      colors: newInputValue.map((item) => item),
                     });
                   }}
                   renderInput={(params) => (
@@ -448,9 +524,34 @@ const ProductCreateDialog = (props) => {
                       label=""
                       style={{ minWidth: "235px" }}
                       placeholder="Màu sắc"
+                      name="colors"
                     />
                   )}
                 />
+                {props.isEdit && (
+                  <>
+                    <div className="flex gap-x-5">
+                      <span>Màu đã lưu :</span>
+                      {formValue?.colors?.length > 0
+                        ? formValue?.colors?.map((color) => (
+                            <span
+                              key={color._id}
+                              className="px-2 py-1 rounded-lg bg-green-600 text-white"
+                            >
+                              {color.name}
+                            </span>
+                          ))
+                        : props?.data?.colors?.map((color) => (
+                            <span
+                              key={color._id}
+                              className="px-2 py-1 rounded-lg bg-green-600 text-white"
+                            >
+                              {color.name}
+                            </span>
+                          ))}
+                    </div>
+                  </>
+                )}
               </Field>
             </div>
             <div className="">
@@ -472,90 +573,93 @@ const ProductCreateDialog = (props) => {
                   <Label>Chi tiết sản phẩm</Label>
                 </mark>
                 <div className="flex gap-x-5 mt-10">
-                  <Field>
+                  <div className="w-full">
                     <Label>Tiêu đề</Label>
                     <InputAdmin type="text" control={control} name="title" />
-                  </Field>
-                  <Field>
+                  </div>
+                  <div className="w-full">
                     <Label>Hệ điều hành</Label>
                     <InputAdmin
                       type="text"
                       control={control}
                       name="heDieuHanh"
                     />
-                  </Field>
-                  <Field>
+                  </div>
+                </div>
+                <div className="flex gap-x-5 mt-10">
+                  <div className="w-full">
                     <Label>Camera trước</Label>
                     <InputAdmin
                       type="text"
                       control={control}
                       name="camera_truoc"
                     />
-                  </Field>
-                </div>
-                <div className="flex gap-x-5 mt-10">
-                  <Field>
+                  </div>
+                  <div className="w-full">
                     <Label>Camera sau</Label>
                     <InputAdmin
                       type="text"
                       control={control}
                       name="camera_sau"
                     />
-                  </Field>
-                  <Field>
-                    <Label>Chip</Label>
-                    <InputAdmin type="text" control={control} name="chip" />
-                  </Field>
-                  <Field>
-                    <Label>Ram</Label>
-                    <InputAdmin type="text" control={control} name="ram" />
-                  </Field>
+                  </div>
                 </div>
                 <div className="flex gap-x-5 mt-10">
-                  <Field>
+                  <div className="w-full">
+                    <Label>Chip</Label>
+                    <InputAdmin type="text" control={control} name="chip" />
+                  </div>
+                  <div className="w-full">
+                    <Label>Ram</Label>
+                    <InputAdmin type="text" control={control} name="ram" />
+                  </div>
+                </div>
+
+                <div className="flex gap-x-5 mt-10">
+                  <div className="w-full">
                     <Label>Dung lượng lưu trữ</Label>
                     <InputAdmin
                       type="text"
                       control={control}
                       name="dungluongluutru"
                     />
-                  </Field>
-                  <Field>
+                  </div>
+                  <div className="w-full">
                     <Label>Sim</Label>
                     <InputAdmin type="text" control={control} name="sim" />
-                  </Field>
-                  <Field>
+                  </div>
+                  <div className="w-full">
                     <Label>Pin & Sạc</Label>
                     <InputAdmin type="text" control={control} name="pin_sac" />
-                  </Field>
+                  </div>
                 </div>
                 <div className="flex gap-x-5 mt-10">
-                  <Field>
+                  <div className="w-full">
                     <Label>Thiết kế</Label>
                     <InputAdmin type="text" control={control} name="thietke" />
-                  </Field>
-                  <Field>
+                  </div>
+                  <div className="w-full">
                     <Label>Chất liệu</Label>
                     <InputAdmin type="text" control={control} name="chatlieu" />
-                  </Field>
-                  <Field>
+                  </div>
+                </div>
+                <div className="flex gap-x-5 mt-10">
+                  <div className="w-full">
                     <Label>Kích thước & Khối lượng</Label>
                     <InputAdmin
                       type="text"
                       control={control}
                       name="kichthuoc_khoiluong"
                     />
-                  </Field>
-                </div>
-                <div className="flex gap-x-5 mt-10">
-                  <Field>
+                  </div>
+                  <div className="w-full">
                     <Label>Thời điểm ra mắt</Label>
                     <InputAdmin
                       type="text"
                       control={control}
                       name="thoidiemramat"
                     />
-                  </Field>
+                  </div>
                 </div>
               </>
             )}

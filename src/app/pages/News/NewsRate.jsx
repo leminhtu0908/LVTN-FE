@@ -4,7 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as newsAction from "../../modules/Admin/News/_redux/newsAction";
 
-const NewsMoi = () => {
+const NewsRate = () => {
   const { currentState } = useSelector(
     (state) => ({ currentState: state.news }),
     shallowEqual
@@ -17,7 +17,7 @@ const NewsMoi = () => {
     dispatch(newsAction.fetchNews());
   }, []);
   useEffect(() => {
-    const filterData = data?.filter((item) => item.typeNew === "san-pham-moi");
+    const filterData = data?.filter((item) => item.typeNew === "danh-gia");
     setNewData(filterData);
   }, [data]);
   return (
@@ -34,8 +34,8 @@ const NewsMoi = () => {
               </div>
               <div className="basis-[85%] ">
                 <div className="mt-3">
-                  <span className="px-4 py-2 rounded-3xl bg-orange-500 text-white text-sm">
-                    {item.typeNew === "san-pham-moi" && "Sản phẩm mới"}
+                  <span className="px-4 py-2 rounded-3xl bg-purple-500 text-white text-sm">
+                    {item.typeNew === "danh-gia" && "Đánh giá"}
                   </span>
                 </div>
                 <div className="mt-3 text-sm italic">
@@ -58,4 +58,4 @@ const NewsMoi = () => {
   );
 };
 
-export default NewsMoi;
+export default NewsRate;

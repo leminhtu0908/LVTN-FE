@@ -16,7 +16,7 @@ const HomeBanner = () => {
     dispatch(bannerAction.fetchBanners());
   }, [dispatch]);
   return (
-    <div className="w-full max-w-full mx-auto">
+    <div className="w-full max-w-[1200px] mx-auto mt-5">
       <Swiper
         spaceBetween={40}
         slidesPerView={"auto"}
@@ -31,7 +31,7 @@ const HomeBanner = () => {
       >
         {data?.map((item) => (
           <SwiperSlide key={item._id}>
-            <img src={item.imageBanner} alt="" className="w-full" />
+            <img src={item.imageBanner} alt="" className="w-full rounded-xl" />
           </SwiperSlide>
         ))}
       </Swiper>

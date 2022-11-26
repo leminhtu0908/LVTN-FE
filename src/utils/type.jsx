@@ -7,3 +7,8 @@ export const Visible = {
   PUBLIC: "Public",
   ONLYME: "Only me",
 };
+
+export const PaymentType = {
+  CASH: "cash",
+  VIZALOPAY: "zalopayapp",
+};

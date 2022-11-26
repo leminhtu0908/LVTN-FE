@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../../components/button/Button";
 import InputCutomer from "../../../components/input/InputCustomer";
@@ -20,6 +20,7 @@ const HomePage = () => {
     name: "",
   };
   const [filter, setFilter] = React.useState(defaultFilter);
+  const scrollRef = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,11 +29,17 @@ const HomePage = () => {
   function handleSearch(filter) {
     setFilter(filter);
   }
+  const handleScroll = () => {
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <LayoutCustomer>
-      <HomeSearch onSearch={handleSearch} />
+      <HomeSearch onSearch={handleSearch} onScroll={handleScroll} />
       <HomeBanner></HomeBanner>
-      <ProductPage data={productData ? productData : null}></ProductPage>
+      <ProductPage
+        scrollRef={scrollRef}
+        data={productData ? productData : null}
+      ></ProductPage>
       <NewsPage></NewsPage>
     </LayoutCustomer>
   );

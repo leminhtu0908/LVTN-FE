@@ -5,9 +5,9 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { actions } from "../../app/modules/Auth/_redux/authRedux";
 import { AvatarDefault } from "../../utils/avatarDefault";
-import Search from "../search/Search";
+import { AiOutlineLeft, AiOutlineMenu } from "react-icons/ai";
 
-const Header = () => {
+const Header = (props) => {
   const { currentState } = useSelector(
     (state) => ({ currentState: state.auth }),
     shallowEqual
@@ -27,15 +27,32 @@ const Header = () => {
     dispatch(actions.logout());
     navigate("/logout");
   };
+  const handleOpenSideBar = (status) => {
+    props.onOpen(status);
+  };
+  const handleCloseSideBar = (status) => {
+    props.onOpen(status);
+  };
   return (
     <div className="px-6 py-5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-x-10 w-[150px] h-[40px] ">
+        <div className="flex items-center justify-between">
+          {props.open === false ? (
+            <AiOutlineMenu
+              onClick={() => handleOpenSideBar(true)}
+              className="w-[25px] h-[40px] cursor-pointer"
+            ></AiOutlineMenu>
+          ) : (
+            <AiOutlineLeft
+              onClick={() => handleCloseSideBar(false)}
+              className="w-[25px] h-[40px] cursor-pointer"
+            ></AiOutlineLeft>
+          )}
           <Link to="/">
             <img
               srcSet="/img/logo1.png"
               alt=""
-              className="w-full h-full object-cover"
+              className="w-[150px] h-[40px] object-cover"
             />
           </Link>
         </div>

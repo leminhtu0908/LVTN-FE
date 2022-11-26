@@ -1,25 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../../components/button/Button";
 import Heading from "../../../components/header/Heading";
 import * as cartAction from "../../pages/Cart/_redux/cartAction";
+import { slice } from "lodash";
 const ProductPage = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [index, setIndex] = useState(5);
+  const [isCompleted, setIsCompleted] = useState(false);
   const handleAddToCart = (product) => {
     dispatch(cartAction.addToCart(product));
   };
+  const initialDataPhone = slice(props?.data, 0, index);
+  const loadMore = () => {
+    setIndex(index + 5);
+    if (index >= props?.data.length) {
+      setIsCompleted(true);
+    } else {
+      setIsCompleted(false);
+    }
+  };
   return (
-    <div className="py-4 my-5">
+    <div
+      ref={props.scrollRef}
+      className="py-4 my-5 max-w-[1200px] w-full mx-auto bg-slate-100 rounded-lg"
+    >
       <div className="mt-2 px-4">
-        <Heading>Điện thoại</Heading>
+        <Heading>
+          <span
+            onClick={() => navigate("/danhmuc/djien-thoai")}
+            className="hover:underline cursor-pointer"
+          >
+            Điện thoại
+          </span>
+        </Heading>
       </div>
-      <div className="h-full bg-gradient-to-r from-l-blue to-r-blue relative">
+      <div className="h-full relative">
         <div className="h-full">
-          <div className="px-6 py-4 grid md:grid-cols-4 lg:grid-cols-5 gap-5">
-            {props.data?.map((product) => (
+          <div className="px-4 grid md:grid-cols-4 lg:grid-cols-5 gap-2">
+            {initialDataPhone?.map((product) => (
               <div
                 key={product.product_id}
-                className="flex flex-col h-full w-full max-w-[250px] bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
+                className="flex flex-col h-full w-full max-w-[250px] bg-white rounded-sm dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl"
               >
                 <Link to={`/sanpham/${product.product_id}`}>
                   <img
@@ -100,16 +124,25 @@ const ProductPage = (props) => {
                       5.0
                     </span>
                   </div>
-                  <button
+                  {/* <button
                     onClick={() => handleAddToCart(product)}
                     className="text-white mt-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Thêm vào giỏ hàng
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))}
           </div>
+          {isCompleted ? null : (
+            <Button
+              type="button"
+              className="flex items-center justify-center w-[300px] text-center mt-5"
+              onClick={loadMore}
+            >
+              Xem thêm
+            </Button>
+          )}
         </div>
       </div>
     </div>

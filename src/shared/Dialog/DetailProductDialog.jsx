@@ -52,7 +52,12 @@ const DetailProductDialog = (props) => {
                   </div>
                   <div className="flex items-center gap-x-5 mb-5">
                     <span>Giá sản phẩm :</span>
-                    <mark className="px-2">{data?.price}</mark>
+                    <mark className="px-2">
+                      {data?.price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </mark>
                   </div>
                   <div className="flex items-center gap-x-5 mb-5">
                     <span>Màn hình sản phẩm :</span>
@@ -78,11 +83,9 @@ const DetailProductDialog = (props) => {
                   </div>
                   <div className="flex items-center gap-x-5 mb-5">
                     <span>Bộ nhớ : </span>
-                    {data?.memorys?.map((item, index) => (
-                      <mark className="px-2 bg-blue-600 text-white" key={index}>
-                        {item?.name}
-                      </mark>
-                    ))}
+                    <mark className="px-2 bg-blue-600 text-white">
+                      {data?.memory}
+                    </mark>
                   </div>
                   <div className="flex items-center gap-x-5 mb-5">
                     <span>Màu sắc : </span>

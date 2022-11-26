@@ -8,6 +8,7 @@ import ColorListPage from "../modules/Admin/Color/ColorListPage";
 import DanhMucListPage from "../modules/Admin/DanhMuc/DanhMucListPage";
 import MemoryListPage from "../modules/Admin/Memory/MemoryListPage";
 import NewsListPage from "../modules/Admin/News/NewsListPage";
+import OrderListPage from "../modules/Admin/Order/OrderListPage";
 import ProductListPage from "../modules/Admin/Product/ProductListPage";
 import TypeProductListPage from "../modules/Admin/TypeProduct/TypeProductListPage";
 import UserListPage from "../modules/Admin/User/UserListPage";
@@ -19,7 +20,10 @@ import CartListPage from "./Cart/CartListPage";
 import ContentPage from "./ContentPage/ContentPage";
 import ProfilePage from "./Customer/ProfilePage";
 import HomePage from "./Homepage/HomePage";
+import NewsDetail from "./News/NewsDetail";
+import NewsListPageCustomer from "./News/NewsListPageCustomer";
 import NotFoundPage from "./NotFound/NotFoundPage";
+import OrderHistory from "./OrderCustomer/OrderHistory";
 import PaymentListPage from "./Payments/PaymentListPage";
 import ProductDetail from "./Products/ProductDetail";
 const Router = () => {
@@ -107,14 +111,18 @@ const Router = () => {
         <Route path="/admin/banner" element={<BannerListPage />}></Route>
         <Route path="/admin/news" element={<NewsListPage />}></Route>
         <Route path="/admin/products" element={<ProductListPage />}></Route>
+        <Route path="/admin/order" element={<OrderListPage />}></Route>
         {/*  */}
         {/* User */}
         <Route path="/" element={<HomePage />} />
         <Route path="/danhmuc/:slug" element={<ContentPage />} />
         <Route path="/sanpham/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartListPage />} />
+        <Route path="/news-page" element={<NewsListPageCustomer />} />
+        <Route path="/news-page/:slug" element={<NewsDetail />} />
         <Route path="/payments" element={<PaymentListPage />} />
         <Route path="/user/profile" element={<ProfilePage />} />
+        <Route path="/order/history" element={<OrderHistory />} />
         {/*  */}
 
         <Route path="*" element={<NotFoundPage />}></Route>

@@ -7,6 +7,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FiEdit } from "react-icons/fi";
+import moment from "moment";
+import vi from "moment/locale/vi";
 import {
   Button,
   Chip,
@@ -18,6 +20,7 @@ import { BsTrash } from "react-icons/bs";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentDialog from "../Dialog/ContentDialog";
 import DetailProductDialog from "../Dialog/DetailProductDialog";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 const WrapperTable = (props) => {
   const [openContent, setOpenContent] = useState(false);
   const [contentNews, setContentNews] = useState("");
@@ -42,6 +45,12 @@ const WrapperTable = (props) => {
   };
   const handeDeleteImageBanner = (id, imagePublicId) => {
     props.onDeleteRow(id, imagePublicId);
+  };
+  const handleAllowStatus = (id, allow_status) => {
+    props.onAllowStatus(id, allow_status);
+  };
+  const handeDeleteOrder = (id) => {
+    props.onDeleteOrder(id);
   };
   function handleChangePage(event, newPage) {
     props.onChangePage(newPage);
@@ -114,20 +123,114 @@ const WrapperTable = (props) => {
                         </TableCell>
                       );
                     } else if (item.label === "typeNew") {
-                      if (row.typeNew === "Introduce") {
+                      if (row.typeNew === "cong-nghe-moi") {
                         return (
                           <TableCell key={idx}>
-                            <Chip label="Giới thiệu" color="primary" />
+                            <Chip label="Công nghệ mới" color="primary" />
                           </TableCell>
                         );
                       }
-                      if (row.typeNew === "New") {
+                      if (row.typeNew === "san-pham-moi") {
                         return (
                           <TableCell key={idx}>
-                            <Chip label="Mới" color="warning" />
+                            <Chip label="Sản phẩm mới" color="warning" />
                           </TableCell>
                         );
                       }
+                      if (row.typeNew === "meo-hay") {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Mẹo hay" color="error" />
+                          </TableCell>
+                        );
+                      }
+                      if (row.typeNew === "danh-gia") {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Đánh giá" color="secondary" />
+                          </TableCell>
+                        );
+                      }
+                    } else if (item.label === "allow_status") {
+                      if (row.allow_status === true) {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Đã duyệt" color="success" />
+                          </TableCell>
+                        );
+                      }
+                      if (row.allow_status === false) {
+                        return (
+                          <TableCell key={idx}>
+                            {props.component === "UserOrder" ? (
+                              <Chip label="Đang chờ duyệt" color="warning" />
+                            ) : (
+                              <Chip
+                                label="Đang chờ duyệt"
+                                color="warning"
+                                style={{ cursor: "pointer" }}
+                                onClick={(e) =>
+                                  handleAllowStatus(
+                                    row._id,
+                                    row.allow_status,
+                                    row.user._id
+                                  )
+                                }
+                              />
+                            )}
+                          </TableCell>
+                        );
+                      }
+                    } else if (item.label === "createdAt") {
+                      return (
+                        <TableCell key={idx}>
+                          {moment(row[item.label])
+                            .locale("vi", vi)
+                            .format("LLLL")}
+                        </TableCell>
+                      );
+                    } else if (item.label === "address") {
+                      return (
+                        <Tooltip title={row[item.label]} key={idx}>
+                          <TableCell>
+                            {row[item.label]?.length > 40
+                              ? row[item.label]?.slice(0, 20) + "..."
+                              : row[item.label]}
+                          </TableCell>
+                        </Tooltip>
+                      );
+                    } else if (
+                      item.label === "total_price" ||
+                      item.label === "price"
+                    ) {
+                      return (
+                        <TableCell key={idx}>
+                          {row[item.label].toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </TableCell>
+                      );
+                    } else if (item.label === "email") {
+                      return (
+                        <Tooltip title={row[item.label]} key={idx}>
+                          <TableCell>
+                            {row[item.label]?.length > 20
+                              ? row[item.label]?.slice(0, 15) + "..."
+                              : row[item.label]}
+                          </TableCell>
+                        </Tooltip>
+                      );
+                    } else if (item.label === "productNameOrder") {
+                      return (
+                        <Tooltip key={idx} title={row[item.label]}>
+                          <TableCell>
+                            {row[item.label]?.length > 20
+                              ? row[item.label]?.slice(0, 15) + "..."
+                              : row[item.label]}
+                          </TableCell>
+                        </Tooltip>
+                      );
                     } else {
                       return <TableCell key={idx}>{row[item.label]}</TableCell>;
                     }
@@ -191,6 +294,40 @@ const WrapperTable = (props) => {
                           <BsTrash className="text-red-500"></BsTrash>
                         </IconButton>
                       </>
+                    </TableCell>
+                  )}
+                  {props.component === "Order" && (
+                    <TableCell align="left">
+                      {row.allow_status === true ? (
+                        <IconButton onClick={(e) => handeDelete(row._id)}>
+                          <AiOutlineCheckCircle className="text-green-500"></AiOutlineCheckCircle>
+                        </IconButton>
+                      ) : (
+                        <Tooltip title="Hủy đơn hàng">
+                          <IconButton
+                            onClick={(e) => alert("Comming soon ...")}
+                          >
+                            <BsTrash className="text-red-500"></BsTrash>
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </TableCell>
+                  )}
+                  {props.component === "UserOrder" && (
+                    <TableCell align="left">
+                      {row.allow_status === true ? (
+                        <IconButton onClick={(e) => handeDelete(row._id)}>
+                          <AiOutlineCheckCircle className="text-green-500"></AiOutlineCheckCircle>
+                        </IconButton>
+                      ) : (
+                        <Tooltip title="Hủy đơn hàng">
+                          <IconButton
+                            onClick={(e) => handeDeleteOrder(row._id)}
+                          >
+                            <BsTrash className="text-red-500"></BsTrash>
+                          </IconButton>
+                        </Tooltip>
+                      )}
                     </TableCell>
                   )}
                 </TableRow>
