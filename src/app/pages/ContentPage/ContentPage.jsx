@@ -98,7 +98,8 @@ const ContentPage = () => {
 
   useEffect(() => {
     const p = dataProduct?.filter(
-      (item) => slugify(item.category?.name, { lower: true }) === slug
+      (item) =>
+        slugify(item.category?.name, { lower: true, locale: "vi" }) === slug
     );
     setNewData(p);
   }, [dataProduct, slug]);
@@ -141,14 +142,14 @@ const ContentPage = () => {
   return (
     <LayoutCustomer>
       <div className="pt-[88px]">
-        <div className={`${slug === "djien-thoai" && "flex"} `}>
-          {slug === "djien-thoai" && (
+        <div className={`${slug === "dien-thoai" && "flex"} `}>
+          {slug === "dien-thoai" && (
             <ContentFilterPage
               onSearch={handleSubmitFilterLeft}
             ></ContentFilterPage>
           )}
-          <div className={`${slug === "djien-thoai" && "basis-[80%]"} `}>
-            {slug === "djien-thoai" && (
+          <div className={`${slug === "dien-thoai" && "basis-[80%]"} `}>
+            {slug === "dien-thoai" && (
               <>
                 <div className="py-4 mb-5 bg-slate-200">
                   <div className="flex mb-5">

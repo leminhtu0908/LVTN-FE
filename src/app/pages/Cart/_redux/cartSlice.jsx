@@ -77,14 +77,12 @@ export const cartSlice = createSlice({
           position: "bottom-left",
         });
       } else if (state.cart[itemIndex].cartQuantity === 1) {
-        const nextCartItems = state.cart.filter(
-          (item) => item.product_id !== action.payload.product_id
-        );
-        state.cart = nextCartItems;
-        localStorage.setItem("cartItems", JSON.stringify(state.cart));
-        toast.error(`${action.payload.name} remove to cart`, {
-          position: "bottom-left",
-        });
+        // const nextCartItems = state.cart.filter(
+        //   (item) => item.product_id !== action.payload.product_id
+        // );
+        // state.cart = nextCartItems;
+        // localStorage.setItem("cartItems", JSON.stringify(state.cart));
+        toast.error("Số lượng sản phẩm đã đạt mức tối thiểu");
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },

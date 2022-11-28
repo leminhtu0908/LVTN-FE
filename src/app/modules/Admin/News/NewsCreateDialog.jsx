@@ -92,7 +92,7 @@ const NewsCreateDialog = (props) => {
       const { imageNew, imagePublicId, title } = values;
       const converSlug =
         values.slug === ""
-          ? slugify(values.title, { locale: "en", lower: true })
+          ? slugify(values.title, { locale: "vi", lower: true })
           : values.slug;
       const newValues = {
         imageNew,
@@ -114,7 +114,7 @@ const NewsCreateDialog = (props) => {
       formData.append("image", imageFile.files[0]);
       const converSlug =
         values.slug === ""
-          ? slugify(values.title, { locale: "en", lower: true })
+          ? slugify(values.title, { locale: "vi", lower: true })
           : values.slug;
 
       const cloneValue = {

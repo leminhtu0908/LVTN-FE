@@ -45,8 +45,7 @@ const HeaderCustomer = () => {
   const handleLogout = () => {
     localStorage.clear();
     dispatch(actions.logout());
-    window.location.reload();
-    navigate("/");
+    window.location.href = "/";
   };
   useEffect(() => {
     dispatch(danhMucAction.fetchCategoryCustomer());
@@ -81,7 +80,10 @@ const HeaderCustomer = () => {
                 {data?.length > 0 &&
                   data?.map((item, index) => (
                     <NavLink
-                      to={`/danhmuc/${slugify(item?.name, { lower: true })}`}
+                      to={`/danhmuc/${slugify(item?.name, {
+                        lower: true,
+                        locale: "vi",
+                      })}`}
                       key={index}
                       className="p-4 menu-item"
                     >

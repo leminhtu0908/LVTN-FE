@@ -122,7 +122,16 @@ const Router = () => {
         <Route path="/news-page/:slug" element={<NewsDetail />} />
         <Route path="/payments" element={<PaymentListPage />} />
         <Route path="/user/profile" element={<ProfilePage />} />
-        <Route path="/order/history" element={<OrderHistory />} />
+        <Route
+          path="/order/history"
+          element={
+            currentState?.authToken?.token ? (
+              <OrderHistory />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
         {/*  */}
 
         <Route path="*" element={<NotFoundPage />}></Route>

@@ -15,9 +15,11 @@ import * as cartAction from "../Cart/_redux/cartAction";
 import axios from "axios";
 import PaymentSuccess from "./PaymentSuccess";
 import PaymentsCompleted from "./PaymentsCompleted";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const steps = ["Thông tin đặt hàng", "Thanh toán", "Hoàn tất"];
 const PaymentListPage = () => {
+  const location = useLocation();
+  console.log(location);
   const defaultValues = {
     tinh: "",
     huyen: "",
@@ -39,7 +41,7 @@ const PaymentListPage = () => {
     }),
     shallowEqual
   );
-  const { user } = currentState;
+  const { user, authToken } = currentState;
   const { cartTotalAmount, cart, cartTotalQuantity } = cartState;
   const isStepOptional = (step) => {
     return step === 1;
@@ -121,9 +123,9 @@ const PaymentListPage = () => {
 
   useEffect(() => {
     reset({
-      name: user?.fullName,
-      email: user?.email,
-      phone: user?.phone,
+      name: user?.fullName || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
       sonha: "",
     });
   }, []);
@@ -144,23 +146,52 @@ const PaymentListPage = () => {
   const handleSubmitCheckout = async () => {
     const transID = Math.floor(Math.random() * 1000000);
     if (valuesPayment.bankcode === "cash") {
-      const cloneValues = {
-        ...information,
-        order_id: transID,
-        product_total: cartTotalQuantity,
-        price_total: cartTotalAmount,
-        cart: cart,
-        user_id: user._id,
-        status: false,
-      };
-      await axios
-        .post(`${process.env.REACT_APP_API_URL}/api/payment/cash`, cloneValues)
-        .then((res) => {
-          if (res.data.status === "success") {
-            localStorage.removeItem("cartItems");
-            handleNextStep3();
+      const cloneValues = authToken?.token
+        ? {
+            ...information,
+            order_id: transID,
+            product_total: cartTotalQuantity,
+            price_total: cartTotalAmount,
+            cart: cart,
+            user_id: user._id,
+            status: false,
           }
-        });
+        : {
+            ...information,
+            order_id: transID,
+            product_total: location?.state?.cartTotalQuantity,
+            price_total: location?.state?.cartTotalAmount,
+            cart: location?.state,
+            status: false,
+          };
+      console.log(cloneValues);
+      if (authToken?.token) {
+        await axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/api/payment/cash`,
+            cloneValues
+          )
+          .then((res) => {
+            if (res.data.status === "success") {
+              localStorage.removeItem("cartItems");
+              handleNextStep3();
+            }
+          });
+      } else {
+        fetch(`${process.env.REACT_APP_API_URL}/api/payment/visited/cash`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cloneValues),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              handleNextStep3();
+            }
+          });
+      }
     }
     if (valuesPayment.bankcode === "zalopayapp") {
       const items = {
@@ -246,10 +277,18 @@ const PaymentListPage = () => {
                         color: "green",
                       }}
                     >
-                      {cartTotalAmount.toLocaleString("vi", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
+                      {authToken?.token
+                        ? cartTotalAmount?.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })
+                        : location?.state?.cartTotalAmount?.toLocaleString(
+                            "vi",
+                            {
+                              style: "currency",
+                              currency: "VND",
+                            }
+                          )}
                     </Typography>
                   </Box>
                 )}

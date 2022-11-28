@@ -6,6 +6,7 @@ import { string } from "prop-types";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actionOrder from "../../modules/Admin/Order/_redux/orderAction";
 import ConfirmDialog from "../../../shared/Dialog/ConfirmDialog";
+import Loading from "../Root/Loading";
 const OrderHistory = () => {
   const { currentState, authState } = useSelector(
     (state) => ({ currentState: state.orders, authState: state.auth }),
@@ -66,30 +67,35 @@ const OrderHistory = () => {
   }
   return (
     <LayoutCustomer>
-      <div className="py-10 pt-[88px]">
-        <Fade
-          in={listLoading}
-          style={{
-            transitionDelay: listLoading ? "800ms" : "0ms",
-          }}
-          unmountOnExit
-        >
-          <LinearProgress color="secondary" />
-        </Fade>
-        <WrapperTable
-          component={"UserOrder"}
-          displayTableTitle={headRows}
-          displayRowData={mapKey}
-          data={dataOrderHistory}
-          //   onDeleteRow={handleDelete}
-          //   onEditRow={handleEdit}
-          // page={page}
-          // rowsPerPage={rowsPerPage}
-          onDeleteOrder={handleSelectDelete}
-          //   onChangePage={handleChangePage}
-          //   onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </div>
+      {listLoading ? (
+        <Loading />
+      ) : (
+        <div className="py-10 pt-[88px]">
+          <Fade
+            in={listLoading}
+            style={{
+              transitionDelay: listLoading ? "800ms" : "0ms",
+            }}
+            unmountOnExit
+          >
+            <LinearProgress color="secondary" />
+          </Fade>
+          <WrapperTable
+            component={"UserOrder"}
+            displayTableTitle={headRows}
+            displayRowData={mapKey}
+            data={dataOrderHistory}
+            //   onDeleteRow={handleDelete}
+            //   onEditRow={handleEdit}
+            // page={page}
+            // rowsPerPage={rowsPerPage}
+            onDeleteOrder={handleSelectDelete}
+            //   onChangePage={handleChangePage}
+            //   onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </div>
+      )}
+
       <ConfirmDialog
         openDialog={openDelete}
         closeDialog={closeDeleteOrderDialog}

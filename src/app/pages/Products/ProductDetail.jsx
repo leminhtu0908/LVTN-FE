@@ -4,22 +4,25 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../components/button/Button";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
+import PaymentProductDialog from "../../../shared/Dialog/PaymentProductDialog";
 import * as productAction from "../../modules/Admin/Product/_redux/productAction";
 import * as cartAction from "../../pages/Cart/_redux/cartAction";
 const ProductDetail = () => {
-  const { currentState } = useSelector(
-    (state) => ({ currentState: state.products }),
+  const { currentState, authState } = useSelector(
+    (state) => ({ currentState: state.products, authState: state.auth }),
     shallowEqual
   );
   const { detail: dataDetail } = currentState;
+  const { authToken } = authState;
   const { id } = useParams();
   const defaultValues = {
-    memorys: "",
     colors: "",
   };
   const [formValues, setFormValues] = useState(defaultValues);
   const [colorData, setColorData] = useState([]);
   const [memoryData, setMemoryData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [productData, setProductData] = useState({});
   useEffect(() => {
     setColorData(dataDetail?.colors?.map((item) => item.name));
   }, [dataDetail?.colors]);
@@ -33,12 +36,21 @@ const ProductDetail = () => {
     dispatch(productAction.fetchDetailProduct({ params: { product_id: id } }));
   }, [dispatch, id]);
   const handlePayment = (product) => {
-    const cloneValues = {
-      ...product,
-      ...formValues,
-    };
-    dispatch(cartAction.addToCart(cloneValues));
-    navigate("/cart");
+    if (authToken?.token) {
+      const cloneValues = {
+        ...product,
+        ...formValues,
+      };
+      dispatch(cartAction.addToCart(cloneValues));
+      navigate("/cart");
+    } else {
+      setOpen(true);
+      const cloneValues = {
+        ...product,
+        ...formValues,
+      };
+      setProductData(cloneValues);
+    }
   };
   const handleAddToCart = (product) => {
     const cloneValues = {
@@ -46,6 +58,9 @@ const ProductDetail = () => {
       ...formValues,
     };
     dispatch(cartAction.addToCart(cloneValues));
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     <LayoutCustomer>
@@ -220,6 +235,11 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+      <PaymentProductDialog
+        open={open}
+        handleClose={handleClose}
+        productData={productData}
+      />
     </LayoutCustomer>
   );
 };

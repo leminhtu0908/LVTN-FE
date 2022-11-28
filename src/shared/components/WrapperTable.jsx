@@ -170,14 +170,25 @@ const WrapperTable = (props) => {
                                 color="warning"
                                 style={{ cursor: "pointer" }}
                                 onClick={(e) =>
-                                  handleAllowStatus(
-                                    row._id,
-                                    row.allow_status,
-                                    row.user._id
-                                  )
+                                  handleAllowStatus(row._id, row.allow_status)
                                 }
                               />
                             )}
+                          </TableCell>
+                        );
+                      }
+                    } else if (item.label === "visited") {
+                      if (row.visited === true) {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Vãng lai" color="secondary" />
+                          </TableCell>
+                        );
+                      }
+                      if (row.visited === false) {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Thành viên" color="info" />
                           </TableCell>
                         );
                       }

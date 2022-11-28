@@ -45,6 +45,7 @@ const OrderListPage = () => {
     { id: "total_price", label: "Tổng tiền" },
     { id: "createdAt", label: "Thời gian đặt hàng" },
     { id: "allow_status", label: "Tình trạng đơn hàng" },
+    { id: "visited", label: "Loại khách hàng" },
     { id: "action", label: "Hành động" },
   ];
   const mapKey = [
@@ -58,6 +59,7 @@ const OrderListPage = () => {
     { label: "total_price", type: string },
     { label: "createdAt", type: string },
     { label: "allow_status", type: string },
+    { label: "visited", type: string },
   ];
   function openCreateDialog() {
     setIsEdit(false);
@@ -68,11 +70,10 @@ const OrderListPage = () => {
       setOpen(status);
     }
   }
-  const handleAllowStatus = (id, allowStatus, user_id) => {
+  const handleAllowStatus = (id, allowStatus) => {
     const cloneValue = {
       id: id,
       allow_status: true,
-      user_id: user_id,
     };
     setOpenDuyet(true);
     setSelectOrder(cloneValue);

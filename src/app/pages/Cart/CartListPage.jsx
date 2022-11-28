@@ -72,7 +72,7 @@ const CartListPage = () => {
                         />
                         <div className="flex-1">
                           <div className="flex items-center justify-between">
-                            <h1 className="text-lg font-medium">{`${item.name} - ${item.display} - ${item.memorys}`}</h1>
+                            <h1 className="text-lg font-medium">{`${item.name} - ${item.display} - ${item.memory}`}</h1>
                             <span className="text-xl font-semibold">
                               {(item.price * item.cartQuantity).toLocaleString(
                                 "vi",
@@ -90,22 +90,23 @@ const CartListPage = () => {
                                   {item.colors}
                                 </span>
                               </div>
-                              <div className="basis-[40%]">
-                                <div className="flex gap-x-1 items-center h-[35px]">
+                              <div className="basis-[40%] flex gap-x-2 items-center">
+                                <h1>Chọn số lượng :</h1>
+                                <div className="flex items-center h-[35px]">
                                   <button
                                     onClick={() => handleDecrement(item)}
-                                    className="py-1 px-4 rounded-lg bg-green-500 text-white text-lg"
+                                    className="py-1 px-4 rounded-l-lg bg-green-500 text-white text-lg"
                                   >
                                     -
                                   </button>
                                   <input
                                     type="text"
-                                    value={item.cartQuantity}
-                                    className="w-[80px] h-full border border-green-500 py-1 px-2"
+                                    value={item.cartQuantity || ""}
+                                    className="text-center w-[50px] h-full border border-green-500 py-1 px-2"
                                   />
                                   <button
                                     onClick={() => handleIncrement(item)}
-                                    className="py-1 px-4 rounded-lg bg-green-500 text-white text-lg"
+                                    className="py-1 px-4 rounded-r-lg bg-green-500 text-white text-lg"
                                   >
                                     +
                                   </button>
@@ -144,7 +145,7 @@ const CartListPage = () => {
                   Tiến hành thanh toán
                 </button>
                 <button
-                  onClick={() => navigate("/danhmuc/djien-thoai")}
+                  onClick={() => navigate("/danhmuc/dien-thoai")}
                   className="text-white mt-5 w-full bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Chọn thêm sản phẩm khác
