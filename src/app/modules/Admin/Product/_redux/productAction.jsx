@@ -30,6 +30,21 @@ export const fetchProductByName = (queryParams) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const fetchProductByNameAndPanigate = (queryParams) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getProductByNameAndPanigate(queryParams)
+    .then((response) => {
+      const { products, size, totalElements, totalPages } = response.data;
+      dispatch(
+        actions.productFetchs({ products, size, totalElements, totalPages })
+      );
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
 export const fetchDetailProduct = (queryParams) => (dispatch) => {
   dispatch(actions.startCall({ callType: callTypes.list }));
   return requestFromServer

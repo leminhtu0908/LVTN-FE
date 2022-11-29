@@ -13,6 +13,8 @@ const ProductListPage = () => {
     name: "",
   };
   const [filter, setFilter] = React.useState(defaultFilter);
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -22,12 +24,16 @@ const ProductListPage = () => {
     (state) => ({ currentState: state.products }),
     shallowEqual
   );
-  const { data, product, productId, productForEdit, listLoading } =
+  const { data, product, productId, productForEdit, listLoading, totalPages } =
     currentState;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.fetchProductByName({ params: { ...filter } }));
-  }, [dispatch, product, productId, productForEdit, filter]);
+    dispatch(
+      actions.fetchProductByNameAndPanigate({
+        params: { ...filter, current_page: page, per_page: rowsPerPage },
+      })
+    );
+  }, [dispatch, product, productId, productForEdit, filter, page, rowsPerPage]);
   const headRows = [
     { id: "stt", label: "STT" },
     { id: "product_id", label: "Mã sản phẩm" },
@@ -81,6 +87,13 @@ const ProductListPage = () => {
   function handleSearch(filter) {
     setFilter(filter);
   }
+  function handleChangePage(value) {
+    setPage(value);
+  }
+
+  function handleChangeRowsPerPage(value) {
+    setRowsPerPage(value);
+  }
   return (
     <Layout>
       <div className="bg-white p-4 mb-5 rounded-lg">
@@ -106,6 +119,10 @@ const ProductListPage = () => {
           data={data}
           onDeleteRow={handleDelete}
           onEditRow={handleEdit}
+          page={page}
+          total={totalPages}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </div>
       <ProductCreateDialog

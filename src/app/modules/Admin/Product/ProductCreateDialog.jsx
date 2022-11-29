@@ -148,7 +148,7 @@ const ProductCreateDialog = (props) => {
     dispatch(brandAction.fetchBrands({ params: { ...filter } }));
     dispatch(typeProductAction.fetchTypeProducts({ params: { ...filter } }));
     dispatch(memoryAction.fetchMemories({ params: { ...filter } }));
-    dispatch(colorAction.fetchColors({ params: { ...filter } }));
+    dispatch(colorAction.fetchAllColor({ params: { ...filter } }));
   }, [dispatch, filter]);
   const modules = useMemo(
     () => ({

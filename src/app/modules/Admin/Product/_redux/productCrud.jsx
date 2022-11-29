@@ -11,6 +11,9 @@ export function getProducts(queryParams) {
 export function getProductByName(queryParams) {
   return axios.get(`${PRODUCT_URL}/byname`, queryParams);
 }
+export function getProductByNameAndPanigate(queryParams) {
+  return axios.get(`${PRODUCT_URL}/byname-and-panigate`, queryParams);
+}
 export function getDetailProduct(queryParams) {
   return axios.get(`${PRODUCT_URL}/detail`, queryParams);
 }

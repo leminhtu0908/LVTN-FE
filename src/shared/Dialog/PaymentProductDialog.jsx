@@ -47,11 +47,11 @@ const PaymentProductDialog = (props) => {
             </IconButton>
           </div>
           <div className="flex gap-x-4 mb-10">
-            <div className="basis-[60%]">
+            <div className="basis-[60%] flex flex-col items-center">
               <img
                 src={props?.productData?.image}
                 alt=""
-                className="w-full h-[373px] rounded-lg"
+                className="w-[397px] h-[373px] rounded-lg"
               />
               <div className="py-4 flex flex-col items-center justify-center">
                 <h1 className="text-xl text-center">

@@ -8,7 +8,7 @@ import { slice } from "lodash";
 const ProductPage = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [index, setIndex] = useState(5);
+  const [index, setIndex] = useState(10);
   const [isCompleted, setIsCompleted] = useState(false);
   const handleAddToCart = (product) => {
     dispatch(cartAction.addToCart(product));
@@ -134,7 +134,7 @@ const ProductPage = (props) => {
               </div>
             ))}
           </div>
-          {isCompleted ? null : (
+          {!isCompleted && (
             <Button
               type="button"
               className="flex items-center justify-center w-[300px] text-center mt-5"

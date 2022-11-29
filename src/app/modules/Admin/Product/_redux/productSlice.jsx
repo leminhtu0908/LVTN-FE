@@ -46,6 +46,15 @@ export const productSlice = createSlice({
       state.error = null;
       state.data = action.payload;
     },
+    productFetchs: (state, action) => {
+      const { products, size, totalElements, totalPages } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.data = products;
+      state.size = size;
+      state.totalElements = totalElements;
+      state.totalPages = totalPages;
+    },
     productDetail: (state, action) => {
       state.listLoading = false;
       state.error = null;

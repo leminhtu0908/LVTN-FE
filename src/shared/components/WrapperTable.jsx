@@ -13,6 +13,7 @@ import {
   Button,
   Chip,
   IconButton,
+  Pagination,
   TablePagination,
   Tooltip,
 } from "@mui/material";
@@ -54,10 +55,6 @@ const WrapperTable = (props) => {
   };
   function handleChangePage(event, newPage) {
     props.onChangePage(newPage);
-  }
-
-  function handleChangeRowsPerPage(event) {
-    props.onChangeRowsPerPage(+event.target.value);
   }
   return (
     <>
@@ -347,21 +344,23 @@ const WrapperTable = (props) => {
           </TableBody>
         </Table>
         {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={props.total | 0}
-          rowsPerPage={props.rowsPerPage}
+          count={props.total}
           page={props.page}
-          backIconButtonProps={{
-            "aria-label": "Trang trước",
-          }}
-          nextIconButtonProps={{
-            "aria-label": "Trang tiếp theo",
-          }}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onPageChange={handleChangePage}
+          rowsPerPage={props.rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         /> */}
       </TableContainer>
+      <div className="p-4 flex items-center justify-center">
+        <Pagination
+          count={Number(props.total)}
+          page={props.page}
+          variant="outlined"
+          color="primary"
+          onChange={handleChangePage}
+        />
+      </div>
       {props.component === "News" && (
         <ContentDialog
           open={openContent}

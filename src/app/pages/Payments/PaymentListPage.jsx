@@ -218,7 +218,7 @@ const PaymentListPage = () => {
                 variant="contained"
                 color="error"
                 type="button"
-                onClick={() => navigate("/cart")}
+                onClick={() => navigate(-1)}
               >
                 Trở về
               </Button>

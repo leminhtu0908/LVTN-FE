@@ -9,8 +9,21 @@ export const fetchColors = (queryParams) => (dispatch) => {
   return requestFromServer
     .getAllColor(queryParams)
     .then((response) => {
+      const { content, size, totalElements, totalPages } = response.data;
+      dispatch(actions.colorList({ content, size, totalElements, totalPages }));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
+export const fetchAllColor = (queryParams) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getAllColorNoPagination(queryParams)
+    .then((response) => {
       const { data } = response;
-      dispatch(actions.colorList({ data }));
+      dispatch(actions.colorFetchs({ data }));
     })
     .catch((error) => {
       error.clientMessage = "Can't find projects";

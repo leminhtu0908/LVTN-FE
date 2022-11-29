@@ -4,6 +4,9 @@ const initialColorState = {
   listLoading: false,
   actionsLoading: false,
   data: null,
+  size: null,
+  totalElements: null,
+  totalPages: null,
   colorForEdit: undefined,
   color: undefined,
   colorId: undefined,
@@ -35,6 +38,15 @@ export const colorSlice = createSlice({
       }
     },
     colorList: (state, action) => {
+      const { content, size, totalElements, totalPages } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.data = content;
+      state.size = size;
+      state.totalElements = totalElements;
+      state.totalPages = totalPages;
+    },
+    colorFetchs: (state, action) => {
       const { data } = action.payload;
       state.listLoading = false;
       state.error = null;

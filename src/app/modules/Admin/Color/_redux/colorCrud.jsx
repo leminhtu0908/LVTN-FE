@@ -8,6 +8,9 @@ export const COLOR_URL = `${process.env.REACT_APP_API_URL}/api/color`;
 export function getAllColor(queryParams) {
   return axios.get(`${COLOR_URL}/all`, queryParams);
 }
+export function getAllColorNoPagination() {
+  return axios.get(`${COLOR_URL}s`);
+}
 export function createColor(values) {
   return axios.post(`${COLOR_URL}/create`, values);
 }

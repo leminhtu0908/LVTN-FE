@@ -7,6 +7,7 @@ import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
 import PaymentProductDialog from "../../../shared/Dialog/PaymentProductDialog";
 import * as productAction from "../../modules/Admin/Product/_redux/productAction";
 import * as cartAction from "../../pages/Cart/_redux/cartAction";
+import ProductRelease from "./ProductRelease";
 const ProductDetail = () => {
   const { currentState, authState } = useSelector(
     (state) => ({ currentState: state.products, authState: state.auth }),
@@ -68,11 +69,11 @@ const ProductDetail = () => {
         <h1 className="py-4 text-2xl font-semibold">{dataDetail?.name}</h1>
         <hr />
         <div className="flex gap-x-5 mt-5">
-          <div className="basis-[60%]">
+          <div className="basis-[60%] flex flex-col items-center">
             <img
               src={dataDetail?.image}
               alt=""
-              className="w-[850px] h-[397px]"
+              className="w-[full] h-[397px]"
             />
             <div className="mt-10 text-xl font-semibold mb-5">
               Thông tin sản phẩm
@@ -234,6 +235,9 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="">
+        <ProductRelease name={dataDetail?.name} />
       </div>
       <PaymentProductDialog
         open={open}

@@ -9,6 +9,8 @@ import { Fade, LinearProgress } from "@mui/material";
 import ColorFilterPage from "./shared/ColorFilterPage";
 import ColorCreateDialog from "./ColorCreateDialog";
 const ColorListPage = () => {
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -18,11 +20,16 @@ const ColorListPage = () => {
     (state) => ({ currentState: state.colors }),
     shallowEqual
   );
-  const { data, color, colorId, colorForEdit, listLoading } = currentState;
+  const { data, color, colorId, colorForEdit, listLoading, totalPages } =
+    currentState;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.fetchColors({ param: {} }));
-  }, [dispatch, color, colorId, colorForEdit]);
+    dispatch(
+      actions.fetchColors({
+        params: { current_page: page, per_page: rowsPerPage },
+      })
+    );
+  }, [dispatch, color, colorId, colorForEdit, page, rowsPerPage]);
   const headRows = [
     { id: "stt", label: "STT" },
     { id: "name", label: "Tên bộ nhớ" },
@@ -78,6 +85,13 @@ const ColorListPage = () => {
     }
     setOpenDelete(false);
   }
+  function handleChangePage(value) {
+    setPage(value);
+  }
+
+  function handleChangeRowsPerPage(value) {
+    setRowsPerPage(value);
+  }
   return (
     <Layout>
       <div className="bg-white p-4 mb-5 rounded-lg">
@@ -100,6 +114,11 @@ const ColorListPage = () => {
           data={data}
           onDeleteRow={handleDelete}
           onEditRow={handleEdit}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          total={totalPages}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </div>
       <ColorCreateDialog
