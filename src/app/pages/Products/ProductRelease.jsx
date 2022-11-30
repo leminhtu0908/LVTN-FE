@@ -17,7 +17,6 @@ const ProductRelease = (props) => {
       productAction.fetchProductByName({ params: { name: first || "Iphone" } })
     );
   }, [dispatch, first]);
-  console.log("data", data);
   return (
     <div className="p-4 mx-auto w-full max-w-[1200px]">
       <HeadingLayout>Sản phẩm liên quan</HeadingLayout>

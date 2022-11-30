@@ -51,7 +51,7 @@ const Payment = (props) => {
               className="w-5 h-5"
               onChange={handleChangeRadio}
             />
-            <label htmlFor="cash">Tiền mặt</label>
+            <label htmlFor="cash">Thanh toán khi nhận hàng</label>
           </div>
           <div className="flex gap-x-2">
             <input

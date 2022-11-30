@@ -74,13 +74,19 @@ const CartListPage = () => {
                           <div className="flex items-center justify-between">
                             <h1 className="text-lg font-medium">{`${item.name} - ${item.display} - ${item.memory}`}</h1>
                             <span className="text-xl font-semibold">
-                              {(item.price * item.cartQuantity).toLocaleString(
-                                "vi",
-                                {
-                                  style: "currency",
-                                  currency: "VND",
-                                }
-                              )}
+                              {item.price_discount
+                                ? (
+                                    item.price_discount * item.cartQuantity
+                                  ).toLocaleString("vi", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  })
+                                : (
+                                    item.price * item.cartQuantity
+                                  ).toLocaleString("vi", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  })}
                             </span>
                           </div>
                           <div className="mt-10 flex items-center justify-between">

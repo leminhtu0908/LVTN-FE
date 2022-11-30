@@ -63,8 +63,31 @@ const ProductPage = (props) => {
                     <span>{product.display}</span>
                   </div>
 
-                  <span className="text-lg mb-4 font-bold text-gray-900 dark:text-white">
-                    {product.price.toLocaleString("vi", {
+                  <div className="flex gap-x-5">
+                    {product?.price_discount ? (
+                      <span className="text-md mb-4 text-gray-600 dark:text-white line-through">
+                        {product.price.toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </span>
+                    ) : (
+                      <span className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                        {product?.price?.toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </span>
+                    )}
+
+                    <span className="font-semibold">{`${
+                      product?.discount ? "-" : ""
+                    }${product?.discount ? product?.discount : ""} ${
+                      product?.discount ? "%" : ""
+                    }`}</span>
+                  </div>
+                  <span className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                    {product?.price_discount?.toLocaleString("vi", {
                       style: "currency",
                       currency: "VND",
                     })}

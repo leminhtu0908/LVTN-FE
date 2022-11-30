@@ -286,13 +286,41 @@ const ContentPage = () => {
                     <div className="my-3">
                       <span>{product.display}</span>
                     </div>
+                    <div className="flex gap-x-5">
+                      {product?.price_discount ? (
+                        <span className="text-md mb-4 text-gray-600 dark:text-white line-through">
+                          {product?.price?.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
+                      ) : (
+                        <span className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                          {product?.price?.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
+                      )}
 
-                    <span className="text-lg mb-2 font-bold text-gray-900 dark:text-white">
-                      {product.price.toLocaleString("vi", {
+                      <span className="font-semibold">{`${
+                        product?.discount ? "-" : ""
+                      }${product?.discount ? product?.discount : ""} ${
+                        product?.discount ? "%" : ""
+                      }`}</span>
+                    </div>
+                    <span className="text-xl font-semibold mb-4 text-red-500 dark:text-white">
+                      {product?.price_discount?.toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
                       })}
                     </span>
+                    {/* <span className="text-lg mb-2 font-bold text-gray-900 dark:text-white">
+                      {product.price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span> */}
                     <div className="flex items-center mt-2.5 mb-2">
                       <svg
                         aria-hidden="true"

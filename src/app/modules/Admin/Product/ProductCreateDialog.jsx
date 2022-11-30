@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Autocomplete,
+  Box,
   Dialog,
   DialogTitle,
   Slide,
@@ -23,6 +24,7 @@ import * as colorAction from "../Color/_redux/colorAction";
 import * as categoryAction from "../DanhMuc/_redux/danhMucAction";
 import * as memoryAction from "../Memory/_redux/memoryAction";
 import * as typeProductAction from "../TypeProduct/_redux/typeproductAction";
+import * as imageAction from "../Images/_redux/imageActions";
 import * as actions from "./_redux/productAction";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -34,6 +36,7 @@ const ProductCreateDialog = (props) => {
     typeProduct_id: "",
     memory: "",
     colors: "",
+    imageMulti: "",
   };
   const defaultFilter = {
     name: "",
@@ -55,6 +58,7 @@ const ProductCreateDialog = (props) => {
     typeProductState,
     memoryState,
     colorState,
+    imageState,
   } = useSelector(
     (state) => ({
       currentState: state.products,
@@ -63,6 +67,7 @@ const ProductCreateDialog = (props) => {
       typeProductState: state.typeProducts,
       memoryState: state.memorys,
       colorState: state.colors,
+      imageState: state.images,
     }),
     shallowEqual
   );
@@ -71,6 +76,7 @@ const ProductCreateDialog = (props) => {
   const { data: typeProductData } = typeProductState;
   const { data: memoryData } = memoryState;
   const { data: colorData } = colorState;
+  const { data: imageData } = imageState;
   const dispatch = useDispatch();
   const schemaValidation = Yup.object().shape({
     product_id: Yup.string().required("Vui lòng nhập mã sản phẩm"),
@@ -118,7 +124,8 @@ const ProductCreateDialog = (props) => {
   });
   useEffect(() => {
     if (props.isEdit) {
-      const { brand, category, colors, typeProduct, ...field } = props.data;
+      const { brand, category, colors, typeProduct, imageMulti, ...field } =
+        props.data;
       reset(field);
       // const filterColor = props.data.colors?.map((item) => item._id);
       setFormValue({
@@ -127,6 +134,7 @@ const ProductCreateDialog = (props) => {
         typeProduct_id: props.data.typeProduct._id || "",
         memory: props.data.memory || "",
         colors: colors,
+        imageMulti: imageMulti,
       });
       setContent(props.data.content);
       setThumb(props.data.image);
@@ -149,6 +157,7 @@ const ProductCreateDialog = (props) => {
     dispatch(typeProductAction.fetchTypeProducts({ params: { ...filter } }));
     dispatch(memoryAction.fetchMemories({ params: { ...filter } }));
     dispatch(colorAction.fetchAllColor({ params: { ...filter } }));
+    dispatch(imageAction.fetchImages({ param: {} }));
   }, [dispatch, filter]);
   const modules = useMemo(
     () => ({
@@ -228,26 +237,29 @@ const ProductCreateDialog = (props) => {
     if (!isValid) return;
     if (props.isEdit) {
       const colors = formValue.colors?.map((item) => item);
+      const imageMulti = formValue.imageMulti?.map((item) => item);
       const cloneValueUpdate = {
         ...values,
         ...formValue,
         colors: colors,
+        imageMulti: imageMulti,
         content: content,
         id: props.data._id,
       };
       const formData = new FormData();
       const imageFile = document.getElementById("imageProduct");
       formData.append("image", imageFile.files[0]);
-      console.log(cloneValueUpdate);
       formData.append("data", JSON.stringify(cloneValueUpdate));
       dispatch(actions.updateProduct(formData));
     } else {
-      const { colors } = formValue;
+      const { colors, imageMulti } = formValue;
       const colorConvert = Array.from(colors);
+      const imageMultiConvert = Array.from(imageMulti);
       const cloneValue = {
         ...values,
         ...formValue,
         colors: colorConvert,
+        imageMulti: imageMultiConvert,
         content: content,
       };
       const formData = new FormData();
@@ -394,6 +406,74 @@ const ProductCreateDialog = (props) => {
                       </React.Fragment>
                     )}
                   </label>
+                </div>
+              </div>
+            </div>
+            <div className="mb-10">
+              <div className="flex items-center gap-x-5">
+                <div className="basis-[20%]">
+                  <Label>Ảnh chi tiết : </Label>
+                </div>
+                <div className="flex-1">
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    options={imageData || []}
+                    autoHighlight
+                    multiple
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, newInputValue) => {
+                      setFormValue({
+                        ...formValue,
+                        imageMulti: newInputValue.map((item) => item),
+                      });
+                    }}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                        {...props}
+                      >
+                        <img
+                          loading="lazy"
+                          width="60"
+                          src={`${option?.image}`}
+                          srcSet={`${option?.image} 2x`}
+                          alt=""
+                        />
+                      </Box>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Chọn ảnh cho sản phẩm"
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                        }}
+                      />
+                    )}
+                  />
+                  <div className="flex gap-x-5 mt-5">
+                    <span>Ảnh đã chọn :</span>
+                    {formValue?.imageMulti?.length > 0
+                      ? formValue?.imageMulti?.map((img) => (
+                          <img
+                            key={img._id}
+                            src={img.image}
+                            alt=""
+                            className="w-[60px] h-[40px] object-cover"
+                          />
+                        ))
+                      : props?.data?.imageMulti?.map((img) => (
+                          <img
+                            key={img._id}
+                            src={img.image}
+                            alt=""
+                            className="w-[60px] h-[40px] object-cover"
+                          />
+                        ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -552,6 +632,10 @@ const ProductCreateDialog = (props) => {
                     </div>
                   </>
                 )}
+              </Field>
+              <Field>
+                <Label>Phần trăm giảm giá</Label>
+                <InputAdmin type="text" control={control} name="discount" />
               </Field>
             </div>
             <div className="">

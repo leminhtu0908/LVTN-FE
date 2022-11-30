@@ -23,11 +23,8 @@ const NewsIntroduce = () => {
     <div className="bg-slate-100 p-2 rounded-lg shadow-lg">
       {newData?.length > 0 &&
         newData?.map((item, index) => (
-          <>
-            <div
-              className="flex gap-x-5 mb-5 items-start justify-start"
-              key={index}
-            >
+          <div key={index}>
+            <div className="flex gap-x-5 mb-5 items-start justify-start">
               <div className="basis-[15%] h-[200px] w-[300px]">
                 <img src={item.imageNew} alt="" className="h-full w-full" />
               </div>
@@ -51,7 +48,7 @@ const NewsIntroduce = () => {
               </div>
             </div>
             <hr className="mb-5" />
-          </>
+          </div>
         ))}
     </div>
   );

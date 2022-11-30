@@ -24,13 +24,16 @@ const ProductDetail = () => {
   const [memoryData, setMemoryData] = useState([]);
   const [open, setOpen] = useState(false);
   const [productData, setProductData] = useState({});
+  const [dataImages, setDataImages] = useState({});
   useEffect(() => {
     setColorData(dataDetail?.colors?.map((item) => item.name));
   }, [dataDetail?.colors]);
   useEffect(() => {
     setMemoryData(dataDetail?.memorys?.map((item) => item.name));
   }, [dataDetail?.memorys]);
-
+  useEffect(() => {
+    setDataImages(dataDetail);
+  }, [dataDetail?.image]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -45,12 +48,13 @@ const ProductDetail = () => {
       dispatch(cartAction.addToCart(cloneValues));
       navigate("/cart");
     } else {
-      setOpen(true);
-      const cloneValues = {
-        ...product,
-        ...formValues,
-      };
-      setProductData(cloneValues);
+      // setOpen(true);
+      // const cloneValues = {
+      //   ...product,
+      //   ...formValues,
+      // };
+      // setProductData(cloneValues);
+      navigate("/sign-in");
     }
   };
   const handleAddToCart = (product) => {
@@ -63,6 +67,9 @@ const ProductDetail = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleClickImage = (item) => {
+    setDataImages(item);
+  };
   return (
     <LayoutCustomer>
       <div className="p-4 mx-auto w-full max-w-[1200px] pt-[88px]">
@@ -70,11 +77,34 @@ const ProductDetail = () => {
         <hr />
         <div className="flex gap-x-5 mt-5">
           <div className="basis-[60%] flex flex-col items-center">
-            <img
-              src={dataDetail?.image}
-              alt=""
-              className="w-[full] h-[397px]"
-            />
+            {dataImages && (
+              <img
+                src={dataImages?.image}
+                alt=""
+                className="w-[full] h-[397px]"
+              />
+            )}
+            <div className="mt-5 flex items-center gap-x-4">
+              <div
+                className="p-2 border border-slate-300 cursor-pointer"
+                onClick={() => handleClickImage(dataDetail)}
+              >
+                <img
+                  src={dataDetail?.image}
+                  alt=""
+                  className="w-[55px] h-[55px]"
+                />
+              </div>
+              {dataDetail?.imageMulti?.map((item) => (
+                <div
+                  className="p-2 border border-slate-300 cursor-pointer"
+                  key={item._id}
+                  onClick={() => handleClickImage(item)}
+                >
+                  <img src={item.image} alt="" className="w-[55px] h-[55px]" />
+                </div>
+              ))}
+            </div>
             <div className="mt-10 text-xl font-semibold mb-5">
               Thông tin sản phẩm
             </div>
@@ -153,8 +183,37 @@ const ProductDetail = () => {
               </span>
             </div>
             <div className="my-5">
-              <span className="text-2xl text-red-500 font-medium">
+              {/* <span className="text-2xl text-red-500 font-medium">
                 {dataDetail?.price.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </span> */}
+              <div className="flex gap-x-5">
+                {dataDetail?.price_discount ? (
+                  <span className="text-md mb-4 text-gray-600 dark:text-white line-through">
+                    {dataDetail.price.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </span>
+                ) : (
+                  <span className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                    {dataDetail?.price?.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </span>
+                )}
+
+                <span className="font-semibold">{`${
+                  dataDetail?.discount ? "-" : ""
+                }${dataDetail?.discount ? dataDetail?.discount : ""} ${
+                  dataDetail?.discount ? "%" : ""
+                }`}</span>
+              </div>
+              <span className="text-xl font-semibold mb-4 text-red-500 dark:text-white">
+                {dataDetail?.price_discount?.toLocaleString("vi", {
                   style: "currency",
                   currency: "VND",
                 })}

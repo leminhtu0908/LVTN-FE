@@ -17,7 +17,7 @@ const HomeSearch = (props) => {
     props.onScroll();
   };
   return (
-    <div className="min-h-[520px] pt-[88px]">
+    <div className="min-h-[450px] pt-[88px]">
       <img
         srcSet="/img/bg.png"
         alt=""

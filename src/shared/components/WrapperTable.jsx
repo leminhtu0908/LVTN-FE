@@ -22,6 +22,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentDialog from "../Dialog/ContentDialog";
 import DetailProductDialog from "../Dialog/DetailProductDialog";
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 const WrapperTable = (props) => {
   const [openContent, setOpenContent] = useState(false);
   const [contentNews, setContentNews] = useState("");
@@ -258,6 +259,7 @@ const WrapperTable = (props) => {
                     </TableCell>
                   )}
                   {(props.component === "Banner" ||
+                    props.component === "Images" ||
                     props.component === "News") && (
                     <TableCell align="left">
                       {props.component === "News" && (
@@ -307,9 +309,18 @@ const WrapperTable = (props) => {
                   {props.component === "Order" && (
                     <TableCell align="left">
                       {row.allow_status === true ? (
-                        <IconButton onClick={(e) => handeDelete(row._id)}>
-                          <AiOutlineCheckCircle className="text-green-500"></AiOutlineCheckCircle>
-                        </IconButton>
+                        <>
+                          <IconButton onClick={(e) => handeDelete(row._id)}>
+                            <AiOutlineCheckCircle className="text-green-500"></AiOutlineCheckCircle>
+                          </IconButton>
+                          <Tooltip title="Cập nhật thanh toán">
+                            <IconButton
+                              onClick={(e) => handleEdit(row.order_id)}
+                            >
+                              <AccountBalanceIcon className="text-blue-500"></AccountBalanceIcon>
+                            </IconButton>
+                          </Tooltip>
+                        </>
                       ) : (
                         <Tooltip title="Hủy đơn hàng">
                           <IconButton

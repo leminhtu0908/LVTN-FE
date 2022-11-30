@@ -28,7 +28,9 @@ const PaymentProductDialog = (props) => {
     const cloneValue = {
       ...props.productData,
       cartTotalQuantity: quantity,
-      cartTotalAmount: quantity * props?.productData?.price,
+      cartTotalAmount: props?.productData?.price_discount
+        ? quantity * props?.productData?.price_discount
+        : quantity * props?.productData?.price,
     };
     navigate("/payments", { state: cloneValue });
   };
@@ -58,7 +60,7 @@ const PaymentProductDialog = (props) => {
                   {props?.productData?.name} - {props?.productData?.display} -{" "}
                   {props?.productData?.memory} - {props?.productData?.colors}
                 </h1>
-                <span className="text-xl pt-2 text-green-500 font-medium">
+                {/* <span className="text-xl pt-2 text-green-500 font-medium">
                   {(props?.productData?.price * quantity)?.toLocaleString(
                     "vi",
                     {
@@ -66,6 +68,39 @@ const PaymentProductDialog = (props) => {
                       currency: "VND",
                     }
                   )}
+                </span> */}
+                <div className="flex gap-x-5">
+                  {props?.productData?.price_discount ? (
+                    <span className="text-md mb-2 text-gray-600 dark:text-white line-through">
+                      {props?.productData.price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
+                  ) : (
+                    <span className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                      {props?.productData?.price?.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
+                  )}
+
+                  <span className="font-semibold">{`${
+                    props?.productData?.discount ? "-" : ""
+                  }${
+                    props?.productData?.discount
+                      ? props?.productData?.discount
+                      : ""
+                  } ${props?.productData?.discount ? "%" : ""}`}</span>
+                </div>
+                <span className="text-xl font-semibold mb-4 text-green-500 dark:text-white">
+                  {(
+                    props?.productData?.price_discount * quantity
+                  )?.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                 </span>
               </div>
             </div>

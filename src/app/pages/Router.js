@@ -6,6 +6,7 @@ import BannerListPage from "../modules/Admin/Banner/BannerListPage";
 import BrandListPage from "../modules/Admin/Brand/BrandListPage";
 import ColorListPage from "../modules/Admin/Color/ColorListPage";
 import DanhMucListPage from "../modules/Admin/DanhMuc/DanhMucListPage";
+import ImageListPage from "../modules/Admin/Images/ImageListPage";
 import MemoryListPage from "../modules/Admin/Memory/MemoryListPage";
 import NewsListPage from "../modules/Admin/News/NewsListPage";
 import OrderListPage from "../modules/Admin/Order/OrderListPage";
@@ -110,6 +111,7 @@ const Router = () => {
         <Route path="/admin/color" element={<ColorListPage />}></Route>
         <Route path="/admin/banner" element={<BannerListPage />}></Route>
         <Route path="/admin/news" element={<NewsListPage />}></Route>
+        <Route path="/admin/images" element={<ImageListPage />}></Route>
         <Route path="/admin/products" element={<ProductListPage />}></Route>
         <Route path="/admin/order" element={<OrderListPage />}></Route>
         {/*  */}
