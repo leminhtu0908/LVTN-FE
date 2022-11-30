@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import Button from "../../../../../components/button/Button";
 import ActionButton from "../../../../../shared/components/ActionButton";
 const list = [
-  { name: "Đang chờ duyệt", status: false },
-  { name: "Đã duyệt", status: true },
+  { name: "Đang chờ duyệt", status: 0 },
+  { name: "Đã duyệt", status: 1 },
+  { name: "Đã hủy", status: 2 },
   { name: "Tất cả", status: "" },
 ];
 const OrderFilterPage = (props) => {
@@ -22,9 +23,11 @@ const OrderFilterPage = (props) => {
     e.stopPropagation();
     const checkValues = () => {
       if (formValues.allow_status === "Đã duyệt") {
-        return { allow_status: true };
+        return { allow_status: 1 };
       } else if (formValues.allow_status === "Đang chờ duyệt") {
-        return { allow_status: false };
+        return { allow_status: 0 };
+      } else if (formValues.allow_status === "Đã hủy") {
+        return { allow_status: 2 };
       } else {
         return { allow_status: "" };
       }

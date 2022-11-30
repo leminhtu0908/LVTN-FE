@@ -150,14 +150,14 @@ const WrapperTable = (props) => {
                         );
                       }
                     } else if (item.label === "allow_status") {
-                      if (row.allow_status === true) {
+                      if (row.allow_status === 1) {
                         return (
                           <TableCell key={idx}>
                             <Chip label="Đã duyệt" color="success" />
                           </TableCell>
                         );
                       }
-                      if (row.allow_status === false) {
+                      if (row.allow_status === 0) {
                         return (
                           <TableCell key={idx}>
                             {props.component === "UserOrder" ? (
@@ -172,6 +172,13 @@ const WrapperTable = (props) => {
                                 }
                               />
                             )}
+                          </TableCell>
+                        );
+                      }
+                      if (row.allow_status === 2) {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Đã hủy" color="error" />
                           </TableCell>
                         );
                       }
@@ -210,11 +217,13 @@ const WrapperTable = (props) => {
                       );
                     } else if (
                       item.label === "total_price" ||
+                      item.label === "price_pay_remaining" ||
+                      item.label === "price_pay" ||
                       item.label === "price"
                     ) {
                       return (
                         <TableCell key={idx}>
-                          {row[item.label].toLocaleString("vi", {
+                          {row[item.label]?.toLocaleString("vi", {
                             style: "currency",
                             currency: "VND",
                           })}
@@ -308,7 +317,7 @@ const WrapperTable = (props) => {
                   )}
                   {props.component === "Order" && (
                     <TableCell align="left">
-                      {row.allow_status === true ? (
+                      {row.allow_status === 1 ? (
                         <>
                           <IconButton onClick={(e) => handeDelete(row._id)}>
                             <AiOutlineCheckCircle className="text-green-500"></AiOutlineCheckCircle>
@@ -334,7 +343,7 @@ const WrapperTable = (props) => {
                   )}
                   {props.component === "UserOrder" && (
                     <TableCell align="left">
-                      {row.allow_status === true ? (
+                      {row.allow_status === 1 ? (
                         <IconButton onClick={(e) => handeDelete(row._id)}>
                           <AiOutlineCheckCircle className="text-green-500"></AiOutlineCheckCircle>
                         </IconButton>

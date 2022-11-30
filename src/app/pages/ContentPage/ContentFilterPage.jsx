@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Slider, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,11 @@ import Button from "../../../components/button/Button";
 import * as brandAction from "../../modules/Admin/Brand/_redux/brandAction";
 import * as memoryAction from "../../modules/Admin/Memory/_redux/memoryAction";
 import * as typeProductAction from "../../modules/Admin/TypeProduct/_redux/typeproductAction";
+function valuetext(value) {
+  return `${value}°C`;
+}
+
+const minDistance = 1000000;
 const ContentFilterPage = (props) => {
   const dispatch = useDispatch();
   const defaultValue = {
@@ -52,6 +57,18 @@ const ContentFilterPage = (props) => {
     e.preventDefault();
     e.stopPropagation();
     props.onSearch(formValues);
+  };
+  const [value1, setValue1] = React.useState([1000000, 5000000]);
+  const handleChange1 = (event, newValue, activeThumb) => {
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+
+    if (activeThumb === 0) {
+      setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+    } else {
+      setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+    }
   };
   return (
     <form
@@ -183,6 +200,32 @@ const ContentFilterPage = (props) => {
           onChange={handleChange}
           name="ram"
           fullWidth
+        />
+      </div>
+      <div className="mb-5">
+        <div className="flex items-center">
+          <TextField
+            id="outlined-basic"
+            onChange={handleChange1}
+            value={value1}
+            name="price_to"
+          />
+          <span>-</span>
+          <TextField
+            id="outlined-basic"
+            onChange={handleChange1}
+            name="price_in"
+          />
+        </div>
+        <Slider
+          min={500000}
+          max={50000000}
+          getAriaLabel={() => "Minimum distance"}
+          value={value1}
+          onChange={handleChange1}
+          valueLabelDisplay="auto"
+          getAriaValueText={valuetext}
+          disableSwap
         />
       </div>
       <div className="">

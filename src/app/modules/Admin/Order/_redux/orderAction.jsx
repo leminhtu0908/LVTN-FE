@@ -43,6 +43,19 @@ export const updateStatusOrder = (values) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.action }));
     });
 };
+export const updateOrderPay = (values) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .updateOrderPay(values)
+    .then((response) => {
+      const { order } = response.data;
+      dispatch(actions.orderPay(order));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't update user";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};
 export const exportExcel = () => (dispatch) => {
   const randomId = Math.floor(Math.random() * 100000000);
   dispatch(actions.startCall({ callType: callTypes.action }));

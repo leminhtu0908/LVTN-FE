@@ -11,6 +11,9 @@ export function getAllOrderUserHistory(queryParams) {
 export function updateStatusOrder(queryParams) {
   return axios.put(`${ORDER_URL}/update-status`, queryParams);
 }
+export function updateOrderPay(queryParams) {
+  return axios.put(`${ORDER_URL}/update-payment`, queryParams);
+}
 
 export function exportExcel() {
   return axios.get(`${ORDER_URL}/export-excel`, {

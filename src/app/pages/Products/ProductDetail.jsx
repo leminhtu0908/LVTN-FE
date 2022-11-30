@@ -49,11 +49,12 @@ const ProductDetail = () => {
       navigate("/cart");
     } else {
       // setOpen(true);
-      // const cloneValues = {
-      //   ...product,
-      //   ...formValues,
-      // };
+      const cloneValues = {
+        ...product,
+        ...formValues,
+      };
       // setProductData(cloneValues);
+      dispatch(cartAction.addToCart(cloneValues));
       navigate("/sign-in");
     }
   };

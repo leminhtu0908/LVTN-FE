@@ -57,5 +57,10 @@ export const orderSlice = createSlice({
       state.orderForEdit = action.payload;
       state.actionsLoading = false;
     },
+    orderPay: (state, action) => {
+      state.error = null;
+      state.orderForEdit = action.payload;
+      state.actionsLoading = false;
+    },
   },
 });

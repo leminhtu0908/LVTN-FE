@@ -256,7 +256,7 @@ const ContentPage = () => {
                           setFilter(defaultFilter);
                         }}
                       >
-                        Làm mới
+                        Bỏ chọn
                       </Button>
                     </div>
                   </div>

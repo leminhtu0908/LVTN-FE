@@ -56,7 +56,10 @@ const OrderHistory = () => {
   }, [dispatch, orderId, authState?.authToken?.user?.token]);
   useEffect(() => {
     setDataOrderHistory(
-      userDataOrder?.filter((item) => item.user?._id === authState?.user?._id)
+      userDataOrder?.filter(
+        (item) =>
+          item.user?._id === authState?.user?._id && item.allow_status !== 2
+      )
     );
   }, [authState?.user?._id, userDataOrder]);
   function closeDeleteOrderDialog(status) {

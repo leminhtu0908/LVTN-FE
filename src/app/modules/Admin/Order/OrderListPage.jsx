@@ -7,9 +7,10 @@ import WrapperTable from "../../../../shared/components/WrapperTable";
 import { Fade, LinearProgress } from "@mui/material";
 import OrderFilterPage from "./shared/OrderFilterPage";
 import ConfirmDialog from "../../../../shared/Dialog/ConfirmDialog";
+import OrderCreateDialog from "./OrderCreateDialog";
 const OrderListPage = () => {
   const defaultFilter = {
-    allow_status: false,
+    allow_status: "",
   };
   const [filter, setFilter] = React.useState(defaultFilter);
   const [open, setOpen] = useState(false);
@@ -43,9 +44,12 @@ const OrderListPage = () => {
     { id: "address", label: "Địa chỉ" },
     { id: "total_product", label: "Số lượng sản phẩm" },
     { id: "total_price", label: "Tổng tiền" },
+    { id: "price_pay", label: "Số tiền đã trả" },
+    { id: "price_pay_remaining", label: "Số tiền còn lại" },
     { id: "createdAt", label: "Thời gian đặt hàng" },
     { id: "allow_status", label: "Tình trạng đơn hàng" },
-    { id: "visited", label: "Loại khách hàng" },
+
+    // { id: "visited", label: "Loại khách hàng" },
     { id: "action", label: "Hành động" },
   ];
   const mapKey = [
@@ -57,9 +61,12 @@ const OrderListPage = () => {
     { label: "address", type: string },
     { label: "total_product", type: string },
     { label: "total_price", type: string },
+    { label: "price_pay", type: string },
+    { label: "price_pay_remaining", type: string },
     { label: "createdAt", type: string },
     { label: "allow_status", type: string },
-    { label: "visited", type: string },
+
+    // { label: "visited", type: string },
   ];
   function openCreateDialog() {
     setIsEdit(false);
@@ -78,6 +85,11 @@ const OrderListPage = () => {
     setOpenDuyet(true);
     setSelectOrder(cloneValue);
   };
+  function handleEdit(item) {
+    setSelectOrder(item);
+    setIsEdit(true);
+    setOpen(true);
+  }
   function handleSearch(filter) {
     setFilter(filter);
   }
@@ -111,8 +123,8 @@ const OrderListPage = () => {
           displayTableTitle={headRows}
           displayRowData={mapKey}
           data={data}
-          //   onDeleteRow={handleDelete}
-          //   onEditRow={handleEdit}
+          // onDeleteRow={handleDelete}
+          onEditRow={handleEdit}
           page={page}
           rowsPerPage={rowsPerPage}
           onAllowStatus={handleAllowStatus}
@@ -120,6 +132,12 @@ const OrderListPage = () => {
           //   onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </div>
+      <OrderCreateDialog
+        open={open}
+        closeCreateDialog={closeCreateDialog}
+        data={selectOrder}
+        isEdit={isEdit}
+      />
       <ConfirmDialog
         openDialog={openDuyet}
         closeDialog={closeUpdateStatusDialog}

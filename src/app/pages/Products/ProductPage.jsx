@@ -30,7 +30,7 @@ const ProductPage = (props) => {
       <div className="mt-2 px-4">
         <Heading>
           <span
-            onClick={() => navigate("/danhmuc/djien-thoai")}
+            onClick={() => navigate("/danhmuc/dien-thoai")}
             className="hover:underline cursor-pointer"
           >
             Điện thoại
