@@ -35,13 +35,14 @@ const ContentPage = () => {
   const defaultFilter = {
     name: "",
     display: "",
-    brand: "",
-    price: "",
+    // brand: "",
+    // price: "",
     pin_sac: "",
-    dung_luong_luu_tru: "",
-    // memorys: "",
-    typeProduct: "",
+    memory: "",
+    // typeProduct: "",
     ram: "",
+    price_in: 500000,
+    price_to: 50000000,
   };
   const [filter, setFilter] = useState(defaultFilter);
   const [newData, setNewData] = useState([]);
@@ -111,6 +112,7 @@ const ContentPage = () => {
     setFilter(cloneValue);
   };
   const handleSubmitFilterLeft = (filter) => {
+    console.log(filter);
     setFilter(filter);
     setShowDetail(true);
   };
@@ -118,18 +120,35 @@ const ContentPage = () => {
     dispatch(cartAction.addToCart(product));
   };
   const handleActive = (item) => {
-    setActiveId(item._id);
-    setFilter({
-      ...filter,
-      brand: item.name,
-    });
+    console.log(item);
+    if (activeId === item._id) {
+      setActiveId("");
+      setFilter({
+        ...filter,
+        brand: "",
+      });
+    } else {
+      setActiveId(item._id);
+      setFilter({
+        ...filter,
+        brand: item.name,
+      });
+    }
   };
   const handleActiveTypeProduct = (item) => {
-    setActiveIdTypeProduct(item._id);
-    setFilter({
-      ...filter,
-      typeProduct: item.name,
-    });
+    if (activeIdTypeProduct === item._id) {
+      setActiveIdTypeProduct("");
+      setFilter({
+        ...filter,
+        typeProduct: "",
+      });
+    } else {
+      setActiveIdTypeProduct(item._id);
+      setFilter({
+        ...filter,
+        typeProduct: item.name,
+      });
+    }
   };
   const loadMore = () => {
     setIndex(index + 5);
@@ -146,6 +165,7 @@ const ContentPage = () => {
           {slug === "dien-thoai" && (
             <ContentFilterPage
               onSearch={handleSubmitFilterLeft}
+              filter={filter}
             ></ContentFilterPage>
           )}
           <div className={`${slug === "dien-thoai" && "basis-[80%]"} `}>
@@ -246,7 +266,7 @@ const ContentPage = () => {
                         </div>
                       </Menu>
                     </div>
-                    <div className="pr-16">
+                    {/* <div className="pr-16">
                       <Button
                         type="button"
                         className="bg-red-500"
@@ -258,7 +278,7 @@ const ContentPage = () => {
                       >
                         Bỏ chọn
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </>
@@ -274,6 +294,7 @@ const ContentPage = () => {
                       className="p-4 h-[250px] object-cover rounded-t-lg"
                       src={product.image}
                       alt="productimage"
+                      loading="lazy"
                     />
                   </Link>
                   <div className="px-5 pb-5 flex flex-col flex-1">

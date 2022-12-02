@@ -16,12 +16,9 @@ const ContentFilterPage = (props) => {
   const defaultValue = {
     name: "",
     display: "",
-    // price: "",
     pin_sac: "",
-    brand: "",
     ram: "",
-    dung_luong_luu_tru: "",
-    typeProduct: "",
+    memory: "",
   };
   const prices = [
     { label: "Dưới 5 triệu" },
@@ -29,7 +26,13 @@ const ContentFilterPage = (props) => {
     { label: "Từ 10 - 20 triệu" },
     { label: "Trên 20 triệu" },
   ];
-  const [formValues, setFormValues] = useState(defaultValue);
+  const [formValues, setFormValues] = useState(props?.filter);
+  const [value1, setValue1] = React.useState([500000, 50000000]);
+  const [newDataMemory, setNewDataMemory] = useState([]);
+  const [valuesInput, setValueInput] = React.useState({
+    price_in: 500000,
+    price_to: 50000000,
+  });
   const { brandState, memorysState, typeProductState } = useSelector(
     (state) => ({
       brandState: state.brands,
@@ -56,20 +59,70 @@ const ContentFilterPage = (props) => {
   const handleSubmitFilterLeft = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    props.onSearch(formValues);
+    const cloneValues = {
+      ...formValues,
+      ...valuesInput,
+    };
+    props.onSearch(cloneValues);
   };
-  const [value1, setValue1] = React.useState([1000000, 5000000]);
   const handleChange1 = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
     }
-
     if (activeThumb === 0) {
       setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+      setValueInput({
+        ...valuesInput,
+        price_in: Math.min(newValue[0], value1[1] - minDistance),
+      });
     } else {
       setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+      setValueInput({
+        ...valuesInput,
+        price_to: Math.max(newValue[1], value1[0] + minDistance),
+      });
     }
   };
+  const handleRangeInput = (e) => {
+    const { name, value } = e.target;
+    setValueInput({
+      ...valuesInput,
+      [name]: value,
+    });
+    // setValue1([...valuesInput, value]);
+  };
+  const handleReset = (e) => {
+    e.preventDefault();
+
+    setValueInput({
+      price_in: 500000,
+      price_to: 50000000,
+    });
+    setValue1([500000, 50000000]);
+    setFormValues({
+      name: "",
+      display: "",
+      pin_sac: "",
+      ram: "",
+      memory: "",
+      price_in: 500000,
+      price_to: 50000000,
+    });
+    props.onSearch({
+      name: "",
+      display: "",
+      pin_sac: "",
+      ram: "",
+      memory: "",
+      price_in: 500000,
+      price_to: 50000000,
+    });
+  };
+  console.log(formValues);
+  useEffect(() => {
+    setNewDataMemory(dataMemorys?.map((item) => item.name));
+  }, [dataMemorys]);
+
   return (
     <form
       onSubmit={(e) => handleSubmitFilterLeft(e)}
@@ -106,6 +159,7 @@ const ContentFilterPage = (props) => {
           label="Màn hình"
           variant="outlined"
           name="display"
+          value={formValues.display}
           onChange={handleChange}
           fullWidth
         />
@@ -114,13 +168,13 @@ const ContentFilterPage = (props) => {
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
-          options={dataMemorys || []}
-          getOptionLabel={(option) => option?.name}
-          inputValue={formValues?.memorys}
+          options={newDataMemory || []}
+          getOptionLabel={(option) => option}
+          inputValue={formValues.memory}
           onInputChange={(event, newInputValue) => {
             setFormValues({
               ...formValues,
-              dung_luong_luu_tru: newInputValue,
+              memory: newInputValue,
             });
           }}
           renderInput={(params) => (
@@ -129,7 +183,7 @@ const ContentFilterPage = (props) => {
               className="form-control"
               label="Bộ nhớ"
               variant="outlined"
-              name="dung_luong_luu_tru"
+              name="memory"
             />
           )}
         />
@@ -165,6 +219,7 @@ const ContentFilterPage = (props) => {
           variant="outlined"
           name="pin_sac"
           onChange={handleChange}
+          value={formValues.pin_sac}
           fullWidth
         />
       </div>
@@ -198,6 +253,7 @@ const ContentFilterPage = (props) => {
           label="Ram"
           variant="outlined"
           onChange={handleChange}
+          value={formValues.ram}
           name="ram"
           fullWidth
         />
@@ -206,15 +262,16 @@ const ContentFilterPage = (props) => {
         <div className="flex items-center">
           <TextField
             id="outlined-basic"
-            onChange={handleChange1}
-            value={value1}
-            name="price_to"
+            // onChange={handleRangeInput}
+            value={valuesInput.price_in}
+            name="price_in"
           />
           <span>-</span>
           <TextField
             id="outlined-basic"
-            onChange={handleChange1}
-            name="price_in"
+            // onChange={handleRangeInput}
+            name="price_to"
+            value={valuesInput.price_to}
           />
         </div>
         <Slider
@@ -235,6 +292,13 @@ const ContentFilterPage = (props) => {
         >
           <FiFilter></FiFilter> Lọc
         </Button>
+        <button
+          type="button"
+          onClick={handleReset}
+          className="mx-0 w-full h-full px-4 py-4 text-[15px] flex items-center justify-center gap-x-2 bg-red-500 mt-5"
+        >
+          Bỏ chọn
+        </button>
       </div>
     </form>
   );
