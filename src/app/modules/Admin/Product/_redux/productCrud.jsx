@@ -26,3 +26,6 @@ export function updateProduct(formData) {
 export function deleteProduct(id) {
   return axios.post(`${PRODUCT_URL}/delete`, id);
 }
+export function rating(value) {
+  return axios.post(`${PRODUCT_URL}/rating`, value);
+}

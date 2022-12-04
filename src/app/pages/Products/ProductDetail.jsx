@@ -85,7 +85,7 @@ const ProductDetail = () => {
                 className="w-[full] h-[397px]"
               />
             )}
-            <div className="mt-5 flex items-center gap-x-4">
+            <div className="mt-5 flex items-start gap-x-4">
               <div
                 className="p-2 border border-slate-300 cursor-pointer"
                 onClick={() => handleClickImage(dataDetail)}
@@ -97,12 +97,19 @@ const ProductDetail = () => {
                 />
               </div>
               {dataDetail?.imageMulti?.map((item) => (
-                <div
-                  className="p-2 border border-slate-300 cursor-pointer"
-                  key={item._id}
-                  onClick={() => handleClickImage(item)}
-                >
-                  <img src={item.image} alt="" className="w-[55px] h-[55px]" />
+                <div className="flex flex-col">
+                  <div
+                    className="p-2 border border-slate-300 cursor-pointer"
+                    key={item._id}
+                    onClick={() => handleClickImage(item)}
+                  >
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="w-[55px] h-[55px]"
+                    />
+                  </div>
+                  <span className="text-center">{item.name}</span>
                 </div>
               ))}
             </div>
@@ -174,13 +181,15 @@ const ProductDetail = () => {
             </div>
             <div
               className={`my-5 ${
-                dataDetail?.stocking === true
+                dataDetail?.sold < dataDetail?.soluong_sanpham
                   ? "text-green-500 text-sm"
                   : "text-red-500 text-sm"
               } `}
             >
               <span>
-                {dataDetail?.stocking === true ? "Còn hàng" : "Tạm hết"}
+                {dataDetail?.sold < dataDetail?.soluong_sanpham
+                  ? "Còn hàng"
+                  : "Tạm hết (Đang chờ nhập hàng)"}
               </span>
             </div>
             <div className="my-5">
@@ -225,6 +234,9 @@ const ProductDetail = () => {
                 onClick={() => handlePayment(dataDetail)}
                 type="submit"
                 className="mx-0"
+                disabled={
+                  dataDetail?.sold >= dataDetail?.soluong_sanpham ? true : false
+                }
               >
                 Mua ngay
               </Button>
@@ -232,6 +244,9 @@ const ProductDetail = () => {
                 onClick={() => handleAddToCart(dataDetail)}
                 className="mx-0"
                 type="submit"
+                disabled={
+                  dataDetail?.sold >= dataDetail?.soluong_sanpham ? true : false
+                }
               >
                 Thêm vào giỏ hàng
               </Button>

@@ -26,17 +26,17 @@ function makeTitle(slug) {
 const sorts = [
   { label: "Giá từ thấp đến cao" },
   { label: "Giá từ cao đến thấp" },
-  { label: "Dưới 5 triệu" },
-  { label: "Từ 5 - 10 triệu" },
-  { label: "Từ 10 - 20 triệu" },
-  { label: "Trên 20 triệu" },
+  // { label: "Dưới 5 triệu" },
+  // { label: "Từ 5 - 10 triệu" },
+  // { label: "Từ 10 - 20 triệu" },
+  // { label: "Trên 20 triệu" },
 ];
 const ContentPage = () => {
   const defaultFilter = {
     name: "",
     display: "",
-    // brand: "",
-    // price: "",
+    brand: "",
+    price: "",
     pin_sac: "",
     memory: "",
     // typeProduct: "",
@@ -112,7 +112,6 @@ const ContentPage = () => {
     setFilter(cloneValue);
   };
   const handleSubmitFilterLeft = (filter) => {
-    console.log(filter);
     setFilter(filter);
     setShowDetail(true);
   };

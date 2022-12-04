@@ -20,12 +20,6 @@ const ContentFilterPage = (props) => {
     ram: "",
     memory: "",
   };
-  const prices = [
-    { label: "Dưới 5 triệu" },
-    { label: "Từ 5 - 10 triệu" },
-    { label: "Từ 10 - 20 triệu" },
-    { label: "Trên 20 triệu" },
-  ];
   const [formValues, setFormValues] = useState(props?.filter);
   const [value1, setValue1] = React.useState([500000, 50000000]);
   const [newDataMemory, setNewDataMemory] = useState([]);
@@ -105,6 +99,8 @@ const ContentFilterPage = (props) => {
       pin_sac: "",
       ram: "",
       memory: "",
+      brand: "",
+      price: "",
       price_in: 500000,
       price_to: 50000000,
     });
@@ -114,11 +110,12 @@ const ContentFilterPage = (props) => {
       pin_sac: "",
       ram: "",
       memory: "",
+      brand: "",
+      price: "",
       price_in: 500000,
       price_to: 50000000,
     });
   };
-  console.log(formValues);
   useEffect(() => {
     setNewDataMemory(dataMemorys?.map((item) => item.name));
   }, [dataMemorys]);
@@ -292,13 +289,13 @@ const ContentFilterPage = (props) => {
         >
           <FiFilter></FiFilter> Lọc
         </Button>
-        <button
+        <Button
           type="button"
           onClick={handleReset}
           className="mx-0 w-full h-full px-4 py-4 text-[15px] flex items-center justify-center gap-x-2 bg-red-500 mt-5"
         >
           Bỏ chọn
-        </button>
+        </Button>
       </div>
     </form>
   );

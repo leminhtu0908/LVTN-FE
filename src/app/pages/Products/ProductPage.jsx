@@ -5,11 +5,14 @@ import Button from "../../../components/button/Button";
 import Heading from "../../../components/header/Heading";
 import * as cartAction from "../../pages/Cart/_redux/cartAction";
 import { slice } from "lodash";
+import { Rating } from "@mui/material";
 const ProductPage = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [index, setIndex] = useState(10);
   const [isCompleted, setIsCompleted] = useState(false);
+  // const [valueRate, setValueRate] = React.useState(2);
+
   const handleAddToCart = (product) => {
     dispatch(cartAction.addToCart(product));
   };
@@ -21,6 +24,9 @@ const ProductPage = (props) => {
     } else {
       setIsCompleted(false);
     }
+  };
+  const handleRating = (newValue, product_id) => {
+    props.onRating(product_id, newValue);
   };
   return (
     <div
@@ -92,7 +98,7 @@ const ProductPage = (props) => {
                       currency: "VND",
                     })}
                   </span>
-                  <div className="flex items-center mt-2.5 mb-5">
+                  {/* <div className="flex items-center mt-2.5 mb-5">
                     <svg
                       aria-hidden="true"
                       className="w-5 h-5 text-yellow-300"
@@ -146,6 +152,21 @@ const ProductPage = (props) => {
                     <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                       5.0
                     </span>
+                  </div> */}
+                  <div className="">
+                    <Rating
+                      name="simple-controlled"
+                      value={product?.rate}
+                      // onChange={(event, newValue) => {
+                      //   setValueRate({
+                      //     ...valueRate,
+                      //     [product.name]: newValue,
+                      //   });
+                      // }}
+                      onChange={(event, newValue) =>
+                        handleRating(newValue, product.product_id)
+                      }
+                    />
                   </div>
                   {/* <button
                     onClick={() => handleAddToCart(product)}

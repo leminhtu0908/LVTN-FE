@@ -15,7 +15,7 @@ const HomePage = () => {
     (state) => ({ currentState: state.products }),
     shallowEqual
   );
-  const { data: productData } = currentState;
+  const { data: productData, rate } = currentState;
   const defaultFilter = {
     name: "",
   };
@@ -25,13 +25,21 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(productAction.fetchProductByName({ params: { ...filter } }));
-  }, [dispatch, filter]);
+  }, [dispatch, filter, rate]);
   function handleSearch(filter) {
     setFilter(filter);
   }
   const handleScroll = () => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
   };
+  const handleRating = (product_id, rating) => {
+    const cloneValue = {
+      product_id: product_id,
+      rating: rating,
+    };
+    dispatch(productAction.rateProduct(cloneValue));
+  };
+
   return (
     <LayoutCustomer>
       <HomeSearch onSearch={handleSearch} onScroll={handleScroll} />
@@ -39,6 +47,7 @@ const HomePage = () => {
       <ProductPage
         scrollRef={scrollRef}
         data={productData ? productData : null}
+        onRating={handleRating}
       ></ProductPage>
       <NewsPage></NewsPage>
     </LayoutCustomer>

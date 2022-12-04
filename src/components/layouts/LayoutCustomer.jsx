@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "../footer/Footer";
 import HeaderCustomer from "../header/HeaderCustomer";
 
 const LayoutCustomer = ({ children }) => {
@@ -6,6 +7,7 @@ const LayoutCustomer = ({ children }) => {
     <div>
       <HeaderCustomer></HeaderCustomer>
       {children}
+      <Footer></Footer>
     </div>
   );
 };

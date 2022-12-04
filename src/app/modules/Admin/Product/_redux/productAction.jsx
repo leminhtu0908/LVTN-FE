@@ -97,3 +97,17 @@ export const updateProduct = (formData) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.action }));
     });
 };
+export const rateProduct = (value) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .rating(value)
+    .then((response) => {
+      console.log(response.data);
+      const { rate } = response.data;
+      dispatch(actions.producRating(rate));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't update user";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};

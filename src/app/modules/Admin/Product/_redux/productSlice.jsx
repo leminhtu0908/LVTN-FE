@@ -9,6 +9,7 @@ const initialProductState = {
   totalPages: null,
   number: null,
   data: null,
+  rate: null,
   detail: null,
   productForEdit: undefined,
   product: undefined,
@@ -73,6 +74,11 @@ export const productSlice = createSlice({
     productUpdate: (state, action) => {
       state.error = null;
       state.productForEdit = action.payload;
+      state.actionsLoading = false;
+    },
+    producRating: (state, action) => {
+      state.error = null;
+      state.rate = action.payload;
       state.actionsLoading = false;
     },
   },
