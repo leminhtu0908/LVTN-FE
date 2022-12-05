@@ -102,7 +102,6 @@ export const rateProduct = (value) => (dispatch) => {
   return requestFromServer
     .rating(value)
     .then((response) => {
-      console.log(response.data);
       const { rate } = response.data;
       dispatch(actions.producRating(rate));
     })

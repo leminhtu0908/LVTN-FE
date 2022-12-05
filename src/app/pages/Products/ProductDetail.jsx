@@ -4,6 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../components/button/Button";
 import LayoutCustomer from "../../../components/layouts/LayoutCustomer";
+import InfoProduct from "../../../shared/Dialog/InfoProduct";
 import PaymentProductDialog from "../../../shared/Dialog/PaymentProductDialog";
 import * as productAction from "../../modules/Admin/Product/_redux/productAction";
 import * as cartAction from "../../pages/Cart/_redux/cartAction";
@@ -23,6 +24,8 @@ const ProductDetail = () => {
   const [colorData, setColorData] = useState([]);
   const [memoryData, setMemoryData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openInfoProduct, setOpenInfoProduct] = useState(false);
+  const [dataInformationProduct, setDataInformationProduct] = useState(null);
   const [productData, setProductData] = useState({});
   const [dataImages, setDataImages] = useState({});
   useEffect(() => {
@@ -71,6 +74,13 @@ const ProductDetail = () => {
   const handleClickImage = (item) => {
     setDataImages(item);
   };
+  const handleInfoDetail = (content) => {
+    setDataInformationProduct(content);
+    setOpenInfoProduct(true);
+  };
+  const handleCloseInfo = () => {
+    setOpenInfoProduct(false);
+  };
   return (
     <LayoutCustomer>
       <div className="p-4 mx-auto w-full max-w-[1200px] pt-[88px]">
@@ -85,7 +95,7 @@ const ProductDetail = () => {
                 className="w-[full] h-[397px]"
               />
             )}
-            <div className="mt-5 flex items-start gap-x-4">
+            <div className="mt-5 flex items-center gap-x-4">
               <div
                 className="p-2 border border-slate-300 cursor-pointer"
                 onClick={() => handleClickImage(dataDetail)}
@@ -112,14 +122,20 @@ const ProductDetail = () => {
                   <span className="text-center">{item.name}</span>
                 </div>
               ))}
+              <div
+                className="p-3 border border-slate-300 cursor-pointer"
+                onClick={() => handleInfoDetail(dataDetail?.content)}
+              >
+                Thông tin <br /> sản phẩm
+              </div>
             </div>
-            <div className="mt-10 text-xl font-semibold mb-5">
+            {/* <div className="mt-10 text-xl font-semibold mb-5">
               Thông tin sản phẩm
             </div>
             <div
               className=""
               dangerouslySetInnerHTML={{ __html: `${dataDetail?.content}` }}
-            ></div>
+            ></div> */}
           </div>
           <div className="basis-[40%]">
             <div className="">{dataDetail?.display}</div>
@@ -318,6 +334,11 @@ const ProductDetail = () => {
         open={open}
         handleClose={handleClose}
         productData={productData}
+      />
+      <InfoProduct
+        open={openInfoProduct}
+        handleClose={handleCloseInfo}
+        data={dataInformationProduct}
       />
     </LayoutCustomer>
   );

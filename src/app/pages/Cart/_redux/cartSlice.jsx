@@ -45,13 +45,13 @@ export const cartSlice = createSlice({
       );
       if (itemIndex >= 0) {
         state.cart[itemIndex].cartQuantity += 1;
-        toast.info(`Increased ${state.cart[itemIndex].name} cart quantity`, {
+        toast.info(`${state.cart[itemIndex].name} được tăng thêm 1`, {
           position: "bottom-left",
         });
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cart.push(tempProduct);
-        toast.success(`${action.payload.name} added to cart`, {
+        toast.success(`${action.payload.name} đã thêm vào giỏ hàng`, {
           position: "bottom-left",
         });
       }
@@ -63,7 +63,7 @@ export const cartSlice = createSlice({
       );
       state.cart = nextCartItems;
       localStorage.setItem("cartItems", JSON.stringify(state.cart));
-      toast.error(`${action.payload.name} remove to cart`, {
+      toast.error(`${action.payload.name} đã xóa khỏi giỏ hàng`, {
         position: "bottom-left",
       });
     },
@@ -73,7 +73,7 @@ export const cartSlice = createSlice({
       );
       if (state.cart[itemIndex].cartQuantity > 1) {
         state.cart[itemIndex].cartQuantity -= 1;
-        toast.info(`Decreased ${state.cart[itemIndex].name} cart quantity`, {
+        toast.info(`${state.cart[itemIndex].name} số lượng trừ 1`, {
           position: "bottom-left",
         });
       } else if (state.cart[itemIndex].cartQuantity === 1) {
@@ -88,7 +88,7 @@ export const cartSlice = createSlice({
     },
     clearCart: (state, action) => {
       state.cart = [];
-      toast.error(`Cart cleared`, {
+      toast.error(`Đã xóa tất cả trong giỏ hàng`, {
         position: "bottom-left",
       });
       localStorage.setItem("cartItems", JSON.stringify(state.cart));

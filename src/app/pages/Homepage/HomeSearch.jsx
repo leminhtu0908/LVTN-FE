@@ -25,11 +25,10 @@ const HomeSearch = (props) => {
       />
       <div className="overlay absolute bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.2)] inset-0 mt-[88px] flex w-full h-[520px] flex-col items-center justify-center p-5 text-center md:px-20 lg:space-y-10">
         <h1 className="text-2xl text-white font-bold tracking-tight text-heading lg:text-4xl xl:text-5xl">
-          Groceries Delivered in 90 Minute
+          Chào mừng bạn đến với LMTShop
         </h1>
         <p className="text-sm text-heading lg:text-base xl:text-lg text-white">
-          Get your healthy foods &amp; snacks delivered at your doorsteps all
-          day everyday
+          Sự hài lòng của bạn là động lực bán hàng của chúng tôi
         </p>
         <div className="w-full max-w-3xl">
           <form onSubmit={handleSubmit(handleSubmitSearch)} className="w-full">

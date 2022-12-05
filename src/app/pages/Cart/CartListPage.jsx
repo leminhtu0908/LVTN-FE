@@ -96,7 +96,7 @@ const CartListPage = () => {
                                   {item.colors}
                                 </span>
                               </div>
-                              <div className="basis-[40%] flex gap-x-2 items-center">
+                              <div className="basis-[50%] flex gap-x-2 items-center">
                                 <h1>Chọn số lượng :</h1>
                                 <div className="flex items-center h-[35px]">
                                   <button

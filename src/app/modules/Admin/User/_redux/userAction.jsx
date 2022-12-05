@@ -61,7 +61,6 @@ export const updateUser = (values) => (dispatch) => {
   return requestFromServer
     .updateUser(values)
     .then((response) => {
-      console.log(response);
       const { user } = response.data;
       dispatch(actions.userUpdate(user));
     })

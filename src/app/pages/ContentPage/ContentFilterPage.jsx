@@ -100,6 +100,8 @@ const ContentFilterPage = (props) => {
       ram: "",
       memory: "",
       brand: "",
+      typeProduct: "",
+
       price: "",
       price_in: 500000,
       price_to: 50000000,
@@ -111,6 +113,7 @@ const ContentFilterPage = (props) => {
       ram: "",
       memory: "",
       brand: "",
+      typeProduct: "",
       price: "",
       price_in: 500000,
       price_to: 50000000,

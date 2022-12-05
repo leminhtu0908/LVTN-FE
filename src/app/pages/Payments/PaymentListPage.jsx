@@ -19,7 +19,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 const steps = ["Thông tin đặt hàng", "Thanh toán", "Hoàn tất"];
 const PaymentListPage = () => {
   const location = useLocation();
-  console.log(location);
   const defaultValues = {
     tinh: "",
     huyen: "",
@@ -164,7 +163,6 @@ const PaymentListPage = () => {
             cart: location?.state,
             status: false,
           };
-      console.log(cloneValues);
       if (authToken?.token) {
         await axios
           .post(
@@ -203,7 +201,6 @@ const PaymentListPage = () => {
       await axios
         .post(`${process.env.REACT_APP_API_URL}/api/payment/zalopay`, items)
         .then((res) => {
-          console.log(res.data);
           window.open(res.data.order_url);
         });
     }

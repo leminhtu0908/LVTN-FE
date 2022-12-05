@@ -161,21 +161,15 @@ const HeaderCustomer = () => {
                   <Divider />
                   <MenuItem>
                     <ListItemIcon>
-                      <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Add another account
-                  </MenuItem>
-                  <MenuItem>
-                    <ListItemIcon>
                       <Settings fontSize="small" />
                     </ListItemIcon>
-                    Settings
+                    Cài đặt
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>
-                    Logout
+                    Đăng xuất
                   </MenuItem>
                 </Menu>
               </div>

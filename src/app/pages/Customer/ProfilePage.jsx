@@ -86,7 +86,6 @@ const ProfilePage = () => {
       phone,
       dateofbirth,
     };
-    console.log(cloneValueUpdateUser);
     dispatch(userAciton.updateUser(cloneValueUpdateUser));
   };
   const handleUpLoadImageUser = () => {
