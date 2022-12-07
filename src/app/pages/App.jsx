@@ -17,7 +17,12 @@ const App = ({ store, persistor, basename }) => {
           <IntlProvider locale="en">
             <React.Suspense fallback={<Loading />}>
               {/* <Loading /> */}
-              <ToastContainer></ToastContainer>
+              <ToastContainer
+                autoClose={2000}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+              ></ToastContainer>
               <BrowserRouter basename={basename}>
                 <AuthInit>
                   <Router />

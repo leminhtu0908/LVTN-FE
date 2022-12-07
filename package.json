@@ -4,6 +4,9 @@
   "private": true,
   "proxy": "http://localhost:4000",
   "dependencies": {
+    "@amcharts/amcharts5": "^5.2.38",
+    "@amcharts/amcharts5-fonts": "^5.0.1",
+    "@amcharts/amcharts5-geodata": "^5.0.6",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@formatjs/intl-pluralrules": "^5.1.3",

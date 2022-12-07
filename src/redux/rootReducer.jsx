@@ -16,9 +16,11 @@ import { cartSlice } from "../app/pages/Cart/_redux/cartSlice";
 import { tinhSlice } from "../app/pages/Tinh/_redux/tinhSlice";
 import { orderSlice } from "../app/modules/Admin/Order/_redux/orderSlice";
 import { imageSlice } from "../app/modules/Admin/Images/_redux/imageSlice";
+import { dashboardSlice } from "../app/modules/Admin/Dashboard/_redux/dashboardSlice";
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   roots: rootsSlice.reducer,
+  dashboard: dashboardSlice.reducer,
   categorys: categorySlice.reducer,
   brands: brandsSlice.reducer,
   typeProducts: typeproductSlice.reducer,

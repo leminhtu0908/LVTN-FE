@@ -48,8 +48,8 @@ const WrapperTable = (props) => {
   const handeDeleteImageBanner = (id, imagePublicId) => {
     props.onDeleteRow(id, imagePublicId);
   };
-  const handleAllowStatus = (id, allow_status, product_id) => {
-    props.onAllowStatus(id, allow_status, product_id);
+  const handleAllowStatus = (id, allow_status, product_id, total_product) => {
+    props.onAllowStatus(id, allow_status, product_id, total_product);
   };
   const handeDeleteOrder = (id) => {
     props.onDeleteOrder(id);
@@ -171,7 +171,8 @@ const WrapperTable = (props) => {
                                   handleAllowStatus(
                                     row._id,
                                     row.allow_status,
-                                    row.product_id
+                                    row.product_id,
+                                    row.total_product
                                   )
                                 }
                               />

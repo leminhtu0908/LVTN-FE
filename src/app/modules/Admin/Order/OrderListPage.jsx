@@ -77,11 +77,12 @@ const OrderListPage = () => {
       setOpen(status);
     }
   }
-  const handleAllowStatus = (id, allowStatus, product_id) => {
+  const handleAllowStatus = (id, allowStatus, product_id, total_product) => {
     const cloneValue = {
       id: id,
       allow_status: true,
       product_id: product_id,
+      soldTotal: total_product,
     };
     setOpenDuyet(true);
     setSelectOrder(cloneValue);
