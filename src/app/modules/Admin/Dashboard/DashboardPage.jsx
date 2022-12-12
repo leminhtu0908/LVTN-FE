@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { FcDeleteDatabase } from "react-icons/fc";
 import { TbRoadSign } from "react-icons/tb";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import DashboardChart from "./shared/DashboardChart";
+import DashboardTable from "./shared/DashboardTable";
 import * as actions from "./_redux/dashboardAction";
 const DashboardPage = () => {
   const { currentState } = useSelector(
@@ -11,7 +12,13 @@ const DashboardPage = () => {
     shallowEqual
   );
   const { dashboard } = currentState;
-  console.log(dashboard);
+  const [newData, setNewData] = useState([]);
+  useEffect(() => {
+    if (dashboard?.data?.length > 0) {
+      setNewData(dashboard?.data);
+    }
+  }, [dashboard?.data]);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.getDashboard({ params: {} }));
@@ -55,8 +62,11 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
+      <div className="p-4 bg-white rounded-lg mb-10">
+        <DashboardChart data={newData}></DashboardChart>
+      </div>
       <div className="p-4 bg-white rounded-lg">
-        <DashboardChart></DashboardChart>
+        <DashboardTable data={dashboard?.dataTable}></DashboardTable>
       </div>
     </div>
   );
