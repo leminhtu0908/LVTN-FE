@@ -207,7 +207,7 @@ const WrapperTable = (props) => {
                         <TableCell key={idx}>
                           {moment(row[item.label])
                             .locale("vi", vi)
-                            .format("LLLL")}
+                            .format("llll")}
                         </TableCell>
                       );
                     } else if (item.label === "address") {
