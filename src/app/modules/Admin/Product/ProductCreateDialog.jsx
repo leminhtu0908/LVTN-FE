@@ -640,7 +640,7 @@ const ProductCreateDialog = (props) => {
             </div>
             <div className="">
               <Field>
-                <Label>Tin tức về sản phẩm</Label>
+                <Label>Mô tả sản phẩm</Label>
                 <div className="w-full entry-content quill">
                   <ReactQuill
                     theme="snow"
