@@ -25,6 +25,7 @@ import NewsDetail from "./News/NewsDetail";
 import NewsListPageCustomer from "./News/NewsListPageCustomer";
 import NotFoundPage from "./NotFound/NotFoundPage";
 import OrderHistory from "./OrderCustomer/OrderHistory";
+import OrderHistoryDetail from "./OrderCustomer/OrderHistoryDetail";
 import PaymentListPage from "./Payments/PaymentListPage";
 import ProductDetail from "./Products/ProductDetail";
 const Router = () => {
@@ -129,6 +130,16 @@ const Router = () => {
           element={
             currentState?.authToken?.token ? (
               <OrderHistory />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/order/history/:id"
+          element={
+            currentState?.authToken?.token ? (
+              <OrderHistoryDetail />
             ) : (
               <Navigate to="/" />
             )

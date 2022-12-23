@@ -9,11 +9,6 @@ const PaymentsCompleted = () => {
     shallowEqual
   );
   const { authToken } = currentState;
-  const navigate = useNavigate();
-  const handleRedirect = () => {
-    navigate("/order/history");
-    window.location.reload();
-  };
   return (
     <div className="w-full">
       <h1 className="text-center text-2xl font-semibold my-5">
@@ -27,7 +22,11 @@ const PaymentsCompleted = () => {
           Tiếp tục mua sắm
         </Button>
         {authToken?.token && (
-          <Button type="button" className="mx-0" onClick={handleRedirect}>
+          <Button
+            type="button"
+            className="mx-0"
+            onClick={() => (window.location.href = "/order/history")}
+          >
             Lịch sử đặt hàng
           </Button>
         )}

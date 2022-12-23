@@ -10,7 +10,7 @@ import {
 
 const DashboardTable = (props) => {
   const tableHead = [
-    { id: "soluong_sanpham", label: "##############" },
+    { id: "soluong_sanpham", label: "" },
     { id: "apple_count", label: "Apple" },
     { id: "samsung_count", label: "Samsung" },
     { id: "oppo_count", label: "Oppo" },

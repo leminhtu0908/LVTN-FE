@@ -23,10 +23,12 @@ import ContentDialog from "../Dialog/ContentDialog";
 import DetailProductDialog from "../Dialog/DetailProductDialog";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { useNavigate } from "react-router-dom";
 const WrapperTable = (props) => {
   const [openContent, setOpenContent] = useState(false);
   const [contentNews, setContentNews] = useState("");
   const [data, setData] = useState(undefined);
+  const navigate = useNavigate();
   const handeDelete = (id) => {
     props.onDeleteRow(id);
   };
@@ -57,6 +59,9 @@ const WrapperTable = (props) => {
   function handleChangePage(event, newPage) {
     props.onChangePage(newPage);
   }
+  const handleOrderHistoryDetail = (row) => {
+    navigate(`/order/history/${row.order_id}`, { state: row });
+  };
   return (
     <>
       <TableContainer component={Paper}>
@@ -361,6 +366,13 @@ const WrapperTable = (props) => {
                           </IconButton>
                         </Tooltip>
                       )}
+                      <Tooltip title="Xem chi tiết đơn hàng">
+                        <IconButton
+                          onClick={(e) => handleOrderHistoryDetail(row)}
+                        >
+                          <VisibilityIcon className="text-green-300"></VisibilityIcon>
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   )}
                 </TableRow>
