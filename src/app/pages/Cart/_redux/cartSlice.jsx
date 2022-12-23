@@ -44,10 +44,16 @@ export const cartSlice = createSlice({
         (item) => item.product_id === action.payload.product_id
       );
       if (itemIndex >= 0) {
-        state.cart[itemIndex].cartQuantity += 1;
-        toast.info(`${state.cart[itemIndex].name} được tăng thêm 1`, {
-          position: "bottom-left",
-        });
+        if (state.cart[itemIndex].cartQuantity >= 5) {
+          toast.error(
+            `${state.cart[itemIndex].name} vượt quá số lượng cho phép, Vui lòng liên hệ shop nếu muốn mua nhiều sản phẩm`
+          );
+        } else {
+          state.cart[itemIndex].cartQuantity += 1;
+          toast.info(`${state.cart[itemIndex].name} được tăng thêm 1`, {
+            position: "bottom-left",
+          });
+        }
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cart.push(tempProduct);

@@ -263,7 +263,7 @@ const ContentFilterPage = (props) => {
           <TextField
             id="outlined-basic"
             // onChange={handleRangeInput}
-            value={valuesInput.price_in}
+            value={Number(valuesInput.price_in).toLocaleString("en")}
             name="price_in"
           />
           <span>-</span>
@@ -271,7 +271,7 @@ const ContentFilterPage = (props) => {
             id="outlined-basic"
             // onChange={handleRangeInput}
             name="price_to"
-            value={valuesInput.price_to}
+            value={Number(valuesInput.price_to).toLocaleString("en")}
           />
         </div>
         <Slider

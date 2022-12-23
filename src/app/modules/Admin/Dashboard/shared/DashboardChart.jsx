@@ -93,7 +93,7 @@ const DashboardChart = (props) => {
   return (
     <>
       <div className="text-center font-semibold text-xl">
-        Doanh số bán hàng của từng hãng sản xuất trong tháng
+        Doanh số bán hàng của từng hãng sản xuất
       </div>
       <div id="chartID" className="w-full h-[500px]"></div>
     </>
