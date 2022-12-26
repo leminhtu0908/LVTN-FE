@@ -178,7 +178,7 @@ const ContentPage = () => {
             {slug === "dien-thoai" && (
               <>
                 <div className="py-4 bg-slate-200">
-                  <div className="flex mb-5">
+                  <div className="flex">
                     <form
                       onSubmit={handleSubmit(handleSubmitSearch)}
                       className="flex basis-[70%]"
