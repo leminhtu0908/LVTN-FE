@@ -177,7 +177,7 @@ const ContentPage = () => {
           <div className={`${slug === "dien-thoai" && "basis-[80%]"} `}>
             {slug === "dien-thoai" && (
               <>
-                <div className="py-4 mb-5 bg-slate-200">
+                <div className="py-4 bg-slate-200">
                   <div className="flex mb-5">
                     <form
                       onSubmit={handleSubmit(handleSubmitSearch)}
@@ -219,7 +219,7 @@ const ContentPage = () => {
                       />
                     </div>
                   </div>
-                  <div className="w-full rounded-lg flex items-center justify-between">
+                  {/* <div className="w-full rounded-lg flex items-center justify-between">
                     <div className="flex gap-x-5">
                       {dataBrand?.map((item) => (
                         <div
@@ -272,7 +272,7 @@ const ContentPage = () => {
                         </div>
                       </Menu>
                     </div>
-                    {/* <div className="pr-16">
+                    <div className="pr-16">
                       <Button
                         type="button"
                         className="bg-red-500"
@@ -284,12 +284,12 @@ const ContentPage = () => {
                       >
                         Bỏ chọn
                       </Button>
-                    </div> */}
-                  </div>
+                    </div>
+                  </div> */}
                 </div>
               </>
             )}
-            <div className="px-4 grid md:grid-cols-4 lg:grid-cols-5 gap-2 pb-4">
+            <div className="px-4 grid md:grid-cols-4 lg:grid-cols-5 gap-2 pb-4 pt-4">
               {newData?.map((product) => (
                 <div
                   key={product.product_id}

@@ -153,7 +153,7 @@ const ContentFilterPage = (props) => {
           )}
         />
       </div> */}
-      <div className="mb-5">
+      <div className="pb-5">
         <TextField
           id="outlined-basic"
           label="Màn hình"
@@ -164,7 +164,7 @@ const ContentFilterPage = (props) => {
           fullWidth
         />
       </div>
-      <div className="mb-5">
+      <div className="pb-5">
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
@@ -188,7 +188,7 @@ const ContentFilterPage = (props) => {
           )}
         />
       </div>
-      {/* <div className="mb-5">
+      {/* <div className="pb-5">
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
@@ -212,7 +212,7 @@ const ContentFilterPage = (props) => {
           )}
         />
       </div> */}
-      <div className="mb-5">
+      <div className="pb-5">
         <TextField
           id="outlined-basic"
           label="Pin & Sạc"
@@ -223,7 +223,7 @@ const ContentFilterPage = (props) => {
           fullWidth
         />
       </div>
-      {/* <div className="mb-5">
+      {/* <div className="pb-5">
         <Autocomplete
           autoComplete
           id="auto-combobox-brand"
@@ -247,7 +247,7 @@ const ContentFilterPage = (props) => {
           )}
         />
       </div> */}
-      <div className="mb-5">
+      <div className="pb-5">
         <TextField
           id="outlined-basic"
           label="Ram"
@@ -258,7 +258,7 @@ const ContentFilterPage = (props) => {
           fullWidth
         />
       </div>
-      <div className="mb-5">
+      <div className="pb-5">
         <div className="flex items-center">
           <TextField
             id="outlined-basic"
