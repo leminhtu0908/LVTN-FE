@@ -44,9 +44,9 @@ export const cartSlice = createSlice({
         (item) => item.product_id === action.payload.product_id
       );
       if (itemIndex >= 0) {
-        if (state.cart[itemIndex].cartQuantity >= 5) {
+        if (state.cart[itemIndex].cartQuantity >= 10) {
           toast.error(
-            `${state.cart[itemIndex].name} vượt quá số lượng cho phép, Vui lòng liên hệ shop nếu muốn mua nhiều sản phẩm`
+            `${state.cart[itemIndex].name} vượt quá số lượng cho phép, Vui lòng đến cửa hàng nếu muốn mua nhiều sản phẩm`
           );
         } else {
           state.cart[itemIndex].cartQuantity += 1;

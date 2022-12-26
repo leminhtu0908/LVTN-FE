@@ -115,13 +115,13 @@ const Header = (props) => {
             </MenuItem>
             <hr />
             <MenuItem>
-              <Avatar /> Profile
+              <Avatar /> Cập nhật thông tin
             </MenuItem>
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="large" />
               </ListItemIcon>
-              Logout
+              Đăng xuất
             </MenuItem>
           </Menu>
         </div>
