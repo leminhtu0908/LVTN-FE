@@ -7,6 +7,7 @@ import { PaymentType } from "../../../utils/type";
 
 const Payment = (props) => {
   const [formValues, setFormValues] = useState(props.valuesRadio);
+  const [openBank, setOpenBank] = useState(false);
   const handleChangeRadio = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -17,8 +18,22 @@ const Payment = (props) => {
       ...formValues,
       [name]: value,
     };
+    if (value === "zalopayapp") {
+      setOpenBank(true);
+    } else if (value === "cash") {
+      setOpenBank(false);
+    }
     props.onChangeRadio(cloneValue);
   };
+  const handleChangeBank = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+  console.log("formValue", formValues);
+
   return (
     <div className="w-full">
       <h1>Xác nhận thông tin đơn hàng</h1>
@@ -39,7 +54,7 @@ const Payment = (props) => {
       </div>
       <div className="border border-green-500 shadow-lg rounded-lg mt-5 p-4">
         <Label>Hình thức thanh toán :</Label>
-        <div className="flex items-center gap-x-5 mt-3">
+        <div className="flex flex-col items-start gap-x-5 mt-3">
           <div className="flex gap-x-2">
             <input
               id="cash"
@@ -55,15 +70,44 @@ const Payment = (props) => {
           </div>
           <div className="flex gap-x-2">
             <input
-              id="vizalopay"
+              id="vivnpay"
               value={PaymentType.VIZALOPAY}
               name="bankcode"
               type="radio"
               className="w-5 h-5"
               onChange={handleChangeRadio}
             />
-            <label htmlFor="vizalopay">Ví Zalopay</label>
+            <label htmlFor="vivnpay">Thanh toán trực tuyến VNPAY</label>
           </div>
+          {openBank && (
+            <select name="bankCode" id="" onChange={handleChangeBank}>
+              <option value="">Không chọn</option>
+              <option value="VNPAYQR">Ngân hàng VNPAYQR</option>
+              <option value="NCB">Ngân hàng NCB</option>
+              <option value="SCB">Ngân hàng SCB</option>
+              <option value="SACOMBANK">Ngân hàng SACOMBANK</option>
+              <option value="EXIMBANK">Ngân hàng EXIMBANK</option>
+              <option value="MSBANK">Ngân hàng MSBANK</option>
+              <option value="NAMABANK">Ngân hàng NAMABANK</option>
+              <option value="VISA">Ngân hàng VISA</option>
+              <option value="VNMART">Ngân hàng VNMART</option>
+              <option value="VIETINBANK">Ngân hàng VIETINBANK</option>
+              <option value="VIETCOMBANK">Ngân hàng VIETCOMBANK</option>
+              <option value="HDBANK">Ngân hàng HDBANK</option>
+              <option value="DONGABANK">Ngân hàng Dong A</option>
+              <option value="TPBANK">Ngân hàng Tp Bank</option>
+              <option value="OJB">Ngân hàng OceanBank</option>
+              <option value="BIDV">Ngân hàng BIDV</option>
+              <option value="TECHCOMBANK">Ngân hàng Techcombank</option>
+              <option value="VPBANK">Ngân hàng VPBank</option>
+              <option value="AGRIBANK">Ngân hàng AGRIBANK</option>
+              <option value="MBBANK">Ngân hàng MBBank</option>
+              <option value="ACB">Ngân hàng ACB</option>
+              <option value="OCB">Ngân hàng OCB</option>
+              <option value="SHB">Ngân hàng SHB</option>
+              <option value="IVB">Ngân hàng IVB</option>
+            </select>
+          )}
         </div>
       </div>
     </div>

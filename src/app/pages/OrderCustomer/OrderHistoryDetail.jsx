@@ -54,7 +54,7 @@ const OrderHistoryDetail = () => {
                       {" "}
                       <span>Tên sản phẩm: </span>{" "}
                       <span>
-                        {item?.name} - {item?.memory} - {item?.color}
+                        {item?.name} - {item?.memory} - {item?.colors}
                       </span>
                     </div>
                     <div className="">

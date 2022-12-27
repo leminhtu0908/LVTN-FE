@@ -30,6 +30,7 @@ const PaymentListPage = () => {
   const [formValues, setFormValues] = React.useState(defaultValues);
   const [valuesPayment, setValuesPayment] = React.useState({
     bankcode: "cash",
+    bankCode: "",
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -195,13 +196,17 @@ const PaymentListPage = () => {
       const items = {
         cart: cart,
         amount: cartTotalAmount,
+        bankCode: valuesPayment?.bankCode,
         transID: transID,
+        orderDescription: "Thanh toan hoa don",
+        orderType: "fashion",
+        language: "vn",
         ...information,
       };
       await axios
-        .post(`${process.env.REACT_APP_API_URL}/api/payment/zalopay`, items)
+        .post(`${process.env.REACT_APP_API_URL}/api/payment/vnpay`, items)
         .then((res) => {
-          window.open(res.data.order_url);
+          window.open(res.data.url);
         });
     }
   };
