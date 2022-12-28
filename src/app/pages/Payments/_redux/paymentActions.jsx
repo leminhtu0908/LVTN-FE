@@ -8,7 +8,6 @@ export const createOrderZalopay = (data) => (dispatch) => {
   return requestFromServer
     .createOrderZalopay(data)
     .then((response) => {
-      console.log("res", response);
       const { data } = response;
       dispatch(actions.postOrder(data));
     })
@@ -22,7 +21,6 @@ export const getStatusOrderZalopay = (data) => (dispatch) => {
   return requestFromServer
     .getStatusOrderZalopay(data)
     .then((response) => {
-      console.log("res", response);
       const { data } = response;
       dispatch(actions.postOrder(data));
     })
