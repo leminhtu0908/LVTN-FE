@@ -10,7 +10,6 @@ const OrderStatusZalopay = () => {
   if (apptransid) {
     dispatch(action.getStatusOrderZalopay(apptransid));
   }
-
   return (
     <LayoutCustomer>
       <div className="pt-[88px] h-[80vh]">Test</div>
