@@ -7,6 +7,7 @@ const initialPaymentState = {
   paymentForEdit: undefined,
   payment: undefined,
   paymentId: undefined,
+  statusOrder: undefined,
   lastError: null,
 };
 export const callTypes = {
@@ -39,6 +40,12 @@ export const paymentSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.payment = data;
+    },
+    getStatusOrder: (state, action) => {
+      const { data } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.statusOrder = data;
     },
   },
 });

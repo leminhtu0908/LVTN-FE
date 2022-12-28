@@ -158,6 +158,10 @@ const HeaderCustomer = () => {
                   <MenuItem onClick={() => navigate("/order/history")}>
                     <Avatar /> Lịch sử đặt hàng
                   </MenuItem>
+                  <MenuItem onClick={() => navigate("/order-status")}>
+                    <Avatar />
+                    Truy vấn trạng thái đơn hàng
+                  </MenuItem>
                   <Divider />
                   <MenuItem>
                     <ListItemIcon>

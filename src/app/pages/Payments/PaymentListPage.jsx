@@ -195,13 +195,20 @@ const PaymentListPage = () => {
       }
     }
     if (valuesPayment.bankcode === "zalopayapp") {
-      const items = {
-        cart: cart,
+      // const items = {
+      //   cart: cart,
+      //   amount: cartTotalAmount,
+      //   transID: transID,
+      //   ...information,
+      // };
+      const { name } = information;
+      const newItems = {
+        cart: [{}],
         amount: cartTotalAmount,
         transID: transID,
-        ...information,
+        name: name,
       };
-      dispatch(action.createOrderZalopay(items));
+      dispatch(action.createOrderZalopay(newItems));
     }
   };
   if (redirectPayment) {

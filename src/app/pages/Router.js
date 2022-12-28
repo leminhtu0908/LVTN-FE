@@ -26,6 +26,7 @@ import NewsListPageCustomer from "./News/NewsListPageCustomer";
 import NotFoundPage from "./NotFound/NotFoundPage";
 import OrderHistory from "./OrderCustomer/OrderHistory";
 import OrderHistoryDetail from "./OrderCustomer/OrderHistoryDetail";
+import OrderStatusZalopay from "./OrderCustomer/OrderStatusZalopay";
 import PaymentListPage from "./Payments/PaymentListPage";
 import ProductDetail from "./Products/ProductDetail";
 const Router = () => {
@@ -124,6 +125,7 @@ const Router = () => {
         <Route path="/news-page" element={<NewsListPageCustomer />} />
         <Route path="/news-page/:slug" element={<NewsDetail />} />
         <Route path="/payments" element={<PaymentListPage />} />
+        <Route path="/order-status" element={<OrderStatusZalopay />} />
         <Route path="/user/profile" element={<ProfilePage />} />
         <Route
           path="/order/history"
