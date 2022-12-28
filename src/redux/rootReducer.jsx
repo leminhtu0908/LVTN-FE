@@ -17,6 +17,7 @@ import { tinhSlice } from "../app/pages/Tinh/_redux/tinhSlice";
 import { orderSlice } from "../app/modules/Admin/Order/_redux/orderSlice";
 import { imageSlice } from "../app/modules/Admin/Images/_redux/imageSlice";
 import { dashboardSlice } from "../app/modules/Admin/Dashboard/_redux/dashboardSlice";
+import { paymentSlice } from "../app/pages/Payments/_redux/paymentSlice";
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   roots: rootsSlice.reducer,
@@ -34,6 +35,7 @@ export const rootReducer = combineReducers({
   tinh: tinhSlice.reducer,
   orders: orderSlice.reducer,
   images: imageSlice.reducer,
+  payments: paymentSlice.reducer,
 });
 
 export function* rootSaga() {

@@ -7,7 +7,6 @@ import { PaymentType } from "../../../utils/type";
 
 const Payment = (props) => {
   const [formValues, setFormValues] = useState(props.valuesRadio);
-  const [openBank, setOpenBank] = useState(false);
   const handleChangeRadio = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -18,21 +17,8 @@ const Payment = (props) => {
       ...formValues,
       [name]: value,
     };
-    if (value === "zalopayapp") {
-      setOpenBank(true);
-    } else if (value === "cash") {
-      setOpenBank(false);
-    }
     props.onChangeRadio(cloneValue);
   };
-  const handleChangeBank = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
-  console.log("formValue", formValues);
 
   return (
     <div className="w-full">
@@ -70,16 +56,16 @@ const Payment = (props) => {
           </div>
           <div className="flex gap-x-2">
             <input
-              id="vivnpay"
+              id="zalopay"
               value={PaymentType.VIZALOPAY}
               name="bankcode"
               type="radio"
               className="w-5 h-5"
               onChange={handleChangeRadio}
             />
-            <label htmlFor="vivnpay">Thanh toán trực tuyến VNPAY</label>
+            <label htmlFor="zalopay">Thanh toán trực tuyến Zalopay</label>
           </div>
-          {openBank && (
+          {/* {openBank && (
             <select name="bankCode" id="" onChange={handleChangeBank}>
               <option value="">Không chọn</option>
               <option value="VNPAYQR">Ngân hàng VNPAYQR</option>
@@ -107,7 +93,7 @@ const Payment = (props) => {
               <option value="SHB">Ngân hàng SHB</option>
               <option value="IVB">Ngân hàng IVB</option>
             </select>
-          )}
+          )} */}
         </div>
       </div>
     </div>

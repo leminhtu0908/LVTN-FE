@@ -16,6 +16,7 @@ import axios from "axios";
 import PaymentSuccess from "./PaymentSuccess";
 import PaymentsCompleted from "./PaymentsCompleted";
 import { useLocation, useNavigate } from "react-router-dom";
+import * as action from "./_redux/paymentActions";
 const steps = ["Thông tin đặt hàng", "Thanh toán", "Hoàn tất"];
 const PaymentListPage = () => {
   const location = useLocation();
@@ -30,19 +31,20 @@ const PaymentListPage = () => {
   const [formValues, setFormValues] = React.useState(defaultValues);
   const [valuesPayment, setValuesPayment] = React.useState({
     bankcode: "cash",
-    bankCode: "",
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentState, cartState } = useSelector(
+  const { currentState, cartState, paymentState } = useSelector(
     (state) => ({
       currentState: state.auth,
       cartState: state.cart,
+      paymentState: state.payments,
     }),
     shallowEqual
   );
   const { user, authToken } = currentState;
   const { cartTotalAmount, cart, cartTotalQuantity } = cartState;
+  const { payment: redirectPayment } = paymentState;
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -196,20 +198,15 @@ const PaymentListPage = () => {
       const items = {
         cart: cart,
         amount: cartTotalAmount,
-        bankCode: valuesPayment?.bankCode,
         transID: transID,
-        orderDescription: "Thanh toan hoa don",
-        orderType: "fashion",
-        language: "vn",
         ...information,
       };
-      await axios
-        .post(`${process.env.REACT_APP_API_URL}/api/payment/vnpay`, items)
-        .then((res) => {
-          window.open(res.data.url);
-        });
+      dispatch(action.createOrderZalopay(items));
     }
   };
+  if (redirectPayment) {
+    window.open(redirectPayment.orderurl);
+  }
   return (
     <LayoutCustomer>
       <div className="pt-[88px]">
