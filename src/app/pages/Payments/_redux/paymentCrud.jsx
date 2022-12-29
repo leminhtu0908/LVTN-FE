@@ -12,3 +12,7 @@ export function getStatusOrderZalopay(data) {
 export function refundOrderZalopay(data) {
   return axios.post(`${REFUND_URL}/refund-money`, data);
 }
+export function getAllApptransidOrderZalopay(user_id) {
+  const cloneValue = { user_id: user_id };
+  return axios.post(`${REFUND_URL}/all-apptransid`, cloneValue);
+}

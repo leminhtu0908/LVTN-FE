@@ -42,3 +42,16 @@ export const refundOrderZalopay = (data) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const getAllApptransidOrderZalopay = (user_id) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getAllApptransidOrderZalopay(user_id)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.getApptransidOrder(data));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};

@@ -24,6 +24,8 @@ import HomePage from "./Homepage/HomePage";
 import NewsDetail from "./News/NewsDetail";
 import NewsListPageCustomer from "./News/NewsListPageCustomer";
 import NotFoundPage from "./NotFound/NotFoundPage";
+import ChilrenQueryOrder from "./OrderCustomer/ChilrenQueryOrder";
+import ChilrenQueryRefund from "./OrderCustomer/ChilrenQueryRefund";
 import OrderHistory from "./OrderCustomer/OrderHistory";
 import OrderHistoryDetail from "./OrderCustomer/OrderHistoryDetail";
 import OrderStatusZalopay from "./OrderCustomer/OrderStatusZalopay";
@@ -128,6 +130,14 @@ const Router = () => {
         <Route path="/payments" element={<PaymentListPage />} />
         <Route path="/order-status" element={<OrderStatusZalopay />} />
         <Route path="/query-order-zalopay" element={<QueryOrderZalopay />} />
+        <Route
+          path="/query-order-zalopay/status"
+          element={<ChilrenQueryOrder />}
+        />
+        <Route
+          path="/query-order-zalopay/refund"
+          element={<ChilrenQueryRefund />}
+        />
         <Route path="/user/profile" element={<ProfilePage />} />
         <Route
           path="/order/history"

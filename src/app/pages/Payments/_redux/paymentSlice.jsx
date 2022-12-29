@@ -59,7 +59,7 @@ export const paymentSlice = createSlice({
       const { data } = action.payload;
       state.listLoading = false;
       state.error = null;
-      state.refund = data;
+      state.apptransid = data;
     },
   },
 });
