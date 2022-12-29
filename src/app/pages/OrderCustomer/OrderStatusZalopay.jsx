@@ -11,8 +11,12 @@ const OrderStatusZalopay = () => {
   const apptransid = new URLSearchParams(search).get("apptransid");
   const dispatch = useDispatch();
   if (apptransid) {
-    dispatch(action.getStatusOrderZalopay({ apptransid: apptransid }));
+    // dispatch(action.getStatusOrderZalopay({ apptransid: apptransid }));
     dispatch(actionCart.clearCart());
+    const data = localStorage.getItem("itemZalopay");
+    console.log(data);
+  } else {
+    localStorage.removeItem("itemZalopay");
   }
   return (
     <LayoutCustomer>

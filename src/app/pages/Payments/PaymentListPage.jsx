@@ -209,8 +209,10 @@ const PaymentListPage = () => {
         amount: cartTotalAmount,
         transID: transID,
         name: name,
+        cartItem: cart,
       };
       dispatch(action.createOrderZalopay(newItems));
+      localStorage.setItem("itemZalopay", newItems);
     }
   };
   if (redirectPayment) {
