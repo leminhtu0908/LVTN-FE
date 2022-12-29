@@ -6,15 +6,17 @@ import PaymentsCompleted from "../Payments/PaymentsCompleted";
 import PaymentSuccess from "../Payments/PaymentSuccess";
 import * as action from "../Payments/_redux/paymentActions";
 import * as actionCart from "../Cart/_redux/cartAction";
+import * as actionOrder from "../../modules/Admin/Order/_redux/orderAction";
 const OrderStatusZalopay = () => {
   const search = useLocation().search;
   const apptransid = new URLSearchParams(search).get("apptransid");
   const dispatch = useDispatch();
+  const data = localStorage.getItem("itemZalopay");
   if (apptransid) {
     // dispatch(action.getStatusOrderZalopay({ apptransid: apptransid }));
     dispatch(actionCart.clearCart());
-    const data = localStorage.getItem("itemZalopay");
-    console.log(data);
+    dispatch(actionOrder.createOrderZalopay(JSON.parse(data)));
+    localStorage.removeItem("itemZalopay");
   } else {
     localStorage.removeItem("itemZalopay");
   }

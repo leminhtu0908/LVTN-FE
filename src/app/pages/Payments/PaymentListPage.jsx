@@ -197,22 +197,25 @@ const PaymentListPage = () => {
       }
     }
     if (valuesPayment.bankcode === "zalopayapp") {
-      // const items = {
-      //   cart: cart,
-      //   amount: cartTotalAmount,
-      //   transID: transID,
-      //   ...information,
-      // };
       const { name } = information;
       const newItems = {
         cart: [{}],
         amount: cartTotalAmount,
         transID: transID,
         name: name,
-        cartItem: cart,
+      };
+      const saveItems = {
+        ...newItems,
+        cart: cart,
+        ...information,
+        product_total: cartTotalQuantity,
+        price_total: cartTotalAmount,
+        user_id: user._id,
+        order_id: newItems.transID,
+        status: false,
       };
       dispatch(action.createOrderZalopay(newItems));
-      localStorage.setItem("itemZalopay", JSON.stringify(newItems));
+      localStorage.setItem("itemZalopay", JSON.stringify(saveItems));
     }
   };
   if (redirectPayment) {

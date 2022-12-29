@@ -30,6 +30,19 @@ export const fetchHistory = (queryParams) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const createOrderZalopay = (data) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .createOrderZalopay(data)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.createOrderZalopay({ data }));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
 export const updateStatusOrder = (values) => (dispatch) => {
   dispatch(actions.startCall({ callType: callTypes.action }));
   return requestFromServer

@@ -34,7 +34,9 @@ const OrderHistory = () => {
     { id: "address", label: "Địa chỉ" },
     { id: "total_product", label: "Số lượng sản phẩm" },
     { id: "total_price", label: "Tổng tiền" },
+    { id: "orderStatus", label: "Hình thức thanh toán" },
     { id: "createdAt", label: "Thời gian đặt hàng" },
+    { id: "isPayment", label: "Thanh toán" },
     { id: "allow_status", label: "Tình trạng đơn hàng" },
     { id: "action", label: "Hủy đơn hàng" },
   ];
@@ -47,7 +49,9 @@ const OrderHistory = () => {
     { label: "address", type: string },
     { label: "total_product", type: string },
     { label: "total_price", type: string },
+    { label: "orderStatus", type: string },
     { label: "createdAt", type: string },
+    { label: "isPayment", type: string },
     { label: "allow_status", type: string },
   ];
   const dispatch = useDispatch();

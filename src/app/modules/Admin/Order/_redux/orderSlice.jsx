@@ -41,6 +41,11 @@ export const orderSlice = createSlice({
       state.error = null;
       state.data = data;
     },
+    createOrderZalopay: (state, action) => {
+      state.listLoading = false;
+      state.error = null;
+      state.order = action.payload;
+    },
     orderListUserHistory: (state, action) => {
       const { data } = action.payload;
       state.listLoading = false;

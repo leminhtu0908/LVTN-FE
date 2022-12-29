@@ -207,6 +207,21 @@ const WrapperTable = (props) => {
                           </TableCell>
                         );
                       }
+                    } else if (item.label === "isPayment") {
+                      if (row.isPayment === true) {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Đã thanh toán" color="info" />
+                          </TableCell>
+                        );
+                      }
+                      if (row.isPayment === false) {
+                        return (
+                          <TableCell key={idx}>
+                            <Chip label="Chưa thanh toán" color="secondary" />
+                          </TableCell>
+                        );
+                      }
                     } else if (item.label === "createdAt") {
                       return (
                         <TableCell key={idx}>

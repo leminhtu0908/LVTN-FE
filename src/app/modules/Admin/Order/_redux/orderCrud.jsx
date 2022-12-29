@@ -1,5 +1,6 @@
 import axios from "axios";
 export const ORDER_URL = `${process.env.REACT_APP_API_URL}/api/order`;
+export const PAYMENT_URL = `${process.env.REACT_APP_API_URL}/api/payment`;
 
 export function getAllOrder(queryParams) {
   return axios.get(`${ORDER_URL}/all`, queryParams);
@@ -22,4 +23,7 @@ export function exportExcel() {
 }
 export function deleteOrderUser(id) {
   return axios.post(`${ORDER_URL}/delete/`, { id: id });
+}
+export function createOrderZalopay(data) {
+  return axios.post(`${PAYMENT_URL}/zalopay-saveorder`, data);
 }
