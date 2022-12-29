@@ -212,7 +212,7 @@ const PaymentListPage = () => {
         cartItem: cart,
       };
       dispatch(action.createOrderZalopay(newItems));
-      localStorage.setItem("itemZalopay", newItems);
+      localStorage.setItem("itemZalopay", JSON.stringify(newItems));
     }
   };
   if (redirectPayment) {
