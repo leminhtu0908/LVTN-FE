@@ -47,6 +47,8 @@ const OrderListPage = () => {
     { id: "price_pay", label: "Số tiền đã trả" },
     { id: "price_pay_remaining", label: "Số tiền còn lại" },
     { id: "createdAt", label: "Thời gian đặt hàng" },
+    { id: "orderStatus", label: "Hình thức thanh toán" },
+    { id: "isPayment", label: "Thanh toán" },
     { id: "allow_status", label: "Tình trạng đơn hàng" },
 
     // { id: "visited", label: "Loại khách hàng" },
@@ -64,6 +66,8 @@ const OrderListPage = () => {
     { label: "price_pay", type: string },
     { label: "price_pay_remaining", type: string },
     { label: "createdAt", type: string },
+    { label: "orderStatus", type: string },
+    { label: "isPayment", type: string },
     { label: "allow_status", type: string },
 
     // { label: "visited", type: string },
