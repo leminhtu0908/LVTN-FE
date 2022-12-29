@@ -11,7 +11,7 @@ const OrderStatusZalopay = () => {
   const apptransid = new URLSearchParams(search).get("apptransid");
   const dispatch = useDispatch();
   if (apptransid) {
-    dispatch(action.getStatusOrderZalopay(apptransid));
+    dispatch(action.getStatusOrderZalopay({ apptransid: apptransid }));
     dispatch(actionCart.clearCart());
   }
   return (
