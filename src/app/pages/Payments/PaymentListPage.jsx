@@ -211,13 +211,13 @@ const PaymentListPage = () => {
         name: name,
       };
       dispatch(action.createOrderZalopay(newItems));
-      if (apptransid) {
-        handleNextStep3();
-      }
     }
   };
   if (redirectPayment) {
     window.open(redirectPayment.orderurl);
+  }
+  if (apptransid) {
+    handleNextStep3();
   }
   return (
     <LayoutCustomer>
