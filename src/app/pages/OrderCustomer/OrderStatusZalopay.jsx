@@ -15,7 +15,12 @@ const OrderStatusZalopay = () => {
   if (apptransid) {
     // dispatch(action.getStatusOrderZalopay({ apptransid: apptransid }));
     dispatch(actionCart.clearCart());
-    dispatch(actionOrder.createOrderZalopay(JSON.parse(data)));
+    const parserData = JSON.parse(data);
+    const newData = {
+      ...parserData,
+      apptransid: apptransid,
+    };
+    dispatch(actionOrder.createOrderZalopay(newData));
     localStorage.removeItem("itemZalopay");
   } else {
     localStorage.removeItem("itemZalopay");
