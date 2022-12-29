@@ -53,8 +53,8 @@ const WrapperTable = (props) => {
   const handleAllowStatus = (id, allow_status, product_id, total_product) => {
     props.onAllowStatus(id, allow_status, product_id, total_product);
   };
-  const handeDeleteOrder = (id) => {
-    props.onDeleteOrder(id);
+  const handeDeleteOrder = (id, apptransid, total_price, isPayment) => {
+    props.onDeleteOrder(id, apptransid, total_price, isPayment);
   };
   function handleChangePage(event, newPage) {
     props.onChangePage(newPage);
@@ -375,7 +375,14 @@ const WrapperTable = (props) => {
                       ) : (
                         <Tooltip title="Hủy đơn hàng">
                           <IconButton
-                            onClick={(e) => handeDeleteOrder(row._id)}
+                            onClick={(e) =>
+                              handeDeleteOrder(
+                                row._id,
+                                row.apptransid,
+                                row.total_price,
+                                row.isPayment
+                              )
+                            }
                           >
                             <BsTrash className="text-red-500"></BsTrash>
                           </IconButton>

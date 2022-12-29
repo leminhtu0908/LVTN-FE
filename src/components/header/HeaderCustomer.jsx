@@ -158,9 +158,9 @@ const HeaderCustomer = () => {
                   <MenuItem onClick={() => navigate("/order/history")}>
                     <Avatar /> Lịch sử đặt hàng
                   </MenuItem>
-                  <MenuItem onClick={() => navigate("/order-status")}>
+                  <MenuItem onClick={() => navigate("/query-order-zalopay")}>
                     <Avatar />
-                    Truy vấn trạng thái đơn hàng
+                    Truy vấn trạng thái
                   </MenuItem>
                   <Divider />
                   <MenuItem>

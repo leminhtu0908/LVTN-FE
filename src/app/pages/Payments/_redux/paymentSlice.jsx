@@ -8,6 +8,8 @@ const initialPaymentState = {
   payment: undefined,
   paymentId: undefined,
   statusOrder: undefined,
+  apptransid: undefined,
+  refund: undefined,
   lastError: null,
 };
 export const callTypes = {
@@ -46,6 +48,18 @@ export const paymentSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.statusOrder = data;
+    },
+    refundOrder: (state, action) => {
+      const { data } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.refund = data;
+    },
+    getApptransidOrder: (state, action) => {
+      const { data } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.refund = data;
     },
   },
 });

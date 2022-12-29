@@ -5,23 +5,36 @@ import WrapperTable from "../../../shared/components/WrapperTable";
 import { string } from "prop-types";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actionOrder from "../../modules/Admin/Order/_redux/orderAction";
+import * as actionPayment from "../Payments/_redux/paymentActions";
 import ConfirmDialog from "../../../shared/Dialog/ConfirmDialog";
 import Loading from "../Root/Loading";
+import Swal from "sweetalert2";
 const OrderHistory = () => {
-  const { currentState, authState } = useSelector(
-    (state) => ({ currentState: state.orders, authState: state.auth }),
+  const { currentState, authState, paymentState } = useSelector(
+    (state) => ({
+      currentState: state.orders,
+      authState: state.auth,
+      paymentState: state.payments,
+    }),
     shallowEqual
   );
   const { userDataOrder, orderId, listLoading } = currentState;
+  const { payment, refund } = paymentState;
   const [dataOrderHistory, setDataOrderHistory] = useState([]);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectOrderDelete, setSelectOrderDelete] = React.useState(undefined);
   function openCreateDialog() {
     setOpenDelete(true);
   }
-  const handleSelectDelete = (id) => {
+  const handleSelectDelete = (id, apptransid, total_price, isPayment) => {
+    const newValue = {
+      id: id,
+      apptransid: apptransid,
+      amount: total_price,
+      isPayment: isPayment,
+    };
     setOpenDelete(true);
-    setSelectOrderDelete(id);
+    setSelectOrderDelete(newValue);
   };
 
   const headRows = [
@@ -68,10 +81,40 @@ const OrderHistory = () => {
   }, [authState?.user?._id, userDataOrder]);
   function closeDeleteOrderDialog(status) {
     if (status) {
-      dispatch(actionOrder.deleteOrderHistory(selectOrderDelete));
+      if (selectOrderDelete.isPayment === true) {
+        dispatch(
+          actionPayment.getStatusOrderZalopay({
+            apptransid: selectOrderDelete.apptransid,
+          })
+        );
+        dispatch(actionOrder.deleteOrderHistory(selectOrderDelete.id));
+      } else {
+        dispatch(actionOrder.deleteOrderHistory(selectOrderDelete.id));
+      }
     }
     setOpenDelete(false);
   }
+  useEffect(() => {
+    if (payment?.zptransid) {
+      const newValue = {
+        amount: payment?.amount?.toString(),
+        zp_trans_id: payment?.zptransid,
+      };
+      dispatch(actionPayment.refundOrderZalopay(newValue));
+    }
+  }, [dispatch, payment?.zptransid]);
+
+  useEffect(() => {
+    if (payment?.zptransid !== 0) {
+      if (refund?.returnmessage) {
+        Swal.fire(refund?.returnmessage);
+      }
+    } else {
+      Swal.fire(payment?.returnmessage);
+    }
+    return () => {};
+  }, [refund?.returnmessage, payment?.zptransid]);
+
   return (
     <LayoutCustomer>
       {listLoading ? (

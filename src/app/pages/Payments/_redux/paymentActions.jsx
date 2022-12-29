@@ -29,3 +29,16 @@ export const getStatusOrderZalopay = (data) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const refundOrderZalopay = (data) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .refundOrderZalopay(data)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.refundOrder(data));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't find projects";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
