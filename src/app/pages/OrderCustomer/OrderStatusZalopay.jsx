@@ -18,7 +18,7 @@ const OrderStatusZalopay = () => {
     const parserData = JSON.parse(data);
     const newData = {
       ...parserData,
-      apptransid: apptransid,
+      apptransid: apptransid.toString(),
     };
     dispatch(actionOrder.createOrderZalopay(newData));
     localStorage.removeItem("itemZalopay");
