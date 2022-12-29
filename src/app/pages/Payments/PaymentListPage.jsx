@@ -20,6 +20,8 @@ import * as action from "./_redux/paymentActions";
 const steps = ["Thông tin đặt hàng", "Thanh toán", "Hoàn tất"];
 const PaymentListPage = () => {
   const location = useLocation();
+  const search = useLocation().search;
+  const apptransid = new URLSearchParams(search).get("apptransid");
   const defaultValues = {
     tinh: "",
     huyen: "",
@@ -209,6 +211,9 @@ const PaymentListPage = () => {
         name: name,
       };
       dispatch(action.createOrderZalopay(newItems));
+      if (apptransid) {
+        handleNextStep3();
+      }
     }
   };
   if (redirectPayment) {
