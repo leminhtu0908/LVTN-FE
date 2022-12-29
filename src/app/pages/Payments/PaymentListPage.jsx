@@ -216,9 +216,6 @@ const PaymentListPage = () => {
   if (redirectPayment) {
     window.open(redirectPayment.orderurl);
   }
-  if (apptransid) {
-    handleNextStep3();
-  }
   return (
     <LayoutCustomer>
       <div className="pt-[88px]">

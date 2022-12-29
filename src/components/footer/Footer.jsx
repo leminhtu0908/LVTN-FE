@@ -53,11 +53,9 @@ const Footer = () => {
             <ul>
               <li className="p-2 font-semibold">Tổng đài hỗ trợ</li>
               {listThree?.map((item) => (
-                <>
-                  <li className="p-2" key={item.id}>
-                    {item.name}
-                  </li>
-                </>
+                <li className="p-2" key={item.id}>
+                  {item.name}
+                </li>
               ))}
             </ul>
           </div>

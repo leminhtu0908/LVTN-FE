@@ -95,7 +95,7 @@ const ProductDetail = () => {
                 className="w-[full] h-[397px]"
               />
             )}
-            <div className="mt-5 flex items-center gap-x-4">
+            <div className="mt-5 flex items-start gap-x-4">
               <div
                 className="p-2 border border-slate-300 cursor-pointer"
                 onClick={() => handleClickImage(dataDetail)}
