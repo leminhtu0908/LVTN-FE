@@ -96,10 +96,12 @@ const ChilrenQueryOrder = () => {
               </div>
             </>
           )}
-          {(payment?.returncode === 0 || payment?.returncode === -49) && (
+          {(payment?.returncode === 0 ||
+            payment?.returncode === -49 ||
+            payment?.returncode === -92) && (
             <div className="flex gap-x-4 items-center">
               <AiOutlineCloseCircle className="w-[30px] h-[30px] text-red-500"></AiOutlineCloseCircle>{" "}
-              <span className="text-green-500 font-semibold">
+              <span className="text-red-500 font-semibold">
                 {payment?.returnmessage}
               </span>
             </div>

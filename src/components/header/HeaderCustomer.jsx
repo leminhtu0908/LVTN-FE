@@ -19,6 +19,9 @@ import slugify from "slugify";
 import { AvatarDefault } from "../../utils/avatarDefault";
 import { ImNewspaper } from "react-icons/im";
 import * as userAction from "../../app/modules/Admin/User/_redux/userAction";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 const HeaderCustomer = () => {
   const { currentState, categoryState, cartState, userState } = useSelector(
     (state) => ({
@@ -153,13 +156,21 @@ const HeaderCustomer = () => {
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
                   <MenuItem onClick={() => navigate("/user/profile")}>
-                    <Avatar /> Cập nhật tài khoản
+                    <ListItemIcon>
+                      <PersonOutlineIcon fontSize="small" />
+                    </ListItemIcon>
+                    Cập nhật tài khoản
                   </MenuItem>
                   <MenuItem onClick={() => navigate("/order/history")}>
-                    <Avatar /> Lịch sử đặt hàng
+                    <ListItemIcon>
+                      <PlaylistAddCheckIcon fontSize="small" />
+                    </ListItemIcon>
+                    Lịch sử đặt hàng
                   </MenuItem>
                   <MenuItem onClick={() => navigate("/query-order-zalopay")}>
-                    <Avatar />
+                    <ListItemIcon>
+                      <AutorenewIcon fontSize="small" />
+                    </ListItemIcon>
                     Truy vấn trạng thái
                   </MenuItem>
                   <Divider />

@@ -2,6 +2,7 @@ import React from "react";
 import { FaTiktok } from "react-icons/fa";
 import { BsFacebook, BsFillCreditCard2BackFill } from "react-icons/bs";
 import { AiFillInstagram } from "react-icons/ai";
+import { Link } from "react-router-dom";
 const listOne = [
   {
     id: 1,
@@ -9,7 +10,6 @@ const listOne = [
   },
   { id: 2, name: "Chính sách đổi trả" },
   { id: 3, name: "Chính sách khui hộp" },
-  { id: 4, name: "Hướng dẫn đặt hàng" },
 ];
 
 const listTwo = [
@@ -38,6 +38,9 @@ const Footer = () => {
                   {item.name}
                 </li>
               ))}
+              <li className="p-2">
+                <Link to={"/order-guide"}>Hướng dẫn đặt hàng</Link>
+              </li>
             </ul>
           </div>
           <div className="">

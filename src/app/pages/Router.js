@@ -20,6 +20,7 @@ import SignUpPage from "../modules/Auth/pages/SignUpPage";
 import CartListPage from "./Cart/CartListPage";
 import ContentPage from "./ContentPage/ContentPage";
 import ProfilePage from "./Customer/ProfilePage";
+import OrderGuide from "./Guide/OrderGuide";
 import HomePage from "./Homepage/HomePage";
 import NewsDetail from "./News/NewsDetail";
 import NewsListPageCustomer from "./News/NewsListPageCustomer";
@@ -130,6 +131,7 @@ const Router = () => {
         <Route path="/payments" element={<PaymentListPage />} />
         <Route path="/order-status" element={<OrderStatusZalopay />} />
         <Route path="/query-order-zalopay" element={<QueryOrderZalopay />} />
+        <Route path="/order-guide" element={<OrderGuide />} />
         <Route
           path="/query-order-zalopay/status"
           element={<ChilrenQueryOrder />}

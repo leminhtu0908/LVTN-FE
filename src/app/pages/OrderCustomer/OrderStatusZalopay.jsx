@@ -10,9 +10,10 @@ import * as actionOrder from "../../modules/Admin/Order/_redux/orderAction";
 const OrderStatusZalopay = () => {
   const search = useLocation().search;
   const apptransid = new URLSearchParams(search).get("apptransid");
+  const status = new URLSearchParams(search).get("status");
   const dispatch = useDispatch();
   const data = localStorage.getItem("itemZalopay");
-  if (apptransid) {
+  if (apptransid && status === 1) {
     // dispatch(action.getStatusOrderZalopay({ apptransid: apptransid }));
     dispatch(actionCart.clearCart());
     const parserData = JSON.parse(data);
