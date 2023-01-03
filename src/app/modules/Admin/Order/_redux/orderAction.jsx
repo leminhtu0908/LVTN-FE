@@ -22,8 +22,15 @@ export const fetchHistory = (queryParams) => (dispatch) => {
   return requestFromServer
     .getAllOrderUserHistory(queryParams)
     .then((response) => {
-      const { data } = response;
-      dispatch(actions.orderListUserHistory({ data }));
+      const { content, size, totalElements, totalPages } = response.data;
+      dispatch(
+        actions.orderListUserHistory({
+          content,
+          size,
+          totalElements,
+          totalPages,
+        })
+      );
     })
     .catch((error) => {
       error.clientMessage = "Can't find projects";

@@ -18,8 +18,10 @@ const OrderHistory = () => {
     }),
     shallowEqual
   );
-  const { userDataOrder, orderId, listLoading } = currentState;
+  const { userDataOrder, orderId, listLoading, totalPages } = currentState;
   const { payment, refund } = paymentState;
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [dataOrderHistory, setDataOrderHistory] = useState([]);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [selectOrderDelete, setSelectOrderDelete] = React.useState(undefined);
@@ -69,8 +71,12 @@ const OrderHistory = () => {
   ];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actionOrder.fetchHistory());
-  }, [dispatch, orderId, authState?.authToken?.user?.token]);
+    dispatch(
+      actionOrder.fetchHistory({
+        params: { current_page: page, per_page: rowsPerPage },
+      })
+    );
+  }, [dispatch, orderId, authState.authToken.user.token, page, rowsPerPage]);
   useEffect(() => {
     setDataOrderHistory(
       userDataOrder?.filter(
@@ -114,7 +120,13 @@ const OrderHistory = () => {
     }
     return () => {};
   }, [refund?.returnmessage, payment?.zptransid]);
+  function handleChangePage(value) {
+    setPage(value);
+  }
 
+  function handleChangeRowsPerPage(value) {
+    setRowsPerPage(value);
+  }
   return (
     <LayoutCustomer>
       {listLoading ? (
@@ -135,13 +147,11 @@ const OrderHistory = () => {
             displayTableTitle={headRows}
             displayRowData={mapKey}
             data={dataOrderHistory}
-            //   onDeleteRow={handleDelete}
-            //   onEditRow={handleEdit}
-            // page={page}
-            // rowsPerPage={rowsPerPage}
+            page={page}
+            total={totalPages}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
             onDeleteOrder={handleSelectDelete}
-            //   onChangePage={handleChangePage}
-            //   onChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </div>
       )}

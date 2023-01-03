@@ -6,6 +6,9 @@ const initialOrderState = {
   data: null,
   orderForEdit: undefined,
   userDataOrder: null,
+  size: null,
+  totalElements: null,
+  totalPages: null,
   order: undefined,
   orderId: undefined,
   lastError: null,
@@ -47,10 +50,13 @@ export const orderSlice = createSlice({
       state.order = action.payload;
     },
     orderListUserHistory: (state, action) => {
-      const { data } = action.payload;
+      const { content, size, totalElements, totalPages } = action.payload;
       state.listLoading = false;
       state.error = null;
-      state.userDataOrder = data;
+      state.userDataOrder = content;
+      state.size = size;
+      state.totalElements = totalElements;
+      state.totalPages = totalPages;
     },
     orderDeleted: (state, action) => {
       state.error = null;
