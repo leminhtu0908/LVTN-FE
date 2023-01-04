@@ -50,7 +50,10 @@ const PaymentInfo = (props) => {
   }, [wardData]);
   return (
     <div className="w-full">
-      <h1>Thông tin khách hàng (Khách hàng cần nhập thông tin chính xác)</h1>
+      <h1>
+        Thông tin khách hàng (Khách hàng cần nhập thông tin người nhận chính
+        xác)
+      </h1>
       <div className="mt-5">
         <InputAdmin
           placeholder="Họ và tên"

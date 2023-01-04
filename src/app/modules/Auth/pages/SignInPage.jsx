@@ -22,11 +22,11 @@ const SignInPage = (props) => {
   const [loading, setLoading] = useState(false);
   const schemaValidation = Yup.object().shape({
     email: Yup.string()
-      .required("Please enter your email")
-      .email("Please enter valid email address"),
+      .required("Vui lòng nhập email")
+      .email("Vui lòng nhập địa chỉ email hợp lệ"),
     password: Yup.string()
-      .required("Please enter your password")
-      .min(8, "Your password must be at least 8 characters or greater"),
+      .required("Vui lòng nhập mật khẩu")
+      .min(8, "Mật khẩu của bạn phải có ít nhất 8 ký tự trở lên"),
   });
   const {
     control,

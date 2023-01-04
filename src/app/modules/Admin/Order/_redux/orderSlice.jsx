@@ -50,13 +50,14 @@ export const orderSlice = createSlice({
       state.order = action.payload;
     },
     orderListUserHistory: (state, action) => {
-      const { content, size, totalElements, totalPages } = action.payload;
+      // const { content, size, totalElements, totalPages } = action.payload;
+      const { data } = action.payload;
       state.listLoading = false;
       state.error = null;
-      state.userDataOrder = content;
-      state.size = size;
-      state.totalElements = totalElements;
-      state.totalPages = totalPages;
+      state.userDataOrder = data;
+      // state.size = size;
+      // state.totalElements = totalElements;
+      // state.totalPages = totalPages;
     },
     orderDeleted: (state, action) => {
       state.error = null;

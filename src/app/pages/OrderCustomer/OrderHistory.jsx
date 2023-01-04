@@ -9,6 +9,7 @@ import * as actionPayment from "../Payments/_redux/paymentActions";
 import ConfirmDialog from "../../../shared/Dialog/ConfirmDialog";
 import Loading from "../Root/Loading";
 import Swal from "sweetalert2";
+import FilterOrder from "./FilterOrder";
 const OrderHistory = () => {
   const { currentState, authState, paymentState } = useSelector(
     (state) => ({
@@ -21,6 +22,7 @@ const OrderHistory = () => {
   const { userDataOrder, orderId, listLoading, totalPages } = currentState;
   const { payment, refund } = paymentState;
   const [page, setPage] = React.useState(1);
+  const [filter, setFilter] = useState({ orderId: "" });
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [dataOrderHistory, setDataOrderHistory] = useState([]);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -73,10 +75,10 @@ const OrderHistory = () => {
   useEffect(() => {
     dispatch(
       actionOrder.fetchHistory({
-        params: { current_page: page, per_page: rowsPerPage },
+        params: { ...filter },
       })
     );
-  }, [dispatch, orderId, authState.authToken.user.token, page, rowsPerPage]);
+  }, [dispatch, orderId, authState.authToken.user.token, filter]);
   useEffect(() => {
     setDataOrderHistory(
       userDataOrder?.filter(
@@ -113,7 +115,7 @@ const OrderHistory = () => {
   useEffect(() => {
     if (payment?.zptransid !== 0) {
       if (refund?.returnmessage) {
-        Swal.fire(refund?.returnmessage);
+        Swal.fire("Giao dịch đang được hoàn tiền");
       }
     } else {
       Swal.fire(payment?.returnmessage);
@@ -127,33 +129,43 @@ const OrderHistory = () => {
   function handleChangeRowsPerPage(value) {
     setRowsPerPage(value);
   }
+  const handleFilter = (values) => {
+    setFilter(values);
+  };
   return (
     <LayoutCustomer>
       {listLoading ? (
         <Loading />
       ) : (
-        <div className="py-10 pt-[88px]">
-          <Fade
-            in={listLoading}
-            style={{
-              transitionDelay: listLoading ? "800ms" : "0ms",
-            }}
-            unmountOnExit
-          >
-            <LinearProgress color="secondary" />
-          </Fade>
-          <WrapperTable
-            component={"UserOrder"}
-            displayTableTitle={headRows}
-            displayRowData={mapKey}
-            data={dataOrderHistory}
-            page={page}
-            total={totalPages}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-            onDeleteOrder={handleSelectDelete}
-          />
-        </div>
+        <>
+          <div className="py-10 pt-[88px]">
+            <div className="p-4">
+              <FilterOrder onSearch={handleFilter}></FilterOrder>
+            </div>
+            <div className="">
+              <Fade
+                in={listLoading}
+                style={{
+                  transitionDelay: listLoading ? "800ms" : "0ms",
+                }}
+                unmountOnExit
+              >
+                <LinearProgress color="secondary" />
+              </Fade>
+              <WrapperTable
+                component={"UserOrder"}
+                displayTableTitle={headRows}
+                displayRowData={mapKey}
+                data={dataOrderHistory}
+                page={page}
+                // total={totalPages}
+                // onChangePage={handleChangePage}
+                // onChangeRowsPerPage={handleChangeRowsPerPage}
+                onDeleteOrder={handleSelectDelete}
+              />
+            </div>
+          </div>
+        </>
       )}
 
       <ConfirmDialog

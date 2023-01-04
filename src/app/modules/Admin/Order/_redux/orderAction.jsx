@@ -22,13 +22,11 @@ export const fetchHistory = (queryParams) => (dispatch) => {
   return requestFromServer
     .getAllOrderUserHistory(queryParams)
     .then((response) => {
-      const { content, size, totalElements, totalPages } = response.data;
+      // const { content, size, totalElements, totalPages } = response.data;
+      const { data } = response;
       dispatch(
         actions.orderListUserHistory({
-          content,
-          size,
-          totalElements,
-          totalPages,
+          data,
         })
       );
     })
