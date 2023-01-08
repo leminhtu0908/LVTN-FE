@@ -7,6 +7,7 @@ const initialCommentState = {
   commentForEdit: undefined,
   comment: undefined,
   commentId: undefined,
+  replyComment: undefined,
   lastError: null,
 };
 export const callTypes = {
@@ -55,6 +56,11 @@ export const commentSlice = createSlice({
       state.error = null;
       state.actionsLoading = false;
       state.commentForEdit = comment;
+    },
+    replyDeleted: (state, action) => {
+      state.error = null;
+      state.replyComment = action.payload.id;
+      state.actionsLoading = false;
     },
   },
 });

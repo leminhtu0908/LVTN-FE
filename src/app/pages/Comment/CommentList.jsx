@@ -27,6 +27,7 @@ const CommentList = (props) => {
   const [selected, setSelected] = React.useState("");
   const [userSelected, setUserSelected] = React.useState("");
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [openReply, setOpenReply] = React.useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event, values) => {
     setAnchorEl(event.currentTarget);
@@ -55,6 +56,18 @@ const CommentList = (props) => {
   const handleDelete = (selected) => {
     props?.handleDeleteComment(selected);
   };
+  const handleOpenReply = (selected) => {
+    setOpenReply(!openReply);
+    setSelected(selected);
+  };
+  const handleReplyComment = (values) => {
+    const newValues = {
+      id: selected,
+      replyComment: values.replyComment,
+    };
+    props.handleRelyComment(newValues);
+    setOpenReply(false);
+  };
   return (
     <div className="p-4 mx-auto w-full max-w-[1200px] pt-[88px]">
       <HeadingLayout>Bình luận sản phẩm</HeadingLayout>
@@ -64,8 +77,8 @@ const CommentList = (props) => {
         ) : props?.data?.length > 0 ? (
           <>
             {props?.data?.map((item, index) => (
-              <>
-                <div className="flex gap-x-3 mb-5" key={index}>
+              <div key={index} className="mb-5">
+                <div className="flex gap-x-3">
                   <img
                     src={
                       item?.user?.image
@@ -75,9 +88,19 @@ const CommentList = (props) => {
                     alt=""
                     className="w-[30px] h-[30px] rounded-full"
                   />
-                  <div className="p-2 bg-slate-100 rounded-lg">
-                    <p className="font-semibold">{item?.user?.fullName}</p>
-                    <span>{item?.content}</span>
+                  <div className="">
+                    <div className="p-2 bg-slate-100 rounded-lg">
+                      <p className="font-semibold">{item?.user?.fullName}</p>
+                      <span>{item?.content}</span>
+                    </div>
+                    {item?.user?._id !== props?.userId && (
+                      <span
+                        onClick={() => handleOpenReply(item._id)}
+                        className="hover:underline cursor-pointer font-semibold text-[12px]"
+                      >
+                        Phản hồi
+                      </span>
+                    )}
                   </div>
                   {item?.user?._id === props?.userId && (
                     <div className="">
@@ -97,6 +120,42 @@ const CommentList = (props) => {
                     </div>
                   )}
                 </div>
+                {item?.reply?.map((rep) => (
+                  <>
+                    <div className="flex gap-x-3 mb-5 mt-3 ml-[44px]">
+                      <img
+                        src={
+                          rep?.image !== ""
+                            ? rep?.image
+                            : AvatarDefault.avatarMale
+                        }
+                        alt=""
+                        className="w-[30px] h-[30px] rounded-full"
+                      />
+                      <div className="">
+                        <div className="p-2 bg-slate-100 rounded-lg">
+                          <p className="font-semibold">{rep?.username}</p>
+                          <span>{rep?.replyComment}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ))}
+                {openReply && selected === item?._id && (
+                  <form onSubmit={handleSubmit(handleReplyComment)}>
+                    <TextArea
+                      placeholder="Viết bình luận..."
+                      name="replyComment"
+                      control={control}
+                      value={item?.content}
+                    ></TextArea>
+                    <div className="pt-1 mb-3">
+                      <Button type="submit" className="mx-0 w-[150px]">
+                        Phản hồi
+                      </Button>
+                    </div>
+                  </form>
+                )}
                 {openEdit &&
                   userSelected === item?._id &&
                   item?.user?._id === props?.userId && (
@@ -114,7 +173,7 @@ const CommentList = (props) => {
                       </div>
                     </form>
                   )}
-              </>
+              </div>
             ))}
           </>
         ) : (

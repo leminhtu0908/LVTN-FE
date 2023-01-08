@@ -12,6 +12,7 @@ import * as action from "../Comment/_redux/commentAction";
 import CommentList from "../Comment/CommentList";
 import ProductRelease from "./ProductRelease";
 import ConfirmDialog from "../../../shared/Dialog/ConfirmDialog";
+import Swal from "sweetalert2";
 const ProductDetail = () => {
   const { currentState, authState, commentState } = useSelector(
     (state) => ({
@@ -29,6 +30,7 @@ const ProductDetail = () => {
     listLoading,
     commentForEdit,
     commentId,
+    replyComment,
   } = commentState;
   const { id } = useParams();
   const defaultValues = {
@@ -61,7 +63,14 @@ const ProductDetail = () => {
   }, [dispatch, id]);
   useEffect(() => {
     dispatch(action.fetchComments({ params: { product_id: dataDetail?._id } }));
-  }, [dataDetail?._id, dispatch, comment, commentForEdit, commentId]);
+  }, [
+    dataDetail?._id,
+    dispatch,
+    comment,
+    replyComment,
+    commentForEdit,
+    commentId,
+  ]);
   const handlePayment = (product) => {
     if (authToken?.token) {
       const cloneValues = {
@@ -107,7 +116,24 @@ const ProductDetail = () => {
       ...values,
       productId: dataDetail?._id,
     };
-    dispatch(action.createComment(newValue));
+    if (authToken?.user) {
+      dispatch(action.createComment(newValue));
+    } else {
+      Swal.fire({
+        title: "Để bình luận bạn cần phải đăng nhập",
+        text: "Đi đến trang đăng nhập!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Vâng, Đi!",
+        cancelButtonText: "Hủy",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/sign-in");
+        }
+      });
+    }
   };
   const handleEditComment = (values) => {
     dispatch(action.updateComment(values));
@@ -121,6 +147,14 @@ const ProductDetail = () => {
       dispatch(action.deleteComment(selectedDelete));
     }
     setOpenDelete(false);
+  };
+  const handleRelyComment = (values) => {
+    const newValues = {
+      username: authToken?.user?.fullName,
+      image: authToken?.user?.image ? authToken.user.image : "",
+      ...values,
+    };
+    dispatch(action.replyComment(newValues));
   };
   return (
     <>
@@ -384,6 +418,7 @@ const ProductDetail = () => {
             userId={authToken?.user?._id}
             handleEditComment={handleEditComment}
             handleDeleteComment={handleSelectedComment}
+            handleRelyComment={handleRelyComment}
           ></CommentList>
         </div>
         <PaymentProductDialog

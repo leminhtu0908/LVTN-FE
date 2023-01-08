@@ -54,3 +54,16 @@ export const deleteComment = (id) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.action }));
     });
 };
+export const replyComment = (values) => (dispatch) => {
+  const { id } = values;
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .replyComment(values)
+    .then((response) => {
+      dispatch(actions.commentDeleted({ id }));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't delete point";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};

@@ -7,6 +7,9 @@ export function getCommentByProduct(queryParams) {
 export function createComment(values) {
   return axios.post(`${COMMENT_URL}/create`, values);
 }
+export function replyComment(values) {
+  return axios.post(`${COMMENT_URL}/reply`, values);
+}
 export function updateComment(values) {
   return axios.put(`${COMMENT_URL}/update`, values);
 }
