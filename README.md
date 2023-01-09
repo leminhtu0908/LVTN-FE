@@ -1,3 +1,21 @@
+# Hướng dẫn cách cài đặt và chạy phần mềm
+
+# 1. Front-end
+
+cd LVTN-FE
+
+npm install
+
+npm start
+
+# 2. Back-end
+
+cd LVTN-BE
+
+npm install
+
+npm run build
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
