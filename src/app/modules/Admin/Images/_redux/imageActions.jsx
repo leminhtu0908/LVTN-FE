@@ -30,3 +30,16 @@ export const createImage = (values) => (dispatch) => {
       dispatch(actions.catchError({ error, callType: callTypes.list }));
     });
 };
+export const deleteImage = (values) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .deleteImage(values)
+    .then((response) => {
+      const { data } = response;
+      dispatch(actions.imageDeleted(data));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't delete point";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};

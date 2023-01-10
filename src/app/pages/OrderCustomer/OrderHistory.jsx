@@ -103,7 +103,10 @@ const OrderHistory = () => {
     setOpenDelete(false);
   }
   useEffect(() => {
-    if (payment?.zptransid) {
+    if (
+      payment?.zptransid &&
+      window.location.pathname === `${process.env.PUPLIC}/order/history`
+    ) {
       const newValue = {
         amount: payment?.amount?.toString(),
         zp_trans_id: payment?.zptransid,

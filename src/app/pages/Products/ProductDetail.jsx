@@ -435,7 +435,7 @@ const ProductDetail = () => {
       <ConfirmDialog
         openDialog={openDelete}
         closeDialog={handleDeleteComment}
-        description={"Bạn có chắc chắn xóa danh mục này"}
+        description={"Bạn có chắc chắn xóa bình luận này"}
       ></ConfirmDialog>
     </>
   );

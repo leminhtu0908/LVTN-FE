@@ -29,10 +29,7 @@ const PaymentsCompleted = (props) => {
           className="mx-0"
           // onClick={() => navigate("/order/history")}
         >
-          <a href={`https://lmt-shop.vercel.app/order/history`}>
-            {" "}
-            Lịch sử đặt hàng
-          </a>
+          <a href={`http://localhost:3000/order/history`}> Lịch sử đặt hàng</a>
         </Button>
       </div>
     </div>

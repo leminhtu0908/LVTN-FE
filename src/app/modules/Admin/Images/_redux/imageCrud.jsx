@@ -11,3 +11,6 @@ export function getAllImage(queryParams) {
 export function createImage(values) {
   return axios.post(`${IMAGE_URL}/upload-photo`, values);
 }
+export function deleteImage(values) {
+  return axios.post(`${IMAGE_URL}/delete`, values);
+}

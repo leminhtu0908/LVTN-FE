@@ -34,7 +34,7 @@ const Payment = (props) => {
           <h1>Số điện thoại : </h1> <span>{props.info?.phone}</span>
         </div>
         <div className="flex gap-x-5 mt-3">
-          <h1>Địa chỉ : </h1>{" "}
+          <h1>Địa chỉ nhận hàng : </h1>{" "}
           <span>{`${props.info?.sonha}, ${props.info?.xa}, ${props.info?.huyen}, ${props.info?.tinh} `}</span>
         </div>
       </div>

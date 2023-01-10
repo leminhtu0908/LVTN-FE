@@ -49,6 +49,8 @@ const ImageListPage = () => {
       id: bannerId,
       imagePublicId: imagePublicId,
     };
+    console.log("select", cloneValues);
+
     setOpenDelete(true);
     setSelectBannerId(cloneValues);
     // const cloneId = {
@@ -80,7 +82,7 @@ const ImageListPage = () => {
 
   function closeDeleteDialog(status) {
     if (status) {
-      // dispatch(actions.deleteBanner(selectBannerId));
+      dispatch(actions.deleteImage(selectBannerId));
     }
     setOpenDelete(false);
   }
@@ -114,11 +116,11 @@ const ImageListPage = () => {
         data={selectBanner}
         isEdit={isEdit}
       />
-      {/* <ConfirmDialog
+      <ConfirmDialog
         openDialog={openDelete}
         closeDialog={closeDeleteDialog}
-        description={"Bạn có chắc chắn xóa ảnh bìa quảng cáo này"}
-      ></ConfirmDialog> */}
+        description={"Bạn có chắc chắn xóa ảnh sản phẩm này"}
+      ></ConfirmDialog>
     </Layout>
   );
 };
